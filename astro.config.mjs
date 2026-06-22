@@ -9,25 +9,25 @@ export default defineConfig({
   // GitHub Pages project site. Update `site` to your GitHub username and `base`
   // to your repo name if they differ.
   site: 'https://avetavos.github.io',
-  base: '/rust-for-typescript-developers',
+  base: '/web-for-designers',
   output: 'static',
   integrations: [starlight({
-      title: 'Rust for TypeScript Developers',
+      title: 'Web for Designers',
       defaultLocale: 'en',
       locales: {
         en: { label: 'English', lang: 'en' },
         th: { label: 'ไทย', lang: 'th' },
       },
       customCss: ['./src/styles/custom.css'],
-      social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/avetavos/rust-for-typescript-developers' }],
+      social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/avetavos/web-for-designers' }],
       sidebar: [
-        { label: 'Introduction & Setup', items: [{ autogenerate: { directory: 'intro' } }] },
-        { label: 'Rust 101 — Fundamentals', items: [{ autogenerate: { directory: 'rust-101' } }] },
-        { label: "Rust You Won't Find in TypeScript", items: [{ autogenerate: { directory: 'rs-only' } }] },
-        { label: 'Concurrency', items: [{ autogenerate: { directory: 'concurrency' } }] },
-        { label: 'Building an API with Axum', items: [{ autogenerate: { directory: 'api-axum' } }] },
-        { label: 'Advanced Rust', items: [{ autogenerate: { directory: 'advanced' } }] },
-        { label: 'Tooling, Testing & Deployment', items: [{ autogenerate: { directory: 'tooling' } }] },
+        { label: 'How the Web Works', items: [{ autogenerate: { directory: 'how-web-works' } }] },
+        { label: 'HTML — Structure & Content', items: [{ autogenerate: { directory: 'html' } }] },
+        { label: 'CSS — Styling Basics', items: [{ autogenerate: { directory: 'css' } }] },
+        { label: 'CSS Layout — Flexbox & Grid', items: [{ autogenerate: { directory: 'layout' } }] },
+        { label: 'Responsive Design', items: [{ autogenerate: { directory: 'responsive' } }] },
+        { label: 'A Little JavaScript', items: [{ autogenerate: { directory: 'javascript' } }] },
+        { label: 'Design-to-Code Workflow', items: [{ autogenerate: { directory: 'workflow' } }] },
       ],
       }), preact()],
 });
