@@ -15,3 +15,10 @@
 .pt--done { background:var(--sl-color-accent); color:#001; }
 /* inline code chips inside the No-TS-equivalent callout: dark text on light chip */
 .rs-only :not(pre) > code { background-color:#eceff4; color:#24292f; }
+.lp { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1rem 0; }
+@media (max-width:800px){ .lp { grid-template-columns:1fr; } }
+.lp__tabs { display:flex; gap:.25rem; margin-bottom:.25rem; }
+.lp__tab { cursor:pointer; font-size:.75rem; border:1px solid var(--sl-color-gray-5); border-radius:4px 4px 0 0; padding:.1rem .6rem; background:var(--sl-color-bg); color:inherit; }
+.lp__tab--active { background:var(--sl-color-accent); color:#fff; border-color:var(--sl-color-accent); }
+.lp__code { width:100%; min-height:220px; font-family:ui-monospace,monospace; font-size:.85rem; padding:.5rem; border:1px solid var(--sl-color-gray-5); border-radius:6px; background:var(--sl-color-bg); color:var(--sl-color-text); resize:vertical; }
+.lp__preview { width:100%; border:1px solid var(--sl-color-gray-5); border-radius:6px; background:#fff; }
