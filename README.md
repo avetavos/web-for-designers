@@ -1,6 +1,6 @@
-# Rust for TypeScript Developers
+# Web for Designers
 
-A bilingual, interactive course that teaches Rust to TypeScript developers using a comparison-first approach. Every concept is introduced from the TypeScript perspective first, then mapped to the Rust equivalent. All runnable examples compile and run in the browser against the real Rust compiler — no backend or local Rust installation required for reading the course.
+A bilingual, interactive course that teaches **HTML, CSS, and a little JavaScript** to **UI designers with zero programming background**. Taught from scratch in plain language, anchored in tools designers already know (Figma). Every example runs in an **editable live preview** right on the page — no setup, no install.
 
 ## Tech Stack
 
@@ -8,7 +8,7 @@ A bilingual, interactive course that teaches Rust to TypeScript developers using
 | ----- | ---------- |
 | Site framework | [Astro 6](https://astro.build) + [Starlight 0.40](https://starlight.astro.build) |
 | UI islands | [Preact](https://preactjs.com) (via `@astrojs/preact`) |
-| In-browser Rust runner | The official [Rust Playground](https://play.rust-lang.org) API, called directly from the browser (CORS-open) |
+| Live code preview | Editable `<textarea>` editors → a sandboxed `<iframe srcdoc>` that renders HTML/CSS/JS natively (no backend, no external service) |
 | Unit tests | [Vitest](https://vitest.dev) + `@testing-library/preact` |
 | Styling | Starlight default + custom CSS (`src/styles/custom.css`) |
 | i18n | Starlight built-in, `defaultLocale: 'en'`, locales: `en` + `th` |
@@ -25,8 +25,7 @@ npm run preview    # Preview the production build locally
 npm test           # Run Vitest unit tests
 ```
 
-> There is **no build step for the runtime** — Rust compiles on the public Rust
-> Playground at runtime, so there is nothing to compile, download, or commit.
+> There is **no runner build step** — HTML/CSS/JS run natively in a sandboxed iframe in the reader's browser.
 
 ## Content Structure
 
@@ -35,13 +34,13 @@ Lessons live at:
 ```
 src/content/docs/
   en/              # English content — served at /en/...
-    intro/
-    rust-101/
-    rs-only/
-    concurrency/
-    api-axum/
-    advanced/
-    tooling/
+    how-web-works/
+    html/
+    css/
+    layout/
+    responsive/
+    javascript/
+    workflow/
     index.mdx      # EN landing page (splash template)
   th/              # Thai content — served at /th/...
     (same module directories)
@@ -52,57 +51,43 @@ src/content/docs/
 
 | Directory | Module | Topics |
 | --------- | ------ | ------ |
-| `intro` | Introduction & Setup | Why Rust for TS devs, mental-model shifts, toolchain setup |
-| `rust-101` | Rust 101 — Fundamentals | Variables, functions, control flow, structs, enums, collections, Option/Result |
-| `rs-only` | Rust You Won't Find in TypeScript | Ownership, borrowing, lifetimes, traits, ADTs, no-null, no-GC |
-| `concurrency` | Concurrency | Threads, Send/Sync, channels, Arc/Mutex, async/await with Tokio |
-| `api-axum` | Building an API with Axum | Routing, extractors, state, serde, middleware, errors, sqlx, testing (Express/Nest ↔ Axum) |
-| `advanced` | Advanced Rust | Generics & trait bounds, trait objects, closures/iterators, `?`/thiserror, macros, smart pointers |
-| `tooling` | Tooling, Testing & Deployment | cargo, clippy, rustfmt, cargo test, workspaces, cross-compile, Docker, CI |
+| `how-web-works` | How the Web Works | Browsers, pages, what HTML/CSS/JS each do |
+| `html` | HTML — Structure & Content | Elements, text, links, images, lists, semantics, forms |
+| `css` | CSS — Styling Basics | Selectors, colors/units, typography, box model, backgrounds/borders |
+| `layout` | CSS Layout — Flexbox & Grid | Flow, Flexbox, Grid, positioning, spacing systems |
+| `responsive` | Responsive Design | Relative units, media queries, mobile-first, responsive images |
+| `javascript` | A Little JavaScript | Variables/functions, selecting elements, events, DOM changes, interactions |
+| `workflow` | Design-to-Code Workflow | Figma → code, design tokens, scales, components, accessibility, handoff |
 
 ### Lesson File IDs
 
-Content IDs follow the `<module>/<slug>` convention, e.g. `rust-101/variables`. The Starlight sidebar uses `autogenerate: { directory }` per locale root, so new `.mdx` files are picked up automatically.
+Content IDs follow the `<module>/<slug>` convention, e.g. `css/box-model`. The Starlight sidebar uses `autogenerate: { directory }` per locale root, so new `.mdx` files are picked up automatically.
 
-### 7-Section Lesson Template
+### Lesson Template
 
 Each lesson MDX file follows this structure:
 
-1. **Intro** — one-paragraph framing of the concept, anchored in TypeScript
-2. **Concept** — prose explanation
-3. **TsGo** — `<TsGo ts={...} go={...} />` side-by-side comparison (left = TypeScript, right = Rust; the `go` prop carries the Rust code)
-4. **Playground** — `<Playground code={...} />` runnable Rust snippet (omitted where it can't run, e.g. servers/multi-file crates, with a note)
-5. **RsOnly** — `<RsOnly>` callout for Rust-only concepts with no TS equivalent
-6. **Quiz** — `<Quiz questions={...} />` comprehension check
-7. **ProgressTracker** — `<ProgressTracker id="module/slug" />` (always last)
+1. **Intro** — plain-language framing, anchored in design experience (Figma)
+2. **Concept** — jargon-light explanation
+3. **LivePreview** — `<LivePreview html={...} css={...} js={...} />` editable example with a live preview
+4. **Tip** — `<Tip>` callout for design/accessibility guidance
+5. **Quiz** — `<Quiz questions={...} />` comprehension check
+6. **ProgressTracker** — `<ProgressTracker id="module/slug" />` (always last)
 
-Code snippets are hoisted into `export const` template literals and passed to the
-components by reference (e.g. `export const fooCode = \`...\`` then `<Playground code={fooCode} />`).
+Code snippets are hoisted into `export const` template literals and passed by reference.
 
 > **⚠️ Authoring gotchas:**
-> - **Frontmatter `title`/`description` are single-quoted** when they contain a colon,
->   backtick, or other YAML-significant character (e.g. a description mentioning
->   `` `<T: Display>` ``). Quote them or the build's YAML parser fails.
-> - **Escape sequences in code template literals must be double-backslashed** —
->   write `\\n`, `\\t`. A single `\n` is consumed by JS template-literal parsing.
-> - **Rust format strings use `{}` / `{var}`, never JS-style `${}`.** (TypeScript code
->   in the `ts` prop legitimately uses `\${...}` inside its template literals.)
+> - **Frontmatter `title`/`description` are single-quoted** when they contain a colon or backtick (YAML safety).
+> - **Escape sequences in code template literals must be double-backslashed** (`\\n`, `\\t`).
+> - **In JS examples, avoid JS template-literal `${...}`** (use string concatenation), or escape it as `\${...}` — a raw `${` breaks the MDX build. The JS module uses `+` concatenation throughout to sidestep this.
 
-## How Runnable Code Works
+## How the Live Preview Works
 
-The runner calls the official [Rust Playground](https://play.rust-lang.org) `/execute` endpoint directly from the browser (it sends `Access-Control-Allow-Origin: *`). When a reader clicks "Run" in a `<Playground>`:
-
-1. The snippet is POSTed to `play.rust-lang.org/execute` (stable channel, 2021 edition).
-2. On success, `stdout` is shown inline; on failure, the **real `rustc` / borrow-checker error** (`stderr`) is shown — great for teaching.
-3. On network failure, an "Open in Rust Playground" fallback link is offered.
-
-**Coverage:** the full standard library, threads, `async`/Tokio, and popular crates (serde, rand, anyhow, thiserror) all run on the Playground. Code that **binds a network port** (an Axum server) or needs a **multi-file crate** cannot run — those lessons use code blocks with a "run locally" note. Lessons that teach a *compile error* (e.g. the borrow checker) show the failing code in a fenced block with the `// error[E....]` annotation, and keep the runnable `<Playground>` for the working version.
-
-The endpoint lives in `src/components/rust-runner.ts`.
+`<LivePreview>` (`src/components/LivePreview.tsx`) shows an editable code box for each provided language (`html`/`css`/`js`, tabbed) next to a preview. As the learner types, it assembles a full document (`src/components/build-srcdoc.ts`) and feeds it to a `<iframe sandbox="allow-scripts" srcdoc=...>`, re-rendering live (debounced). Everything runs client-side in the reader's browser — no backend, no CDN, no WASM.
 
 ## Deployment
 
-The site is fully static (`output: 'static'` in `astro.config.mjs`). Build output lands in `dist/`. The runner is just a `fetch`, so there is **no large committed asset** — deploy to any static host (GitHub Pages, Netlify, Vercel, Cloudflare Pages all work).
+The site is fully static (`output: 'static'` in `astro.config.mjs`). Build output lands in `dist/`. Deploy to any static host (GitHub Pages, Netlify, Vercel, Cloudflare Pages).
 
 ### GitHub Pages (configured)
 
@@ -113,19 +98,8 @@ One-time setup:
 
 1. Create a GitHub repo and push (`main` branch).
 2. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
-3. Confirm the base path in `astro.config.mjs` matches your setup:
-   - **Project site** (`https://USER.github.io/REPO/`): `site: 'https://USER.github.io'`, `base: '/REPO'` (currently `avetavos` / `rust-for-typescript-developers`).
-   - **User/org site** (`USER.github.io` repo) or **custom domain**: set `site` and **remove `base`** (served at root).
+3. Confirm the base path in `astro.config.mjs`:
+   - **Project site** (`https://USER.github.io/REPO/`): `site: 'https://USER.github.io'`, `base: '/REPO'` (currently `avetavos` / `web-for-designers`).
+   - **User/org site** or **custom domain**: set `site` and **remove `base`** (served at root).
 
-If you change `base`, update the base-prefixed links in
-`src/content/docs/{en,th}/index.mdx` (hero actions + cards) to match.
-
-### Other static hosts (served at root — no `base` needed)
-
-If deploying to Netlify, Vercel static, Cloudflare Pages, or a custom domain,
-**remove the `base` option** from `astro.config.mjs` (and revert the landing-page
-links to `/en/...`):
-
-- **Netlify** — build command `npm run build`, publish dir `dist`
-- **Vercel** — static preset, no serverless functions needed
-- **Cloudflare Pages** — build command `npm run build`, output `dist`
+If you change `base`, update the base-prefixed links in `src/content/docs/{en,th}/index.mdx`.
