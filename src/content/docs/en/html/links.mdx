@@ -1,0 +1,112 @@
+---
+title: Links
+description: 'Create hyperlinks with the anchor element — connecting pages, sections, and external sites.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Links are the fabric of the web. Every navigation bar, every call-to-action button, every "read more" — underneath, they are all the same HTML element: `<a>`, the **anchor element**.
+
+Think of a link as a prototype connection in Figma. You define a source (some text or an image), a destination (a URL or another frame), and the browser handles the transition when a user clicks.
+
+## The anchor element
+
+```html
+<a href="https://example.com">Visit Example</a>
+```
+
+The `href` attribute — short for *hypertext reference* — holds the destination URL. The text between the opening and closing tag is what the user sees and clicks.
+
+## Internal vs external links
+
+**External links** point to a different website. Use the full URL starting with `https://`:
+
+```html
+<a href="https://figma.com">Open Figma</a>
+```
+
+**Internal links** point to another page on the *same* website. Use a path relative to the current file:
+
+```html
+<a href="/about">About us</a>
+<a href="../portfolio/index.html">My portfolio</a>
+```
+
+**Fragment links** jump to a specific section on the *same page* by targeting an `id` attribute:
+
+```html
+<a href="#contact">Jump to Contact</a>
+...
+<section id="contact">...</section>
+```
+
+## Opening in a new tab
+
+Add `target="_blank"` to open the link in a new browser tab instead of navigating away from the current page. This is common for links to external sites, so users do not lose their place:
+
+```html
+<a href="https://figma.com" target="_blank" rel="noopener noreferrer">
+  Open Figma in a new tab
+</a>
+```
+
+Always add `rel="noopener noreferrer"` alongside `target="_blank"` — it is a small security improvement that costs nothing.
+
+export const linksHtml = `<nav>
+  <a href="#">Home</a>
+  <a href="#">Portfolio</a>
+  <a href="#">About</a>
+  <a href="#">Contact</a>
+</nav>
+<p>
+  Follow my work on
+  <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer">Dribbble</a>.
+</p>`;
+
+export const linksCss = `body { font-family: system-ui, sans-serif; padding: 1rem; }
+nav { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; }
+a { color: #7C3AED; text-decoration: none; font-weight: 600; }
+a:hover { text-decoration: underline; }`;
+
+<LivePreview client:visible html={linksHtml} css={linksCss} />
+
+Try changing one of the `href="#"` values to `https://google.com` and see the URL update in the preview. (Links inside the sandbox won't navigate, but the HTML is correct.)
+
+<Tip title="Write meaningful link text">
+Avoid link text like "click here" or "read more". Screen reader users often navigate a page by jumping between links — they hear the link text without the surrounding sentence. "Visit our portfolio" or "Download the case study PDF" gives them the full context. This is a quick win for accessibility and usability that costs you nothing as an author.
+</Tip>
+
+export const quizLinks = [
+  {
+    q: 'Which attribute on an anchor element sets the destination URL?',
+    options: ['src', 'link', 'href', 'url'],
+    answer: 2,
+  },
+  {
+    q: 'What does target="_blank" do?',
+    options: [
+      'Opens the link in the same tab',
+      'Opens the link in a new browser tab',
+      'Disables the link',
+      'Makes the link text bold',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which of these is an example of a fragment link (jumps to a section on the same page)?',
+    options: [
+      '<a href="https://example.com">Go</a>',
+      '<a href="/about">About</a>',
+      '<a href="#contact">Contact</a>',
+      '<a href="../index.html">Home</a>',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="html/links" questions={quizLinks} />
+
+<ProgressTracker client:visible id="html/links" />

@@ -1,5 +1,71 @@
 ---
-title: HTML
-description: HTML structure and content, from zero.
+title: 'HTML — Structure & Content'
+description: 'What HTML is, why it matters, and what you will build in this module.'
 ---
-Coming soon.
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Think of every web page you have ever visited in a browser. Underneath the colors, fonts, and animations there is a plain text file made of **HTML**. HTML is the *skeleton* — it holds the content and gives it meaning. CSS adds the visual design on top; JavaScript adds interactivity. But everything starts here.
+
+If you have ever built a design in Figma, you already understand structure. Frames, layers, components, and text boxes all have a logical order. HTML works the same way — it is a list of named content blocks, nested inside each other, that the browser reads from top to bottom. There is nothing to compile, nothing to install. Open a text file, save it as `.html`, and drag it into your browser.
+
+## Your first web page
+
+The code below is a complete, working web page. It is tiny — but so was every real website at the start. Click inside the editor and change the text. The preview on the right updates instantly.
+
+export const firstHtml = `<h1>Hello, I am a designer.</h1>
+<p>This is my first HTML page.</p>
+<p>I build with <strong>structure</strong> first.</p>`;
+
+export const firstCss = `body { font-family: system-ui, sans-serif; padding: 1rem; }
+h1 { color: #7C3AED; }`;
+
+<LivePreview client:visible html={firstHtml} css={firstCss} />
+
+<Tip title="HTML is content, CSS is design">
+You will notice the page looks simple here. That is on purpose. HTML carries the *words and structure*; CSS carries the *look*. Separating the two is one of the most important ideas in web development — and it maps perfectly to how designers separate content from visual style.
+</Tip>
+
+## What you will learn in this module
+
+| Lesson | What you will be able to do |
+|---|---|
+| Elements & Tags | Write any HTML element correctly |
+| Text & Headings | Structure a page like a document |
+| Links | Connect pages and open external sites |
+| Images | Add images with proper descriptions |
+| Lists | Build ordered and unordered lists |
+| Semantic Structure | Map design regions to the right HTML containers |
+| Forms | Build a working contact or sign-up form |
+
+By the end, you will be able to take any design mockup and turn its content structure into valid HTML, ready for styling.
+
+export const quizIndex = [
+  {
+    q: 'What does HTML define in a web page?',
+    options: [
+      'The colors and fonts',
+      'The structure and content',
+      'The animations',
+      'The server logic',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which of these is a good analogy for HTML in a design tool like Figma?',
+    options: [
+      'The color styles panel',
+      'The export settings',
+      'The frames and layers that hold your content',
+      'The prototype transitions',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="html/index" questions={quizIndex} />
+
+<ProgressTracker client:visible id="html/index" />

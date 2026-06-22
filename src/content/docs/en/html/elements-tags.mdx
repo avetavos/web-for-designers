@@ -1,0 +1,108 @@
+---
+title: Elements & Tags
+description: 'Learn what HTML elements and tags are, how attributes work, and how the page skeleton fits together.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Every piece of content on a web page — a heading, a paragraph, an image, a button — is wrapped in an **element**. Think of an element as a labeled box. The label tells the browser (and screen readers, and search engines) *what kind of content* is inside.
+
+You write an element using **tags**: a pair of angle-bracket labels that wrap your content. Most elements have an **opening tag** and a **closing tag** (the closing tag adds a forward slash). Some special elements, like images, are self-closing — they hold no text content, so there is nothing to wrap.
+
+## Tags and attributes
+
+```
+<tagname attribute="value">Content goes here</tagname>
+```
+
+The **opening tag** can carry extra information called **attributes** — think of them as settings or properties for that element. For example, a link needs to know *where* to go, and an image needs to know *where the file is*. Those values live in attributes.
+
+```
+<a href="https://example.com">Visit this site</a>
+<img src="photo.jpg" alt="A description of the photo" />
+```
+
+Notice the image tag ends with `/>` — it is self-closing because it has no text content to wrap.
+
+## The page skeleton
+
+Every HTML document follows a standard structure. It is like a design file template — the same outer frames every time, then your unique content inside.
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Page title shown in the browser tab</title>
+  </head>
+  <body>
+    Everything visible goes here.
+  </body>
+</html>
+```
+
+- `<!doctype html>` — a one-line instruction that tells the browser "this is a modern HTML file". Always the very first line.
+- `<html>` — the outermost container, like the canvas in Figma.
+- `<head>` — invisible metadata: the page title, character encoding, links to CSS files. Think of it as the "document settings" panel.
+- `<body>` — everything the user actually *sees* goes here.
+
+## Nesting
+
+Elements can live inside other elements — this is called **nesting**. The rule is simple: always close the inner element before closing the outer one. In Figma terms: a text layer must be fully inside its parent frame; you cannot let it partially overlap.
+
+export const nestingHtml = `<div>
+  <h2>My design portfolio</h2>
+  <p>I create <strong>bold</strong> and <em>elegant</em> interfaces.</p>
+</div>`;
+
+export const nestingCss = `body { font-family: system-ui, sans-serif; padding: 1rem; }
+h2 { color: #7C3AED; margin-bottom: 0.25rem; }
+div { border: 2px dashed #d8b4fe; padding: 1rem; border-radius: 8px; }`;
+
+<LivePreview client:visible html={nestingHtml} css={nestingCss} />
+
+Try changing `<h2>` to `<h3>`, or add another `<p>` below the first one. Notice how the browser stacks block elements one below the other, just like auto-layout in a vertical frame.
+
+<Tip title="Indentation is your friend">
+Indent nested elements by two spaces (or a tab). It has no effect on how the browser reads the file, but it makes the structure instantly visible — like keeping your Figma layers named and grouped. Code that is hard to read is code that is hard to fix.
+</Tip>
+
+export const quizElementsTags = [
+  {
+    q: 'What is the correct way to write a closing tag for a paragraph?',
+    options: ['<p/>', '</p>', '<\\p>', '<!--p-->'],
+    answer: 1,
+  },
+  {
+    q: 'Where does visible page content belong in the HTML skeleton?',
+    options: [
+      'Inside <head>',
+      'After </html>',
+      'Inside <body>',
+      'Inside <!doctype html>',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'What are attributes used for?',
+    options: [
+      'To close an element early',
+      'To add extra settings or information to an element',
+      'To make text bold',
+      'To separate paragraphs',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which element is self-closing (needs no separate closing tag)?',
+    options: ['<p>', '<div>', '<img />', '<h1>'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="html/elements-tags" questions={quizElementsTags} />
+
+<ProgressTracker client:visible id="html/elements-tags" />

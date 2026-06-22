@@ -1,0 +1,110 @@
+---
+title: Images
+description: 'Add images to a page with img, write meaningful alt text, and understand why alt matters for accessibility.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Images are one of the first things designers want to add to a page — and the `<img>` element makes it simple. Like a placed image in Figma, you point it at a source file and it appears.
+
+But HTML images have one superpower that design tools do not have built in: **alt text**. This short description is what the browser uses when the image cannot be seen — by a screen reader user, or when the file fails to load. Writing good alt text is one of the fastest ways a designer can make a real difference for accessibility.
+
+## The img element
+
+`<img>` is a self-closing element — it has no text content to wrap, so there is no closing tag.
+
+```html
+<img src="photo.jpg" alt="A designer sketching wireframes on paper" />
+```
+
+Two attributes are essential:
+
+- `src` — the path to the image file (relative path or full URL).
+- `alt` — a short text description of what the image shows.
+
+## Sizing images
+
+By default, an image renders at its natural pixel dimensions, which is often too large. You can constrain it with HTML attributes or (better) with CSS:
+
+```html
+<!-- limit width, height scales automatically -->
+<img src="photo.jpg" alt="..." width="400" />
+```
+
+In CSS you will usually set `max-width: 100%` so images never overflow their container — the same idea as "fill" constraints in Figma.
+
+## When images fail or cannot be seen
+
+If an image fails to load (wrong path, slow connection) the browser shows the alt text instead. Screen readers for blind or low-vision users read the alt text aloud instead of describing pixels. Search engines read alt text to understand image content.
+
+export const imagesHtml = `<figure>
+  <img
+    src="https://picsum.photos/seed/designer/560/280"
+    alt="An abstract design composition with geometric shapes"
+    width="560"
+  />
+  <figcaption>Abstract geometric composition — Lorem Picsum</figcaption>
+</figure>`;
+
+export const imagesCss = `body { font-family: system-ui, sans-serif; padding: 1rem; }
+figure { margin: 0; }
+img { max-width: 100%; border-radius: 8px; display: block; }
+figcaption { margin-top: 0.5rem; font-size: 0.85rem; color: #6B7280; }`;
+
+<LivePreview client:visible html={imagesHtml} css={imagesCss} height="320px" />
+
+Try changing the `alt` text. Now imagine a user who cannot see the image — your alt text is their entire experience of it.
+
+<Tip title="Decorative images need empty alt text">
+If an image is purely decorative — a background texture, a divider graphic, an icon that has a text label right next to it — set `alt=""` (empty string, not missing). This tells screen readers to skip the image entirely, which avoids cluttering the audio experience. The rule: if removing the image would lose information, write descriptive alt text. If it is just decoration, use `alt=""`.
+</Tip>
+
+export const quizImages = [
+  {
+    q: 'Which two attributes are essential on every <img> element?',
+    options: [
+      'href and title',
+      'src and alt',
+      'width and height',
+      'class and id',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'What happens when an image fails to load and you have written alt text?',
+    options: [
+      'The browser shows a broken image icon only',
+      'The browser hides the space completely',
+      'The browser displays the alt text in place of the image',
+      'Nothing — alt text only works for screen readers',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'A purely decorative divider image has no meaningful content. What alt text should you use?',
+    options: [
+      'alt="decorative"',
+      'Leave out the alt attribute entirely',
+      'alt="" (empty string)',
+      'alt="image"',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'What CSS property keeps an image from overflowing its container on small screens?',
+    options: [
+      'width: auto',
+      'max-width: 100%',
+      'overflow: hidden',
+      'display: block',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="html/images" questions={quizImages} />
+
+<ProgressTracker client:visible id="html/images" />

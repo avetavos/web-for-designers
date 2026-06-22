@@ -1,0 +1,85 @@
+---
+title: Text & Headings
+description: 'Use headings h1–h6, paragraphs, and inline emphasis to structure your text content.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Every design has a type scale — a set of text sizes that signal importance. A big bold headline, a smaller subheading, and body copy underneath. HTML has exactly the same idea, baked in.
+
+**Heading elements** — `<h1>` through `<h6>` — let you tell the browser (and assistive technology, and search engines) what the hierarchy of your text is. Think of it as your document outline, not just your visual scale.
+
+## Headings h1 to h6
+
+`<h1>` is the most important heading on the page — your main title. `<h2>` is a major section heading. `<h3>` is a subsection, and so on down to `<h6>`. Most pages only use `<h1>` through `<h3>` in practice.
+
+The heading elements do carry default browser styling (bigger = more important), but those styles get overridden by CSS anyway. The *semantic meaning* — the hierarchy signal — is what matters.
+
+## Paragraphs
+
+`<p>` is a paragraph. The browser adds a small margin above and below each paragraph automatically. To start a new paragraph, open a new `<p>` element — do not use `<br>` tags just to add space between lines. (That is like using an empty text layer in Figma to create spacing instead of auto-layout padding.)
+
+## Inline emphasis
+
+Two elements let you emphasize words *inside* a paragraph without breaking into a new block:
+
+- `<strong>` — **bold**, meaning important or critical content.
+- `<em>` — *italic*, meaning emphasis or a slight stress in reading.
+
+These are **inline elements**: they sit within the flow of text rather than starting a new line.
+
+export const textHtml = `<h1>My Design Process</h1>
+<h2>Research</h2>
+<p>I start every project by talking to <strong>real users</strong>. Their needs drive every decision.</p>
+<h2>Design</h2>
+<p>I move from low-fidelity sketches to <em>high-fidelity</em> prototypes in Figma.</p>
+<h3>Iteration</h3>
+<p>Good design is never done on the first try. I test, learn, and refine.</p>`;
+
+export const textCss = `body { font-family: system-ui, sans-serif; padding: 1rem; max-width: 540px; }
+h1 { font-size: 2rem; color: #7C3AED; margin-bottom: 0.25rem; }
+h2 { font-size: 1.25rem; color: #4B5563; margin-top: 1.5rem; margin-bottom: 0.25rem; }
+h3 { font-size: 1rem; color: #6B7280; }`;
+
+<LivePreview client:visible html={textHtml} css={textCss} height="320px" />
+
+Try adding an `<h4>` below the `<h3>`. Then try wrapping a word in `<strong>` or `<em>`. Notice how neither of those change the line — they stay right inside the sentence.
+
+<Tip title="One h1 per page">
+Search engines and screen readers treat `<h1>` as the title of the entire page. Use it exactly once — for the main heading. Then use `<h2>` for top-level sections, `<h3>` for sub-sections, and so on in order. Skipping levels (going from `<h1>` to `<h3>`) is like skipping a level in your Figma component hierarchy — technically it works, but it breaks the structure people (and tools) depend on.
+</Tip>
+
+export const quizText = [
+  {
+    q: 'Which heading element signals the most important title on the page?',
+    options: ['<h6>', '<h3>', '<h1>', '<heading>'],
+    answer: 2,
+  },
+  {
+    q: 'What is the correct element for a block of body text (a paragraph)?',
+    options: ['<text>', '<p>', '<body>', '<block>'],
+    answer: 1,
+  },
+  {
+    q: 'Which element makes text bold AND signals that it is important?',
+    options: ['<bold>', '<i>', '<em>', '<strong>'],
+    answer: 3,
+  },
+  {
+    q: 'Why should you avoid skipping heading levels (e.g. going straight from h1 to h3)?',
+    options: [
+      'The browser will display an error',
+      'It breaks the document hierarchy that screen readers and search engines rely on',
+      'CSS cannot style h3 without h2 being present',
+      'Headings must always be the same size',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="html/text-headings" questions={quizText} />
+
+<ProgressTracker client:visible id="html/text-headings" />

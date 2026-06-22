@@ -1,0 +1,149 @@
+---
+title: Forms
+description: 'Build accessible HTML forms with input, label, button, and common input types.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Forms are how users communicate back to a website — a sign-up form, a contact form, a search box, a checkout flow. As a designer you have probably spent a lot of time designing them. Now you will learn the HTML that makes them real.
+
+Every interactive input on the web is built from a small set of elements: `<form>`, `<label>`, `<input>`, `<textarea>`, `<select>`, and `<button>`. They each have a specific job, and pairing them correctly is what makes forms both functional and accessible.
+
+## The form element
+
+`<form>` is the wrapper that groups all the inputs together. On a real site it has `action` (where to send the data) and `method` (how to send it — `get` or `post`) attributes. For learning, you can leave those out.
+
+```html
+<form>
+  <!-- inputs go here -->
+</form>
+```
+
+## Labels and inputs
+
+`<input>` is the actual text box (or checkbox, or radio button). It is a self-closing element with no text content.
+
+`<label>` is the text that describes the input — "Your name", "Email address", and so on.
+
+**Critical rule:** every `<input>` needs a matching `<label>`. You link them with matching `for` and `id` attributes:
+
+```html
+<label for="email">Email address</label>
+<input type="email" id="email" name="email" />
+```
+
+The `for` attribute on the label must exactly match the `id` attribute on the input. When they are linked:
+- Clicking the label text focuses the input (better usability — larger click target).
+- Screen readers read the label when the input is focused (essential for accessibility).
+
+## Input types
+
+The `type` attribute on `<input>` changes how it behaves:
+
+| type | What it does |
+|---|---|
+| `text` | Plain single-line text (default) |
+| `email` | Email address — mobile keyboards show `@` key; browser validates format |
+| `password` | Hides characters as the user types |
+| `number` | Numeric input with up/down arrows |
+| `checkbox` | A tick box — true or false |
+| `radio` | One choice from a group |
+| `submit` | A submit button (use `<button>` instead — more flexible) |
+
+## Textarea and button
+
+`<textarea>` is a multi-line text input — for longer messages or comments. It does need a closing tag.
+
+`<button>` submits the form by default when placed inside `<form>`. Add `type="button"` if you want it to do something else (via JavaScript) without submitting.
+
+export const formsHtml = `<form>
+  <div class="field">
+    <label for="name">Full name</label>
+    <input type="text" id="name" name="name" placeholder="Jane Smith" />
+  </div>
+
+  <div class="field">
+    <label for="email">Email address</label>
+    <input type="email" id="email" name="email" placeholder="jane@example.com" />
+  </div>
+
+  <div class="field">
+    <label for="message">Your message</label>
+    <textarea id="message" name="message" rows="4" placeholder="Tell me about your project..."></textarea>
+  </div>
+
+  <button type="submit">Send message</button>
+</form>`;
+
+export const formsCss = `body { font-family: system-ui, sans-serif; padding: 1rem; max-width: 480px; }
+.field { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 1rem; }
+label { font-size: 0.875rem; font-weight: 600; color: #374151; }
+input, textarea {
+  border: 1.5px solid #D1D5DB;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+input:focus, textarea:focus { border-color: #7C3AED; box-shadow: 0 0 0 3px #ede9fe; }
+button {
+  background: #7C3AED;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+button:hover { background: #6D28D9; }`;
+
+<LivePreview client:visible html={formsHtml} css={formsCss} height="380px" />
+
+Click the "Full name" label text — notice the cursor jumps into the input. That is the `for`/`id` link at work. Try changing the button text or adding a new field.
+
+<Tip title="Never skip labels">
+A placeholder (`placeholder="Jane Smith"`) is not a label. It disappears when the user starts typing, leaving them with no reminder of what the field is for. Always provide a visible `<label>` above or beside each input. This is one of the most common form accessibility failures on real websites — and one of the easiest to fix. Your users, and accessibility auditors, will thank you.
+</Tip>
+
+export const quizForms = [
+  {
+    q: 'How do you link a <label> to its <input> element?',
+    options: [
+      'Place the input directly after the label in the HTML',
+      'Use matching for= on the label and id= on the input',
+      'Wrap both inside a <fieldset>',
+      'Set the same class on both elements',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which input type shows a password-style masked field?',
+    options: ['type="hidden"', 'type="secure"', 'type="password"', 'type="mask"'],
+    answer: 2,
+  },
+  {
+    q: 'Why is a placeholder not a substitute for a visible label?',
+    options: [
+      'Placeholders are not supported in modern browsers',
+      'The placeholder disappears when the user types, removing the field description',
+      'Screen readers always ignore placeholder text',
+      'Placeholders require JavaScript to work',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which element is used for a multi-line text input?',
+    options: ['<input type="multiline">', '<textarea>', '<input type="text" rows="4">', '<textbox>'],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="html/forms" questions={quizForms} />
+
+<ProgressTracker client:visible id="html/forms" />

@@ -1,0 +1,116 @@
+---
+title: Lists
+description: 'Build ordered and unordered lists, nest them, and use a list as the foundation for navigation.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Lists appear everywhere in UI design — navigation menus, feature bullet points, step-by-step instructions, ingredient lists, search results. HTML gives you two list types for content and one for descriptive pairs. All of them are built from a simple, nestable structure.
+
+## Unordered list
+
+An **unordered list** (`<ul>`) is a collection of items where the order does not matter. The browser renders bullet points by default. Use it for feature lists, ingredients, nav links — anything where swapping item order would not change the meaning.
+
+```html
+<ul>
+  <li>Sketch</li>
+  <li>Figma</li>
+  <li>Framer</li>
+</ul>
+```
+
+## Ordered list
+
+An **ordered list** (`<ol>`) is a sequence where order *does* matter. The browser numbers items automatically. Use it for steps in a process, rankings, recipes, instructions.
+
+```html
+<ol>
+  <li>Open a new Figma file</li>
+  <li>Set up your frame</li>
+  <li>Add a grid</li>
+</ol>
+```
+
+Both types use `<li>` — **list item** — for each entry. The `<li>` must always be a direct child of `<ul>` or `<ol>`.
+
+## Nesting lists
+
+You can place a list inside an `<li>` to create sub-items — like sub-layers in Figma:
+
+```html
+<ul>
+  <li>Design tools
+    <ul>
+      <li>Figma</li>
+      <li>Sketch</li>
+    </ul>
+  </li>
+  <li>Prototyping tools</li>
+</ul>
+```
+
+## Navigation as a list
+
+One of the most common HTML patterns you will encounter is a navigation menu built from an unordered list. The list communicates "these are related items of equal importance". CSS then removes the bullets and arranges them horizontally.
+
+export const listsHtml = `<nav>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Work</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+<hr />
+<h3>My design process</h3>
+<ol>
+  <li>Discover — user research and problem framing</li>
+  <li>Define — synthesize insights into a design brief</li>
+  <li>Develop — ideate, prototype, and test</li>
+  <li>Deliver — handoff to engineering</li>
+</ol>`;
+
+export const listsCss = `body { font-family: system-ui, sans-serif; padding: 1rem; }
+nav ul { list-style: none; padding: 0; display: flex; gap: 1.5rem; }
+nav a { color: #7C3AED; text-decoration: none; font-weight: 600; }
+nav a:hover { text-decoration: underline; }
+h3 { margin-top: 1.5rem; }
+ol { padding-left: 1.5rem; line-height: 1.9; }`;
+
+<LivePreview client:visible html={listsHtml} css={listsCss} height="280px" />
+
+Try adding a fifth item to the ordered list. Notice the browser renumbers automatically — you never touch the numbers themselves.
+
+<Tip title="Navigation should be a list">
+Using `<ul>` for navigation is not just a convention — it communicates structure. Screen readers announce "list, 4 items" before reading the links, which helps users understand how many navigation options there are and skip past them quickly. A row of standalone `<a>` tags gives no such hint. Wrapping nav links in a `<ul>` is a small habit that makes a big difference.
+</Tip>
+
+export const quizLists = [
+  {
+    q: 'Which list element should you use for a set of steps that must be followed in order?',
+    options: ['<ul>', '<ol>', '<dl>', '<li>'],
+    answer: 1,
+  },
+  {
+    q: 'What is the correct element for each item inside a list?',
+    options: ['<item>', '<bullet>', '<li>', '<entry>'],
+    answer: 2,
+  },
+  {
+    q: 'Why is it good practice to build navigation menus using a <ul> with <li> items?',
+    options: [
+      'It is required by the HTML specification',
+      'Screen readers announce the list count, helping users understand navigation scope',
+      'It makes the links appear in a horizontal row automatically',
+      'It prevents links from being visited more than once',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="html/lists" questions={quizLists} />
+
+<ProgressTracker client:visible id="html/lists" />

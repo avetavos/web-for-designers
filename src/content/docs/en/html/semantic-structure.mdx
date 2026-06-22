@@ -1,0 +1,108 @@
+---
+title: Semantic Structure
+description: 'Map design regions to semantic HTML elements — header, nav, main, section, article, and footer.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+You have probably used `<div>` to group things — it is a neutral container with no meaning of its own. HTML also gives you a set of containers that *do* carry meaning. These are called **semantic elements**, and they map almost perfectly to the regions you already define in your Figma designs.
+
+"Semantic" just means "meaningful". When you use `<header>` instead of `<div class="header">`, the browser, screen readers, and search engines all understand what that region *is* — not just what it looks like.
+
+## The main regions
+
+| HTML element | What it means | Figma equivalent |
+|---|---|---|
+| `<header>` | Introductory content for a page or section — usually logo, site name, top nav | Top-level frame with branding |
+| `<nav>` | A block of navigation links | Navigation component frame |
+| `<main>` | The primary, unique content of the page (use once) | Main content area frame |
+| `<section>` | A thematic group of content, typically with its own heading | A section frame on your canvas |
+| `<article>` | A piece of content that makes sense on its own — a blog post, a card, a news item | A card or post component |
+| `<aside>` | Content tangentially related to the main content — a sidebar, a callout | A sidebar frame |
+| `<footer>` | Closing content — copyright, secondary links, contact info | Bottom frame |
+
+## Why it matters
+
+1. **Screen readers** use these landmarks to let users jump directly to `<main>` content, skipping the header and nav on every page. That is a massive usability improvement for blind users.
+2. **Search engines** understand that content in `<article>` is the primary text of the page and weight it accordingly.
+3. **Your own team** can read the HTML and understand the page layout at a glance, without decoding class names.
+
+export const semanticHtml = `<header>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Work</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <section>
+    <h1>Selected Work</h1>
+    <article>
+      <h2>Fintech Dashboard</h2>
+      <p>A data-heavy interface redesigned for clarity.</p>
+    </article>
+    <article>
+      <h2>E-commerce Checkout</h2>
+      <p>Reducing drop-off with a streamlined flow.</p>
+    </article>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2024 Studio Name</p>
+</footer>`;
+
+export const semanticCss = `* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; margin: 0; font-size: 0.9rem; }
+header { background: #7C3AED; color: white; padding: 0.75rem 1rem; }
+nav a { color: white; text-decoration: none; margin-right: 1rem; font-weight: 600; }
+main { padding: 1rem; }
+section h1 { font-size: 1.25rem; color: #7C3AED; }
+article { border: 1px solid #E5E7EB; border-radius: 8px; padding: 0.75rem; margin-bottom: 0.75rem; }
+article h2 { font-size: 1rem; margin: 0 0 0.25rem; }
+article p { margin: 0; color: #6B7280; }
+footer { background: #F3F4F6; padding: 0.75rem 1rem; text-align: center; color: #9CA3AF; font-size: 0.8rem; }`;
+
+<LivePreview client:visible html={semanticHtml} css={semanticCss} height="380px" />
+
+Look at how clearly each region maps to a named element. Try changing `<section>` to `<div>` — the page looks identical, but the meaning is lost. That invisible difference is what semantics is about.
+
+<Tip title="Think in landmarks, not just boxes">
+When you are designing a page in Figma, you already divide it into named regions: header, hero, feature section, testimonials, footer. When you hand that design off to a developer — or write the HTML yourself — the goal is to translate those regions directly into semantic elements. No generic `<div>` soup. Named, purposeful containers that match what each region actually *is*.
+</Tip>
+
+export const quizSemantic = [
+  {
+    q: 'Which element should wrap the primary, unique content of a page?',
+    options: ['<section>', '<div>', '<main>', '<article>'],
+    answer: 2,
+  },
+  {
+    q: 'What is the key benefit of using <nav> instead of <div class="nav">?',
+    options: [
+      'It adds automatic bullet points to the links',
+      'It tells browsers, screen readers, and search engines that this is a navigation region',
+      'It makes links open in a new tab',
+      'It removes the need for CSS',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which element best wraps a blog post or a news article — content that makes sense on its own?',
+    options: ['<section>', '<aside>', '<article>', '<header>'],
+    answer: 2,
+  },
+  {
+    q: 'How many <main> elements should a page have?',
+    options: ['As many as needed', 'Two — one for desktop, one for mobile', 'Exactly one', 'None — use <section> instead'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="html/semantic-structure" questions={quizSemantic} />
+
+<ProgressTracker client:visible id="html/semantic-structure" />
