@@ -1,6 +1,60 @@
 ---
-title: Web for Designers
-description: Learn HTML, CSS, and a little JavaScript — from zero, for UI designers.
+title: Web สำหรับนักออกแบบ
+description: เรียน HTML, CSS และ JavaScript เล็กน้อย — เริ่มจากศูนย์ ออกแบบมาเพื่อ UI designer
 template: splash
+hero:
+  tagline: เข้าใจเว็บที่คุณออกแบบให้ลึกขึ้น เรียน HTML, CSS และ JavaScript นิดหน่อยตั้งแต่เริ่มต้น — แก้โค้ดจริงแล้วเห็นผลเปลี่ยนสดๆ ในเบราว์เซอร์ ไม่ต้องติดตั้งอะไร ไม่มีศัพท์ยากๆ
+  actions:
+    - text: เริ่มจากศูนย์
+      link: /web-for-designers/th/how-web-works/
+      icon: right-arrow
+      variant: primary
+    - text: ข้ามไป HTML
+      link: /web-for-designers/th/html/
+      icon: open-book
 ---
-Coming soon.
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## สิ่งที่คุณจะได้เรียน
+
+<CardGrid>
+  <Card title="เว็บทำงานยังไง" icon="rocket">
+    เบราว์เซอร์ หน้าเว็บ และหน้าที่ของ HTML, CSS, JS แต่ละตัว — อธิบายแบบเข้าใจง่าย [เริ่ม →](/web-for-designers/th/how-web-works/)
+  </Card>
+  <Card title="HTML — โครงสร้าง & เนื้อหา" icon="open-book">
+    Element, ข้อความ, ลิงก์, รูปภาพ, ลิสต์, semantic structure และฟอร์ม [เรียน →](/web-for-designers/th/html/)
+  </Card>
+  <Card title="CSS — พื้นฐานการจัดสไตล์" icon="pencil">
+    Selector, สี, typography, box model, พื้นหลัง & เส้นขอบ [จัดสไตล์ →](/web-for-designers/th/css/)
+  </Card>
+  <Card title="CSS Layout — Flexbox & Grid" icon="puzzle">
+    หัวใจของงานดีไซน์: Flexbox (≈ auto-layout), Grid, positioning, spacing [จัดเลย์เอาต์ →](/web-for-designers/th/layout/)
+  </Card>
+  <Card title="Responsive Design" icon="laptop">
+    หน่วยแบบ relative, media query, mobile-first, รูปภาพแบบ responsive [ปรับให้ยืดหยุ่น →](/web-for-designers/th/responsive/)
+  </Card>
+  <Card title="JavaScript นิดหน่อย" icon="setting">
+    เริ่มแบบค่อยเป็นค่อยไป: ตัวแปร, การเลือก element, การคลิก, และ interaction ง่ายๆ [เพิ่มความ interactive →](/web-for-designers/th/javascript/)
+  </Card>
+  <Card title="Workflow จากดีไซน์สู่โค้ด" icon="approve-check">
+    Figma → โค้ด, design token, scale, component, accessibility, การส่งงาน [ส่งงานจริง →](/web-for-designers/th/workflow/)
+  </Card>
+</CardGrid>
+
+## คอร์สนี้ทำงานยังไง
+
+<CardGrid>
+  <Card title="เริ่มจากศูนย์จริงๆ" icon="star">
+    ไม่ต้องมีพื้นฐานเขียนโค้ด ทุกคำศัพท์มีอธิบาย ทุกขั้นตอนเล็กๆ ค่อยๆ ไป
+  </Card>
+  <Card title="แก้โค้ด เห็นผลสด" icon="rocket">
+    ตัวอย่างรันใน live preview ที่แก้ได้ — เปลี่ยนสีหรือข้อความแล้วเห็นผลอัปเดตทันทีบนหน้าเดียวกัน
+  </Card>
+  <Card title="พูดภาษาเดียวกับนักออกแบบ" icon="pencil">
+    ทุกแนวคิดเทียบกับสิ่งที่คุณรู้จาก Figma — auto-layout, style, token, component
+  </Card>
+  <Card title="สองภาษา" icon="translate">
+    มีทั้งภาษาอังกฤษและไทย — สลับได้ตลอดจากแถบด้านบน
+  </Card>
+</CardGrid>
