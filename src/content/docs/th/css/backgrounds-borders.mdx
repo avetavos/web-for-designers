@@ -1,0 +1,265 @@
+---
+title: พื้นหลัง ขอบ และเงา
+description: 'เรียนรู้ background-color, gradient, border, border-radius และ box-shadow — เทียบเท่ากับ Fill, Stroke และ Effects ใน Figma'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ถ้าคุณเคยเปิดแผงด้านขวาของ Figma คุณก็ใช้แนวคิดเหล่านี้มาแล้ว ส่วน **Fill** ใน Figma ตรงกับ background ใน CSS ส่วน **Stroke** ตรงกับ border และส่วน **Effects** ตรงกับ box-shadow ชื่อต่างกัน แต่ความหมายเหมือนกันทุกประการ เมื่อเห็นความสัมพันธ์นี้ คุณจะจำ property ต่าง ๆ ได้ทันที
+
+## Background — Fill panel ใน CSS
+
+Background ที่ง่ายที่สุดคือการใส่สีทึบด้วย `background-color` โดยใช้ค่าสีในรูปแบบใดก็ได้ เช่น hex code, `rgb()` หรือชื่อสี
+
+```css
+.box {
+  background-color: #7C3AED; /* สีม่วง — เหมือน solid fill ใน Figma */
+}
+```
+
+สำหรับ **image fill** ให้ใช้ `background-image` คู่กับ `url()` และเพิ่ม property อีกสองตัวเพื่อให้ตรงกับ fill mode ของ Figma:
+
+```css
+.hero {
+  background-image: url('image.jpg');
+  background-size: cover;       /* ขยายเต็มกล่องและตัดส่วนเกิน — เหมือน "Fill" ของ Figma */
+  background-position: center;  /* จัดรูปไว้ตรงกลาง */
+}
+```
+
+`background-size: contain` จะแสดงภาพให้พอดีโดยไม่ตัดส่วนใด เหมือน "Fit" mode ของ Figma
+
+## Gradient
+
+Gradient ใช้ property `background` (ไม่ใช่ `background-color`) CSS มี gradient สองแบบหลัก ซึ่งตรงกับ gradient fill ใน Figma
+
+**Linear gradient** — สีไหลตามเส้นตรง กำหนดด้วยองศา:
+
+```css
+background: linear-gradient(135deg, #667eea, #764ba2);
+```
+
+`135deg` คือมุม (0deg = บนลงล่าง, 90deg = ซ้ายไปขวา) คุณเพิ่ม color stop ได้มากกว่าสองจุด: `linear-gradient(135deg, #667eea 0%, #764ba2 60%, #f093fb 100%)`
+
+**Radial gradient** — สีแผ่ออกจากจุดศูนย์กลาง:
+
+```css
+background: radial-gradient(circle, #f093fb, #f5576c);
+```
+
+## Border — Stroke panel ใน CSS
+
+Shorthand `border` กำหนดความหนา รูปแบบเส้น และสีในบรรทัดเดียว:
+
+```css
+border: 2px solid #7C3AED;
+```
+
+ค่าทั้งสามเรียงเสมอในรูปแบบ: `ความหนา รูปแบบ สี` เปลี่ยน `solid` เป็น `dashed` หรือ `dotted` เพื่อเปลี่ยนรูปแบบเส้น สามารถกำหนดรายด้านได้:
+
+```css
+border-top: 4px solid #7C3AED;
+border-bottom: 1px dashed #d8b4fe;
+```
+
+หรือใช้ longhand property เมื่อต้องการควบคุมละเอียดมากขึ้น:
+
+```css
+border-width: 2px;
+border-style: solid;
+border-color: #7C3AED;
+```
+
+## Border-radius — corner radius
+
+`border-radius` ทำให้มุมขององค์ประกอบโค้งมน เหมือน corner radius ใน Figma:
+
+```css
+border-radius: 8px;   /* โค้งเล็กน้อย — นิยมใช้กับการ์ด */
+border-radius: 16px;  /* โค้งมากขึ้น */
+border-radius: 50%;   /* วงกลมสมบูรณ์ (ใช้กับองค์ประกอบที่เป็นสี่เหลี่ยมจัตุรัส) */
+```
+
+กำหนดรัศมีแต่ละมุมต่างกันได้ ค่าเรียงตามเข็มนาฬิกาจากมุมบนซ้าย:
+
+```css
+border-radius: 16px 4px 16px 4px; /* บนซ้าย, บนขวา, ล่างขวา, ล่างซ้าย */
+```
+
+## Box-shadow — Effects panel ใน CSS
+
+`box-shadow` คือ drop shadow effect ของ Figma ในรูป CSS ลำดับค่าคือ: x-offset, y-offset, blur-radius, spread-radius (ไม่บังคับ), สี:
+
+```css
+box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.12);
+```
+
+ซ้อนเงาหลายชั้นด้วยการคั่นด้วยคอมมา — ช่วยสร้างความลึกที่สมจริง:
+
+```css
+box-shadow:
+  0 1px 3px rgba(0, 0, 0, 0.08),
+  0 8px 24px rgba(0, 0, 0, 0.12);
+```
+
+สำหรับ **inner shadow** (เหมือน inner shadow ของ Figma) ใช้คีย์เวิร์ด `inset` นำหน้า:
+
+```css
+box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+```
+
+## Opacity
+
+`opacity: 0.8` ทำให้ทั้งองค์ประกอบโปร่งใส 80% รวมถึงข้อความและ children ด้วย หากต้องการให้เฉพาะ *พื้นหลัง* โปร่งใสแต่ข้อความยังคมชัด ให้ใช้ `rgba()` หรือ `hsla()` กับค่าสีโดยตรง:
+
+```css
+/* เฉพาะพื้นหลังโปร่งใส ข้อความยังคง opacity เต็ม */
+background-color: rgba(124, 58, 237, 0.15);
+```
+
+export const bgBordersHtml = `<div class="showcase">
+
+  <div class="card card--gradient-a">
+    <span class="label">Linear Gradient</span>
+    <p class="desc">background: linear-gradient</p>
+  </div>
+
+  <div class="card card--gradient-b">
+    <span class="label">Radial Gradient</span>
+    <p class="desc">background: radial-gradient</p>
+  </div>
+
+  <div class="card card--solid">
+    <span class="label">Solid + Border</span>
+    <p class="desc">background-color + border</p>
+  </div>
+
+</div>`;
+
+export const bgBordersCss = `body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #f1f5f9;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.showcase {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Shared card styles */
+.card {
+  width: 200px;
+  padding: 2rem 1.5rem;
+  border-radius: 20px;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.06),
+    0 12px 32px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.desc {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: monospace;
+}
+
+/* Card A — linear gradient */
+.card--gradient-a {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+/* Card B — radial gradient */
+.card--gradient-b {
+  background: radial-gradient(circle at 30% 30%, #f093fb, #f5576c);
+}
+
+/* Card C — solid fill + visible border */
+.card--solid {
+  background-color: #1e1b4b;
+  border: 2px solid rgba(167, 139, 250, 0.6);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 12px 32px rgba(124, 58, 237, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.card--solid .label {
+  color: #c4b5fd;
+}
+
+.card--solid .desc {
+  color: rgba(196, 181, 253, 0.6);
+}`;
+
+<LivePreview client:visible html={bgBordersHtml} css={bgBordersCss} />
+
+ลองแก้ CSS: เปลี่ยน `border-radius` ใน `.card` จาก `20px` เป็น `4px` เพื่อดูการ์ดมุมแหลม เปลี่ยนมุม gradient ใน `.card--gradient-a` จาก `135deg` เป็น `45deg` หรือเพิ่ม `border: 3px dashed white` ให้ `.card--gradient-b` การแก้ไขทุกอย่างตรงกับ control ที่คุณรู้จักใน Figma
+
+<Tip title="Fill, Stroke, Effects — ตรงกัน 1:1 กับ Figma">
+Background, border และ box-shadow ใน CSS ตรงกับแผง Fill, Stroke และ Effects ใน Figma แบบหนึ่งต่อหนึ่ง ถ้าคุณตั้งค่าได้ใน design panel ของ Figma ก็มี CSS property รองรับเสมอ
+</Tip>
+
+export const quizCssBgBorders = [
+  {
+    q: 'Which CSS property creates rounded corners?',
+    options: ['border-style', 'corner-radius', 'border-radius', 'border-curve'],
+    answer: 2,
+  },
+  {
+    q: 'What is the CSS equivalent of a solid color fill in Figma?',
+    options: ['color', 'background-color', 'fill', 'background-fill'],
+    answer: 1,
+  },
+  {
+    q: 'What does the `inset` keyword do in a `box-shadow` value?',
+    options: [
+      'Makes the shadow larger',
+      'Moves the shadow to the outside of the element',
+      'Creates an inner shadow, like Figma\'s inner shadow effect',
+      'Removes the shadow entirely',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'How do you create a gradient background in CSS?',
+    options: [
+      'background-color: gradient(135deg, #667eea, #764ba2)',
+      'background: linear-gradient(135deg, #667eea, #764ba2)',
+      'background-image: gradient(purple, violet)',
+      'fill: linear-gradient(#667eea, #764ba2)',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="css/backgrounds-borders" questions={quizCssBgBorders} />
+
+<ProgressTracker client:visible id="css/backgrounds-borders" />

@@ -1,0 +1,125 @@
+---
+title: 'HTML, CSS & JS — แต่ละอย่างทำอะไร'
+description: 'ทำความเข้าใจสามภาษาของเว็บและหน้าที่ที่ชัดเจนของแต่ละตัว โดยใช้การเปรียบเทียบกับ Figma และงานดีไซน์'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ทุกหน้าเว็บถูกสร้างด้วยภาษาสามภาษาเท่านั้น ภาษาเหล่านี้มีมาตั้งแต่ยุคแรกของเว็บ และยังคงเป็นพื้นฐานของทุกเว็บที่คุณเปิดอยู่ทุกวันนี้ — ตั้งแต่ blog เล็กๆ ไปจนถึง web app ที่ซับซ้อน แต่ละภาษามีหน้าที่ที่ชัดเจนหนึ่งอย่าง
+
+## HTML — โครงสร้าง
+
+**HTML** (HyperText Markup Language) กำหนด *ว่ามีอะไรบนหน้า* ข้อความ, heading, รูปภาพ, ปุ่ม, ลิงก์ — ทั้งหมดนั้นคือ HTML มันไม่มีสี ไม่มี font ไม่มี layout มันคือ content และความหมายล้วนๆ
+
+ถ้าคุณกำลังออกแบบใน Figma HTML ก็คือ layer wireframe — frame, placeholder, และ text block ที่กำหนดว่ามีอะไรอยู่บ้านก่อนที่จะใส่ visual treatment ใดๆ
+
+## CSS — การออกแบบ
+
+**CSS** (Cascading Style Sheets) กำหนด *ทุกอย่างดูเป็นอย่างไร* สี, typography, spacing, layout, shadow, rounded corner — ทั้งหมดนั้นคือ CSS CSS อ่าน element ของ HTML แล้วใส่ visual style ให้พวกมัน
+
+ในแง่ของ Figma CSS คือทุกอย่างใน Design panel ด้านขวา: fill, stroke, border radius, spacing, font size, color มันคือ visual layer ทั้งหมด
+
+## JavaScript — พฤติกรรม
+
+**JavaScript** คือภาษาโปรแกรมที่ทำให้สิ่งต่างๆ *interactive และ dynamic* การคลิกปุ่มแล้วมีเมนูขึ้นมา, พิมพ์ในช่องค้นหาแล้วเห็นผลลัพธ์กรอง, การ drag card ไปยังตำแหน่งใหม่ — ทั้งหมดนั้นคือ JavaScript
+
+ในแง่ของ Figma JavaScript ใกล้เคียงที่สุดกับ **Prototype interactions**: การเชื่อมต่อและ trigger ที่ทำให้สิ่งต่างๆ ตอบสนองต่อการกระทำของผู้ใช้
+
+## เห็นความแตกต่างด้วยตัวเอง
+
+Editor ด้านล่างเริ่มต้นด้วย HTML และ CSS ด้วยกัน ลบ CSS ทั้งหมดออก (เลือกทุกอย่างใน CSS tab แล้วกด Delete) แล้วดูว่าเกิดอะไรขึ้น content ยังคงอยู่ — โครงสร้างยังอยู่ — แต่การออกแบบ visual ทั้งหมดหายไป นั่นคือการแยก HTML และ CSS ในทางปฏิบัติ
+
+export const rolesHtml = `<article class="card">
+  <span class="tag">UI Design</span>
+  <h2>The three layers of every web page</h2>
+  <p>HTML is the structure. CSS is the design. JavaScript is the behaviour.</p>
+  <a class="btn" href="#">Read more</a>
+</article>`;
+
+export const rolesCss = `body {
+  font-family: system-ui, sans-serif;
+  background: #f5f3ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 380px;
+  box-shadow: 0 8px 32px rgba(124,58,237,0.12);
+}
+.tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7C3AED;
+  background: #ede9fe;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+}
+h2 { color: #1f2937; margin: 0.75rem 0 0.5rem; font-size: 1.25rem; }
+p  { color: #6b7280; line-height: 1.6; margin: 0 0 1.25rem; }
+.btn {
+  display: inline-block;
+  background: #7C3AED;
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.btn:hover { background: #5B21B6; }`;
+
+<LivePreview client:visible html={rolesHtml} css={rolesCss} height="280px" />
+
+คลิก tab **CSS** แล้วลบเนื้อหาออกเพื่อดู HTML เปล่าๆ แล้ว paste กลับมาเพื่อกู้คืนการออกแบบ นี่คือสิ่งที่ browser ทำอัตโนมัติ — มัน layer CSS ทับ HTML ทุกครั้งที่หน้าโหลด
+
+<Tip title="คุณบอกได้เสมอว่าภาษาไหนทำอะไร">
+เมื่อคุณมองดูหน้าเว็บแล้วถามว่า "อันนั้นมาจากไหน?" — ถ้ามันเป็น content (คำ, รูปภาพ, label ปุ่ม) มันมาจาก HTML ถ้ามันเป็น visual property (สี, ขนาด, spacing) มันมาจาก CSS ถ้ามันตอบสนองต่อการคลิกหรือเปลี่ยนแปลงโดยไม่ต้อง reload หน้า นั่นคือ JavaScript
+</Tip>
+
+export const quizHtmlCssJsRoles = [
+  {
+    q: 'ภาษาใดที่กำหนด content และโครงสร้างของหน้าเว็บ?',
+    options: ['CSS', 'JavaScript', 'HTML', 'Python'],
+    answer: 2,
+  },
+  {
+    q: 'ในแง่ของ Figma, CSS ใกล้เคียงที่สุดกับส่วนใดของเครื่องมือ?',
+    options: [
+      'Layers panel ที่แสดงการซ้อนกันของ frame',
+      'Design panel ที่มี fill, stroke, radius, และ spacing',
+      'Prototype panel ที่มีการเชื่อมต่อระหว่าง frame',
+      'Export settings dialog',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ถ้าคุณลบ CSS ทั้งหมดออกจากหน้า จะเกิดอะไรขึ้น?',
+    options: [
+      'หน้าว่างเปล่า — content ทั้งหมดหายไป',
+      'หน้า crash และแสดง error',
+      'Content ยังอยู่แต่ visual styling ทั้งหมดหายไป',
+      'JavaScript หยุดทำงานด้วย',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'ภาษาใดที่จัดการพฤติกรรม interactive เช่นการเปิดเมนูเมื่อคลิก?',
+    options: ['HTML', 'CSS', 'JavaScript', 'XML'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="how-web-works/html-css-js-roles" questions={quizHtmlCssJsRoles} />
+
+<ProgressTracker client:visible id="how-web-works/html-css-js-roles" />

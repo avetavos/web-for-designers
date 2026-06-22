@@ -1,0 +1,107 @@
+---
+title: 'Handoff & Next Steps'
+description: 'Collaborate with developers using clear specs, tokens, and naming — and discover where to keep learning.'
+---
+
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+{/* No LivePreview: this is a conceptual lesson about collaboration process — no runnable snippet applies. */}
+
+You have learned how designs become code. Now let us talk about the moment that connects your work to a developer's work: the **handoff**. A great handoff does not just share a file — it communicates a complete specification that a developer can implement without asking clarifying questions.
+
+## What makes a design "developer-ready"
+
+Before you hand off a design, check each of these:
+
+**Named layers and components**
+Every layer should have a meaningful name — not `Frame 47` or `Rectangle 12`. Layer names become the vocabulary developers use when they write code. `Card`, `Navigation`, `Hero/CTA Button` tells a developer exactly what they are building.
+
+**Token-based styles**
+Colors, spacing, and type should come from your design token library (Figma Variables or Styles), not from one-off local overrides. Token-based designs translate directly to CSS custom properties — reducing implementation errors.
+
+**Component variants documented**
+If a button has Default, Hover, Focused, Disabled, and Loading states, all five must be in the design file. A developer will implement every state — and if you have not defined them, the developer will invent them, usually inconsistently.
+
+**Auto-layout constraints**
+Use auto-layout for every component that will grow or shrink with content. Set constraints (fixed/fill/hug) explicitly. This communicates how the component should behave responsively, not just how it looks at one size.
+
+**Spacing from the grid**
+All spacing values should be on your scale (multiples of 4 or 8). Off-scale values signal ambiguity and force developers to decide whether to round up or down.
+
+## Figma Dev Mode as the handoff bridge
+
+When you toggle a frame to "Ready for development" in Figma, developers switch to Dev Mode to inspect:
+- Exact pixel values for padding, gap, and margins
+- Font properties: family, size, weight, line-height, letter-spacing
+- Color values and their token names
+- Border-radius, shadow, and opacity
+- Asset exports (icons, images in the right format and scale)
+
+Walkthrough Dev Mode yourself before handing off — if something looks wrong or missing, the developer will see the same problem.
+
+## What to communicate verbally (or in comments)
+
+Dev Mode handles the static spec. These things need human explanation:
+
+- **Interaction states:** how does the hover animation work? What triggers a tooltip?
+- **Edge cases:** what does the card look like with a 200-character title? With no image?
+- **Error states:** what does the form look like when validation fails?
+- **Responsive behavior:** what changes between 375px mobile and 1440px desktop? What reflows, what hides?
+- **Motion:** duration, easing, trigger — animation specs belong in the design file as comments or a dedicated motion page.
+
+Add these as Figma comments on the relevant frames, or maintain a brief written spec document alongside the file.
+
+## Where to keep learning
+
+You have built a solid foundation. Here is where to go next:
+
+| Resource | What you will find |
+|---|---|
+| **MDN Web Docs** (developer.mozilla.org) | The authoritative reference for every HTML element and CSS property. Bookmark it. |
+| **web.dev** (web.dev/learn) | Free structured courses on HTML, CSS, accessibility, and performance from the Chrome team. |
+| **Figma Learn** (help.figma.com/learn) | Figma's own tutorials — strong on variables, dev mode, and component best practices. |
+| **CSS-Tricks** (css-tricks.com) | Deep practical articles on CSS layout, animations, and design system patterns. |
+| **Kevin Powell on YouTube** | The best plain-language CSS teaching on the internet. Start with his flexbox and CSS variables series. |
+
+<Tip title="Ambiguity in a design is a bug">
+Every state you do not define, a developer will invent. Every color that is not a token, a developer will hardcode. Every component that is not named, a developer will name differently from your expectation. The more complete your handoff, the more faithfully your design is implemented — and the fewer revision cycles you need.
+</Tip>
+
+export const quizHandoff = [
+  {
+    q: 'What is the most important thing to include in a developer handoff?',
+    options: [
+      'Decorative illustrations',
+      'Named components, tokens, and specs for every interactive state',
+      'A PDF of the design',
+      'The design tool\'s native file',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which Figma feature is specifically designed for developer handoff inspection?',
+    options: [
+      'Figma Prototype',
+      'Figma Community',
+      'Figma Dev Mode',
+      'Figma Plugins',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'Edge cases and error states are...',
+    options: [
+      'Optional — developers can decide',
+      'Essential to define in the design before handoff',
+      'Only needed for mobile apps',
+      'Added by QA after development',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="workflow/handoff-next" questions={quizHandoff} />
+
+<ProgressTracker client:visible id="workflow/handoff-next" />

@@ -1,0 +1,147 @@
+---
+title: หน้าเว็บแรกของคุณ
+description: สร้างหน้าเว็บจริงตั้งแต่ต้น — heading, paragraph, และ style ของคุณเอง — ผ่าน live editor แล้วฉลองชัยชนะแรก
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+คุณได้เรียนรู้แล้วว่าเว็บคืออะไร browser ทำงานอย่างไร และ HTML, CSS, JavaScript แต่ละอย่างทำอะไร ถึงเวลาแล้วที่จะสร้างบางอย่างจริงๆ — หน้าเว็บแรกที่เหมาะสมของคุณ เขียนด้วยมือทั้งหมด
+
+นี่ไม่ใช่แค่แบบฝึกหัดที่ทำแล้วทิ้ง หน้าที่คุณสร้างที่นี่ใช้ HTML และ CSS เหมือนกันกับที่พบในเว็บไซต์มืออาชีพทุกแห่ง ความแตกต่างเพียงอย่างเดียวคือเว็บไซต์จริงมีมันมากกว่า
+
+## สิ่งที่คุณกำลังสร้าง
+
+Personal introduction card แบบเรียบง่าย: ชื่อของคุณเป็น heading, ประโยคสั้นๆ เกี่ยวกับตัวเอง, และลิงก์ แล้วคุณจะ style มันให้ดูตามที่คุณต้องการ
+
+## HTML
+
+เริ่มต้นด้วยโครงสร้าง `<h1>` สำหรับชื่อ, `<p>` สำหรับคำอธิบาย, และ `<a>` สำหรับลิงก์
+
+```html
+<h1>Maya Chen</h1>
+<p>UI designer based in Bangkok. I love design systems and clean type.</p>
+<a href="https://dribbble.com">See my work</a>
+```
+
+สังเกตว่ายังไม่มีการออกแบบที่นี่ — มีแค่ content และความหมาย `<h1>` บอกว่า "นี่คือ heading ที่สำคัญที่สุด" `<p>` บอกว่า "นี่คือ paragraph" `<a>` บอกว่า "นี่คือลิงก์" HTML กำลังสื่อสาร *ว่าสิ่งต่างๆ คืออะไร* ไม่ใช่ว่ามันดูเป็นอย่างไร
+
+## CSS
+
+ตอนนี้ใส่ design layer เข้าไป CSS ชี้เป้าไปยัง element แต่ละอันด้วยชื่อและใส่ visual property ให้มัน
+
+```css
+h1 { color: #7C3AED; font-size: 2rem; }
+p  { color: #374151; }
+a  { color: #7C3AED; }
+```
+
+ทุก CSS rule ตามรูปแบบ: **selector** (element ไหนที่จะ style) + **property** (อะไรที่จะเปลี่ยน) + **value** (จะเปลี่ยนเป็นอะไร) นั่นคือ CSS syntax ทั้งหมด
+
+## สร้างด้วยตัวเอง
+
+Editor ด้านล่างมีเวอร์ชัน starter ทำให้มันเป็นของคุณ — เปลี่ยนชื่อ, คำอธิบาย, สี, ขนาด font ไม่มีคำตอบที่ผิด ทุกครั้งที่คุณบันทึกการเปลี่ยนแปลงในโปรเจกต์จริง นี่คือสิ่งที่คุณทำอยู่
+
+export const firstPageHtml = `<div class="profile">
+  <h1>Maya Chen</h1>
+  <p class="bio">UI designer based in Bangkok.\\nI love design systems and clean type.</p>
+  <a class="link" href="https://dribbble.com">See my work &rarr;</a>
+</div>`;
+
+export const firstPageCss = `* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, sans-serif;
+  background: #faf5ff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.profile {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 4px 32px rgba(124,58,237,0.10);
+  text-align: center;
+}
+h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #7C3AED;
+  margin-bottom: 0.75rem;
+}
+.bio {
+  color: #6b7280;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  white-space: pre-line;
+}
+.link {
+  display: inline-block;
+  background: #7C3AED;
+  color: white;
+  padding: 0.65rem 1.5rem;
+  border-radius: 99px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+.link:hover { background: #5B21B6; }`;
+
+<LivePreview client:visible html={firstPageHtml} css={firstPageCss} height="300px" />
+
+ลองเปลี่ยนทีละอย่างเพื่อสร้างความมั่นใจ:
+
+1. แทนที่ `Maya Chen` ด้วยชื่อของคุณเอง
+2. เปลี่ยน `#7C3AED` (ม่วง) เป็น `#0EA5E9` (น้ำเงิน) ทั้งใน HTML และ CSS
+3. เปลี่ยน `border-radius: 20px` เป็น `border-radius: 4px` เพื่อทำให้ card มีมุมเหลี่ยม
+4. เปลี่ยน `text-align: center` เป็น `text-align: left`
+
+การเปลี่ยนแปลงแต่ละอย่างแยกออกจากกันและยกเลิกได้ — เหมือนกับการทำงานกับ property ใน Figma
+
+<Tip title="คุณเพิ่งสร้างหน้าเว็บจริงแล้ว">
+สิ่งที่คุณเห็นใน preview คือ HTML และ CSS จริงๆ — ภาษาเดียวกับที่ทุกเว็บไซต์บนอินเทอร์เน็ตใช้ ช่องว่างระหว่าง "designer" และ "คนที่เขียนโค้ดเว็บได้" นั้นเล็กกว่าที่คุณคิดมาก และตอนนี้คุณอยู่ฝั่งโน้นแล้ว
+</Tip>
+
+export const quizYourFirstPage = [
+  {
+    q: 'CSS rule อย่าง `h1 { color: #7C3AED; }` ทำอะไร?',
+    options: [
+      'สร้าง heading element ใหม่',
+      'ใส่สีม่วงให้กับ h1 heading ทั้งหมด',
+      'Link ไฟล์ CSS เข้ากับหน้า HTML',
+      'ซ่อน element h1',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ใน CSS, สามส่วนของทุก rule คืออะไร?',
+    options: [
+      'Tag, attribute, และ value',
+      'Opening tag, content, และ closing tag',
+      'Selector, property, และ value',
+      'Protocol, domain, และ path',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'ถ้าคุณต้องการทำให้ heading เป็นสีน้ำเงินแทนสีม่วง คุณต้องเปลี่ยนส่วนใดของ CSS rule?',
+    options: [
+      'Selector (h1)',
+      'Property (color)',
+      'Value (#7C3AED)',
+      'วงเล็บปีกกา',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="how-web-works/your-first-page" questions={quizYourFirstPage} />
+
+<ProgressTracker client:visible id="how-web-works/your-first-page" />

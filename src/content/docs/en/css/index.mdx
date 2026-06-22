@@ -1,0 +1,148 @@
+---
+title: CSS — The Design Layer
+description: 'What CSS is, how it attaches to HTML, and your first styled component.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+If HTML is the skeleton of a web page, **CSS is the skin, the paint, and the typography choices on top**. It controls every visual property you can see — colors, fonts, sizes, spacing, and layout. Without CSS a page is plain black text on a white background. With CSS it becomes a designed experience.
+
+Think of it this way: HTML is your Figma frame structure — layers stacked and nested. CSS is the fills, strokes, font styles, and spacing rules you apply to those layers. The structure and the style live separately, and that separation is intentional. It means you can redesign the look of a page without touching its content, or reuse the same styles across hundreds of pages from one file.
+
+**CSS** stands for **Cascading Style Sheets**. The "cascading" part means styles can come from multiple sources and rules for which one wins are predictable — we will cover that later. For now, think of a stylesheet as a design spec file: a list of rules that say "this element should look like this."
+
+## What you will learn in this module
+
+| Lesson | Topic |
+|---|---|
+| 1 | Selectors — targeting the right elements |
+| 2 | Colors & Units — values that make sense |
+| 3 | Typography — fonts, sizes, line height |
+| 4 | Box Model — spacing and sizing |
+| 5 | Backgrounds & Borders — surface design |
+
+## Anatomy of a CSS rule
+
+Every CSS rule has the same shape:
+
+```
+selector { property: value; }
+```
+
+- **Selector** — which elements to style. `h1` targets all `<h1>` headings. `.card` targets every element with `class="card"`.
+- **Property** — what visual attribute to change. `color`, `font-size`, `padding`, `background-color`.
+- **Value** — what to set it to. `#7C3AED`, `1.5rem`, `2px solid black`.
+
+A real example:
+
+```css
+h1 {
+  color: #7C3AED;
+  font-size: 2rem;
+}
+```
+
+Read it aloud: "Every `h1` heading: set the text color to purple, and the font size to 2rem." That is exactly how a designer would write a text style spec.
+
+## Three ways to add CSS
+
+1. **Inline** — `<h1 style="color: purple;">` — works, but hard to maintain. Like hardcoding values instead of using a design token. Avoid it.
+2. **`<style>` tag** — CSS written inside the `<head>` of your HTML file. Fine for small experiments.
+3. **External `.css` file** — a separate file linked with `<link rel="stylesheet" href="styles.css">` in the `<head>`. This is the standard approach for real projects — one file, many pages.
+
+In this course the **LivePreview** editor below handles all of that for you. You write CSS in the right panel and the browser applies it instantly.
+
+## Your first styled card
+
+The HTML below is a simple card — fixed, you do not need to change it. The CSS on the right is yours to edit. Try changing the `background-color`, the `color`, or the `font-size` values and watch the card update live.
+
+export const cardHtml = `<div class="card">
+  <h2>Visual Design</h2>
+  <p>CSS gives you control over every pixel — just like Figma, but in the browser.</p>
+</div>`;
+
+export const cardCss = `body {
+  font-family: system-ui, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f5f3ff;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 360px;
+  box-shadow: 0 4px 24px rgba(124, 58, 237, 0.12);
+}
+
+h2 {
+  color: #7C3AED;
+  font-size: 1.5rem;
+  margin: 0 0 0.75rem;
+}
+
+p {
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0;
+}`;
+
+<LivePreview client:visible html={cardHtml} css={cardCss} />
+
+<Tip title="CSS is the first place coding feels like design">
+Every property you write here has a direct equivalent in Figma — `color` is a fill, `font-size` is a text style value, `padding` is the spacing inside an auto-layout frame, `border-radius` is the corner radius. You already think in these terms. CSS just gives you a text-based way to express them.
+</Tip>
+
+export const quizCssIndex = [
+  {
+    q: 'What does CSS control on a web page?',
+    options: [
+      'The text content and page structure',
+      'The visual design — colors, fonts, sizes, and spacing',
+      'Which server the page loads from',
+      'The order of HTML elements',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'In a CSS rule, what does the selector do?',
+    options: [
+      'Sets the value of a visual property',
+      'Links an external stylesheet to the page',
+      'Identifies which HTML elements the rule applies to',
+      'Defines the font family for the whole page',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'Which Figma concept maps most closely to CSS padding?',
+    options: [
+      'A fill color applied to a shape',
+      'The spacing inside an auto-layout frame',
+      'A component variant',
+      'An image export setting',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'What is the recommended way to add CSS for a real multi-page project?',
+    options: [
+      'Use a style attribute on every element',
+      'Write a <style> tag in each HTML file',
+      'Link a separate .css file with a <link> tag in <head>',
+      'Put the CSS at the bottom of the <body>',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="css/index" questions={quizCssIndex} />
+
+<ProgressTracker client:visible id="css/index" />

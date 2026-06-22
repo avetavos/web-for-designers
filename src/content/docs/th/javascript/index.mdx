@@ -1,0 +1,103 @@
+---
+title: 'JavaScript นิดเดียว'
+description: 'JavaScript คืออะไร ไม่ใช่อะไร และ click handler เพียงตัวเดียวทำให้หน้าเว็บมีชีวิตได้อย่างไร — ไม่ต้องมีประสบการณ์มาก่อน'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+คุณได้เรียนรู้แล้วว่า HTML คือโครงกระดูกของเนื้อหา และ CSS คือดีไซน์ภาพ ยังมีอีกหนึ่งชั้นที่รอคุณอยู่นั่นคือ **JavaScript** บทเรียนนี้จะพาคุณเข้าสู่โลกของ JavaScript อย่างนุ่มนวล คุณจะไม่กลายเป็น developer ในวันนี้ แต่คุณจะเข้าใจว่า JavaScript ทำอะไร ทำไมมันถึงสำคัญ และแม้แต่ JavaScript แค่นิดเดียวก็ทำให้หน้าเว็บมีชีวิตขึ้นได้อย่างไร
+
+## คิดเหมือน Figma Prototype
+
+ใน Figma ตอนที่คุณออกแบบ frame แบบ static มันก็แค่แสดงให้เห็นว่าหน้าตาจะเป็นอย่างไร แต่พอคุณเพิ่ม prototype เข้าไป มันก็เริ่ม "ทำงาน" ได้ — คลิกปุ่มแล้วไปหน้าถัดไป เอาเมาส์ชี้แล้วไฮไลต์ component แตะเมนูแล้ว drawer เปิดออก ชั้น prototype นั้นแหละคือบทบาทที่ JavaScript ทำบนเว็บพอดีเลย
+
+| ชั้น | เทียบกับ Figma | หน้าที่ |
+|------|---------------|---------|
+| HTML  | แผง Frames และ Layers | กำหนดเนื้อหาและโครงสร้าง |
+| CSS   | Styles และ Design tokens | ควบคุมสี ฟอนต์ ระยะห่าง และ layout |
+| JavaScript | Prototype interactions | เพิ่มพฤติกรรมและอินเตอร์แอ็กชัน |
+
+แม้ไม่มี JavaScript หน้าเว็บก็ยังใช้งานได้จริงและสมบูรณ์ — เหมือนกับ mockup ที่ออกแบบมาสวยงามแต่ยังเป็น static อยู่ JavaScript คือสิ่งที่ **มีก็ดี แต่ทรงพลังมาก**
+
+## ไม่จำเป็นต้องเขียนเอง — แต่เข้าใจแล้วช่วยได้มาก
+
+ดีไซเนอร์ที่เข้าใจ JavaScript แม้นิดเดียวสามารถ:
+
+- สื่อสารกับ developer ได้ชัดขึ้นว่าอินเตอร์แอ็กชันนี้ควรทำงานอย่างไร
+- อ่าน code ที่มีอยู่แล้วรู้ว่า behavior นั้นพยายามทำอะไร
+- รู้ว่าอะไรสร้างได้ง่ายและอะไรต้องใช้ความพยายามมาก
+- สร้าง prototype ที่มีอินเตอร์แอ็กชันเบา ๆ ใน tool บน browser อย่าง CodePen หรือ StackBlitz ได้
+
+ไม่มีสิ่งใดที่กล่าวมาต้องการให้คุณเขียน production code เลยสักบรรทัด แค่รู้บ้างนิดหน่อยก็ช่วยได้มากแล้ว
+
+## อินเตอร์แอ็กชันแรกของคุณ: ปุ่มที่เปลี่ยนข้อความ
+
+ตัวอย่างด้านล่างนี้เรียบง่ายที่สุดเท่าที่จะทำได้ มีปุ่มอยู่ปุ่มหนึ่ง เมื่อคุณคลิก ข้อความหนึ่งบรรทัดจะเปลี่ยนไป แค่นั้นเอง ลองดูเลย — กดปุ่มได้เลย
+
+export const indexJsHtml = `<button id="myBtn">Click me</button>
+<p id="msg">Nothing has happened yet.</p>`;
+
+export const indexJsCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+button { background: #7C3AED; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+p { margin-top: 1rem; color: #374151; font-size: 1.1rem; }`;
+
+export const indexJsJs = `var btn = document.querySelector('#myBtn');
+var msg = document.querySelector('#msg');
+btn.addEventListener('click', function() {
+  msg.textContent = 'JavaScript just changed this!';
+});`;
+
+<LivePreview client:visible html={indexJsHtml} css={indexJsCss} js={indexJsJs} />
+
+### สามบรรทัดนั้นทำงานอย่างไร?
+
+นี่คือคำอธิบาย JavaScript แต่ละส่วนในภาษาที่เข้าใจง่าย:
+
+1. **`document.querySelector('#myBtn')`** — "ค้นหา element บนหน้าเว็บที่มี id ว่า `myBtn`" คิดเหมือนการเลือก layer ตามชื่อใน Figma
+2. **`addEventListener('click', function() { ... })`** — "เมื่อมีคนคลิก element นั้น ให้รันคำสั่งที่อยู่ในวงเล็บปีกกา" นี่คือ prototype trigger นั่นเอง
+3. **`msg.textContent = 'JavaScript just changed this!'`** — "เปลี่ยนข้อความที่แสดงอยู่ใน element `msg` ให้เป็น string ใหม่นี้" หน้าเว็บอัปเดตทันทีโดยไม่ต้อง reload
+
+นั่นคือ mental model ทั้งหมดสำหรับอินเตอร์แอ็กชันง่าย ๆ ส่วนใหญ่: *ค้นหาสิ่งที่ต้องการ รอฟัง event แล้วทำบางอย่างเมื่อมันเกิดขึ้น*
+
+<Tip title="คุณรู้ส่วนที่ยากที่สุดแล้ว">
+ส่วนที่ยากที่สุดของ JavaScript สำหรับดีไซเนอร์ไม่ใช่ syntax — แต่คือการรู้ว่า *จะขออะไร* เมื่อคุณอธิบายอินเตอร์แอ็กชันได้ชัดเจน ("เมื่อผู้ใช้คลิกปุ่ม label เปลี่ยนเป็น X") developer หรือ AI assistant ก็สามารถเขียน code ได้ในไม่กี่วินาที ความคิดในแบบดีไซเนอร์คือทักษะของคุณ code เป็นแค่การแปลงมันออกมา
+</Tip>
+
+## JavaScript อยู่เคียงข้าง HTML และ CSS
+
+เหมือนกับที่ CSS อยู่ใน tag `<style>` หรือไฟล์ `.css` แยกต่างหาก JavaScript อยู่ใน tag `<script>` หรือไฟล์ `.js` แยกต่างหาก ในโปรเจกต์จริงไฟล์ทั้งสามทำงานร่วมกัน:
+
+- `index.html` — โครงกระดูก
+- `styles.css` — รูปลักษณ์
+- `script.js` — พฤติกรรม
+
+เบราว์เซอร์โหลดทั้งสามไฟล์และประกอบเป็นประสบการณ์สุดท้าย การเปลี่ยนไฟล์ใดไฟล์หนึ่งก็เปลี่ยนบางอย่างบนหน้าเว็บ
+
+## ต่อจากนี้ไป
+
+บทเรียนนี้จะพาคุณผ่านแนวคิดหลัก ๆ ทีละขั้นตอนเล็ก ๆ — ตัวแปร เงื่อนไข ลูป และการทำงานกับหน้าเว็บ ทุกแนวคิดจะเชื่อมโยงกับสิ่งที่มองเห็นได้ และทุกตัวอย่างจะแก้ไขได้ ค่อย ๆ เรียนตามจังหวะของตัวเอง ไม่มีกำหนดเวลา และไม่มีอะไรพังถ้าคุณลองผิดลองถูก
+
+export const quizIndex = [
+  {
+    q: 'JavaScript เพิ่มอะไรให้กับหน้าเว็บ?',
+    options: ['สีและฟอนต์', 'โครงสร้างเนื้อหา เช่น หัวข้อและย่อหน้า', 'พฤติกรรมและอินเตอร์แอ็กชัน', 'ชื่อหน้าในแท็บเบราว์เซอร์'],
+    answer: 2,
+  },
+  {
+    q: 'แนวคิดใดใน Figma ใกล้เคียงกับบทบาทของ JavaScript มากที่สุด?',
+    options: ['Color style', 'Prototype link ที่ trigger การกระทำ', 'Component master', 'Auto-layout frame'],
+    answer: 1,
+  },
+  {
+    q: 'คุณจำเป็นต้องรู้ JavaScript เพื่อสร้างหน้าเว็บหรือไม่?',
+    options: ['ใช่ ต้องใช้ในทุกหน้าเว็บ', 'ไม่ — HTML และ CSS เพียงอย่างเดียวก็สร้างหน้าเว็บจริงได้', 'ใช่ ถ้าไม่มีจะไม่แสดงผลอะไร', 'ไม่ แต่ CSS ต้องการมัน'],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="javascript/index" questions={quizIndex} />
+
+<ProgressTracker client:visible id="javascript/index" />

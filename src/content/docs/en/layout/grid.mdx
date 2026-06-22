@@ -1,0 +1,187 @@
+---
+title: CSS Grid — Two-Dimensional Layout
+description: 'CSS Grid is Figma layout grid brought to life. Learn grid-template-columns, fr units, repeat(), gap, and grid-template-areas.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Flexbox handles one direction at a time. CSS Grid handles *both* — rows and columns simultaneously. If you have ever set up a **layout grid** in Figma to keep your columns consistent across breakpoints, CSS Grid is what makes that real in the browser.
+
+The key difference from Flexbox: with Grid, the *parent* defines the full two-dimensional structure. Children simply slot into it.
+
+## The essential properties
+
+**`display: grid`** — Activates Grid on the parent container.
+
+**`grid-template-columns`** — Defines the column structure. This is the most important Grid property.
+
+```css
+grid-template-columns: 200px 1fr 1fr;   /* fixed + two flexible columns */
+grid-template-columns: repeat(3, 1fr);  /* three equal columns */
+grid-template-columns: repeat(4, 1fr);  /* four equal columns — like a 4-col Figma grid */
+```
+
+**`fr` — the fractional unit** — `fr` means "fraction of the available space". One `1fr` gets one share. Two columns with `1fr 2fr` means the second is twice as wide as the first. This is the same idea as Figma's "fill container" proportional sizing.
+
+**`gap`** — Space between rows and columns. You can set both at once (`gap: 1rem`) or separately (`row-gap: 1rem; column-gap: 2rem`).
+
+**`grid-template-areas`** — Name the regions of your grid and then assign elements to those names. This is incredibly designer-friendly — you are literally drawing the layout.
+
+```css
+grid-template-areas:
+  "header header"
+  "sidebar main"
+  "footer footer";
+```
+
+Then on each child: `grid-area: header;` / `grid-area: sidebar;` etc.
+
+## Edit a dashboard layout
+
+Below is a classic dashboard grid. Try changing the column count, the `fr` values, or the `gap`.
+
+export const gridHtml = `<div class="dashboard">
+  <header class="area-header">Header</header>
+  <aside class="area-sidebar">Sidebar</aside>
+  <main class="area-main">Main Content</main>
+  <footer class="area-footer">Footer</footer>
+</div>`;
+
+export const gridCss = `.dashboard {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header  header"
+    "sidebar main"
+    "footer  footer";
+  gap: 0.75rem;
+  min-height: 300px;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+  color: white;
+}
+.area-header {
+  grid-area: header;
+  background: #1e1b4b;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+.area-sidebar {
+  grid-area: sidebar;
+  background: #5b21b6;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.area-main {
+  grid-area: main;
+  background: #7C3AED;
+  padding: 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.area-footer {
+  grid-area: footer;
+  background: #1e1b4b;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}`;
+
+<LivePreview client:visible html={gridHtml} css={gridCss} />
+
+Things to try:
+- Change `grid-template-columns: 200px 1fr` to `1fr 3fr` — the sidebar becomes proportional
+- Change `gap` to `2rem` and watch the breathing room increase
+- Change `grid-template-columns` to `300px 1fr` to widen the sidebar
+- Rearrange `grid-template-areas` to move the sidebar to the right side
+
+## A photo gallery with repeat()
+
+Here is a more common use case — a responsive image gallery using `repeat()`:
+
+export const galleryHtml = `<div class="gallery">
+  <div class="photo">Photo 1</div>
+  <div class="photo">Photo 2</div>
+  <div class="photo">Photo 3</div>
+  <div class="photo">Photo 4</div>
+  <div class="photo">Photo 5</div>
+  <div class="photo">Photo 6</div>
+</div>`;
+
+export const galleryCss = `.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  background: #f3f4f6;
+  border-radius: 8px;
+}
+.photo {
+  background: #7C3AED;
+  color: white;
+  padding: 2.5rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+}`;
+
+<LivePreview client:visible html={galleryHtml} css={galleryCss} />
+
+Try changing `repeat(3, 1fr)` to `repeat(2, 1fr)` or `repeat(4, 1fr)`.
+
+<Tip title="Grid areas are your wireframe">
+`grid-template-areas` is one of the most designer-intuitive features in all of CSS. You are literally sketching the layout with ASCII text. Think of each quoted string as a row, and each word as a cell. Use `.` (a dot) for an empty cell. It reads exactly like a wireframe.
+</Tip>
+
+export const quizGrid = [
+  {
+    q: 'What does `grid-template-columns: repeat(4, 1fr)` create?',
+    options: [
+      'Four rows of equal height',
+      'Four columns of equal width',
+      'A four-pixel grid gap',
+      'Four items that all repeat the same content',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'What does the `fr` unit represent?',
+    options: [
+      'Fixed pixels based on the font size',
+      'A fraction of the remaining available space',
+      'The width of the parent frame',
+      'Free-resize mode',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which property assigns a grid child to a named area defined in grid-template-areas?',
+    options: ['grid-column', 'grid-row', 'grid-area', 'grid-placement'],
+    answer: 2,
+  },
+  {
+    q: 'What is the main advantage of CSS Grid over Flexbox?',
+    options: [
+      'Grid loads faster in the browser',
+      'Grid can control layout in two dimensions (rows AND columns) simultaneously',
+      'Grid is supported in older browsers',
+      'Grid works without display: grid',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="layout/grid" questions={quizGrid} />
+
+<ProgressTracker client:visible id="layout/grid" />

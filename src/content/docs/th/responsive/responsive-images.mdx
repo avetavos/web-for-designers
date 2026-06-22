@@ -1,0 +1,188 @@
+---
+title: Responsive Images
+description: 'ทำให้รูปภาพปรับขนาดตาม Layout ด้วย max-width และเรียนรู้ว่าทำไมขนาดไฟล์สำคัญพอกับขนาดที่แสดง'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+รูปภาพคือสาเหตุที่พบบ่อยที่สุดของ Responsive Layout ที่พัง ภาพถ่ายกว้าง 1200 px ที่วางลงในหน้าจอโทรศัพท์ขนาด 375 px จะล้นออกและทำให้เลื่อนหน้าจอซ้าย-ขวา การแก้ไขคือ CSS หนึ่งบรรทัด แต่การเข้าใจว่า *ทำไม* ถึงได้ผล (และจะไปต่อได้อย่างไร) ทำให้คุณเป็น Designer-Developer ที่ดีขึ้นมาก
+
+## CSS กฎเดียวที่รูปภาพทุกใบต้องการ
+
+```css
+img {
+  max-width: 100%;
+  height: auto;
+}
+```
+
+- `max-width: 100%` — รูปภาพจะกว้างกว่า Container ไม่ได้ ถ้า Container ย่อ รูปภาพก็ย่อตาม
+- `height: auto` — Browser คำนวณความสูงใหม่โดยอัตโนมัติเพื่อรักษา Aspect Ratio ถ้าไม่ใส่ รูปภาพจะยืดในแนวตั้ง
+
+สิ่งนี้สำคัญมากจนส่วนใหญ่ CSS Reset และ Framework (เช่น Tailwind) ใส่ไว้ให้เป็น Default แล้ว
+
+## เห็นผลจริง
+
+Preview แสดงรูปภาพสองใบ (แทนด้วยกล่องสีเพื่อการสาธิต) ใบแรกไม่มี max-width Constraint ใบที่สองมี `max-width: 100%` **ย่อ Preview Pane** เพื่อดูสิ่งที่เกิดขึ้น
+
+export const responsiveImagesHtml = `<div class="demo">
+  <p class="label">Without max-width: 100%</p>
+  <div class="container">
+    <div class="img img--broken">300px wide image</div>
+  </div>
+
+  <p class="label">With max-width: 100%</p>
+  <div class="container">
+    <div class="img img--fixed">300px wide image</div>
+  </div>
+</div>`;
+
+export const responsiveImagesCss = `body {
+  font-family: system-ui, sans-serif;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.container {
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 0.5rem;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* พัง: ความกว้างตายตัว จะล้น Container แคว */
+.img--broken {
+  width: 300px;
+  height: 80px;
+  background: linear-gradient(90deg, #dc2626, #f97316);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* แก้แล้ว: ย่อตาม Container */
+.img--fixed {
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+  min-height: 80px;
+  background: linear-gradient(90deg, #16a34a, #0891b2);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+}`;
+
+<LivePreview client:visible html={responsiveImagesHtml} css={responsiveImagesCss} height="280px" />
+
+เมื่อ Pane แคว กล่องสีแดงล้น Container — นั่นคือสิ่งที่รูปภาพขนาดตายตัวทำบนมือถือ กล่องสีเขียวเคารพขอบ Container และย่อตัวอย่างสวยงาม
+
+## ขนาดไฟล์สำคัญพอกับขนาดที่แสดง
+
+`max-width: 100%` ทำให้รูปภาพ *ดูเล็กลง* บนหน้าจอเล็ก แต่ไม่ได้ทำให้ไฟล์เล็กลง ภาพถ่ายขนาด 3 MB ยังคงเป็น 3 MB แม้จะแสดงที่ความกว้าง 375 px — เพียงแต่มาช้าๆ ผ่าน Connection มือถือที่ช้า
+
+### `srcset` — ส่งไฟล์ขนาดที่เหมาะสม
+
+Attribute `srcset` ให้คุณระบุหลายเวอร์ชันของรูปภาพ Browser จะเลือกเวอร์ชันที่เหมาะสมกับอุปกรณ์:
+
+```html
+<img
+  src="hero-800.jpg"
+  srcset="hero-400.jpg 400w, hero-800.jpg 800w, hero-1600.jpg 1600w"
+  sizes="(max-width: 480px) 100vw, 800px"
+  alt="Hero image description"
+/>
+```
+
+- `400w`, `800w`, `1600w` — ความกว้างจริงของแต่ละไฟล์เป็น Pixels
+- `sizes` — บอก Browser ว่ารูปภาพจะแสดงกว้างแค่ไหนที่ Breakpoint ต่างๆ เพื่อให้เลือก Source ที่เหมาะสมก่อนดาวน์โหลด
+
+คุณไม่ต้องเขียน `srcset` ด้วยตนเองในโปรเจกต์ส่วนใหญ่ — Tools อย่าง Next.js `<Image>`, Astro `<Image>` หรือ Cloudinary จัดการให้อัตโนมัติ สิ่งสำคัญคือเข้าใจแนวคิด: **Export รูปภาพหลายขนาด และให้ Browser เลือก**
+
+### `<picture>` — Art Direction
+
+เมื่อต้องการแสดง *Crop หรือ Composition ที่ต่างกัน* บน Mobile กับ Desktop (ไม่ใช่แค่เวอร์ชันเล็กกว่าของรูปเดิม) ให้ใช้ Element `<picture>`:
+
+```html
+<picture>
+  <source media="(max-width: 480px)" srcset="hero-portrait.jpg" />
+  <img src="hero-landscape.jpg" alt="Hero image" />
+</picture>
+```
+
+นี่คือ Code Equivalent ของการมี Image Crop ต่างกันใน Mobile และ Desktop Artboard ของ Figma โดยตรง
+
+<Tip title="แนวทาง Export รูปภาพสำหรับ Designer ที่ Handoff ให้ Developer">
+เมื่อ Handoff ให้ Developer ควร Export รูปภาพที่ 1x, 2x และ (สำหรับ Hero เต็มความกว้าง) 3x เสมอ ตั้งชื่อให้ชัดเจน: `hero@1x.jpg`, `hero@2x.jpg`, `hero@3x.jpg` รักษาขนาดไฟล์ให้ต่ำกว่า 200 KB สำหรับ Content Images และต่ำกว่า 500 KB สำหรับ Hero Images ใช้ Format WebP — เล็กกว่า JPEG ประมาณ 30% ที่คุณภาพเดียวกัน นิสัยเหล่านี้ส่งผลโดยตรงต่อความเร็วในการโหลด Design บนอุปกรณ์จริง
+</Tip>
+
+export const quizResponsiveImages = [
+  {
+    q: '`max-width: 100%` บนรูปภาพทำอะไร?',
+    options: [
+      'ทำให้รูปภาพเต็มความกว้างหน้าเสมอ',
+      'ป้องกันไม่ให้รูปภาพกว้างกว่า Container',
+      'ซ่อนรูปภาพบนหน้าจอเล็ก',
+      'กำหนดขนาดไฟล์รูปภาพสูงสุดที่ 100 KB',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ทำไมต้องเพิ่ม `height: auto` ร่วมกับ `max-width: 100%`?',
+    options: [
+      'เพื่อให้รูปภาพสูงขึ้นบนหน้าจอกว้าง',
+      'เพื่อรักษา Aspect Ratio ดั้งเดิมเมื่อความกว้างเปลี่ยน',
+      'เพื่อเร่งความเร็วการโหลดรูปภาพ',
+      'height: auto เป็นข้อกำหนดของ HTML spec',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ความแตกต่างระหว่าง srcset กับ max-width: 100% คืออะไร?',
+    options: [
+      'ไม่มีความแตกต่าง ทำสิ่งเดียวกัน',
+      'srcset เปลี่ยนขนาดที่แสดง max-width เปลี่ยนขนาดไฟล์',
+      'max-width เปลี่ยนขนาดที่แสดง srcset ทำให้ Browser ดาวน์โหลดไฟล์ขนาดเล็กลงบนหน้าจอเล็ก',
+      'srcset ทำงานเฉพาะบนอุปกรณ์มือถือ',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'เมื่อไรถึงจะใช้ Element `<picture>` แทน `srcset`?',
+    options: [
+      'เมื่อต้องการแสดง Crop หรือ Composition ที่ต่างกันบน Mobile กับ Desktop',
+      'เมื่อต้องการให้รูปภาพโหลดเร็วขึ้น',
+      'เมื่อรูปภาพเป็นไฟล์ PNG',
+      'เมื่อรูปภาพอยู่ใน Flex Container',
+    ],
+    answer: 0,
+  },
+];
+
+<Quiz client:visible id="responsive/responsive-images" questions={quizResponsiveImages} />
+
+<ProgressTracker client:visible id="responsive/responsive-images" />

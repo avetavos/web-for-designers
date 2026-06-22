@@ -1,0 +1,120 @@
+---
+title: 'Variables & Functions'
+description: 'Learn to store values in named boxes (variables) and group reusable actions into functions — the two core building blocks of JavaScript.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Designers work with named things all the time. In Figma you might create a colour token called `brand-purple` and reuse it across every component. Change one token, everything updates. JavaScript variables work the same way — you give a value a name, then use that name everywhere instead of repeating the raw value.
+
+## Variables — named containers
+
+A **variable** is a named box that holds a value. There are two keywords for creating them:
+
+- `const` — the value is **set once and never changes** (like a locked colour token).
+- `let` — the value **can be updated later** (like a text layer you'll edit).
+
+```js
+const brandColor = '#7C3AED'; // will never change
+let buttonLabel = 'Sign up';  // might change to 'Creating account…'
+```
+
+Use `const` by default. Reach for `let` only when you know the value will need to change.
+
+<Tip title="Figma analogy">
+Think of `const` as a published component: it's the source of truth and you reference it everywhere. `let` is more like a local override — you're saying "this particular value is still in flux."
+</Tip>
+
+## Functions — reusable actions
+
+A **function** is a block of instructions you give a name to, so you can run those instructions whenever you need them — just like a Figma component that performs an action when triggered.
+
+```js
+function greet() {
+  var message = 'Hello, ' + name + '!';
+  document.querySelector('#output').textContent = message;
+}
+```
+
+Writing a function doesn't run it. To actually run it, you **call** it by writing its name followed by `()`:
+
+```js
+greet(); // runs the instructions inside greet
+```
+
+You can call a function as many times as you like. That is the whole point — write the logic once, reuse it everywhere.
+
+## Try it — a greeting button
+
+The example below stores a name in a variable, defines a `greet` function that builds a message using that variable, then connects the function to a button click. Press the button to see it in action.
+
+export const exampleHtml = `<button id="runBtn">Say hello</button>
+<p id="output">Press the button.</p>`;
+
+export const exampleCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+button { background: #7C3AED; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+p { margin-top: 1rem; color: #374151; font-size: 1.1rem; }`;
+
+export const exampleJs = `var name = 'designer';
+function greet() {
+  var message = 'Hello, ' + name + '!';
+  document.querySelector('#output').textContent = message;
+}
+document.querySelector('#runBtn').addEventListener('click', greet);`;
+
+<LivePreview client:visible html={exampleHtml} css={exampleCss} js={exampleJs} />
+
+Notice how the function uses the `name` variable to build its message. If you changed `name` to `'world'`, every call to `greet()` would automatically say `'Hello, world!'` — you only update the value in one place.
+
+<Tip title="Naming conventions">
+Variable and function names in JavaScript use **camelCase**: start lowercase, capitalise each new word — `brandColor`, `buttonLabel`, `getUserName`. Spaces are not allowed in names.
+</Tip>
+
+## Recap
+
+| Concept | What it does | Figma parallel |
+|---|---|---|
+| `const` | Stores a value that won't change | Published colour token |
+| `let` | Stores a value that can be updated | Editable local override |
+| `function` | Bundles instructions under a name | Component with an interaction |
+| Calling `fn()` | Runs the function's instructions | Triggering a component action |
+
+export const quizVariablesFunctions = [
+  {
+    q: 'What is a variable?',
+    options: [
+      'A type of HTML tag',
+      'A named container that stores a value',
+      'A CSS selector',
+      'A browser setting',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'When should you use `const` instead of `let`?',
+    options: [
+      'When the value will change later',
+      'When you are writing CSS',
+      'When the value will never change',
+      'When you want a loop',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'What does calling a function do?',
+    options: [
+      'It deletes the variable',
+      'It runs the instructions inside it',
+      'It opens a new browser tab',
+      'It changes the HTML tag',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="javascript/variables-functions" questions={quizVariablesFunctions} />
+
+<ProgressTracker client:visible id="javascript/variables-functions" />

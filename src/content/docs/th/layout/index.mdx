@@ -1,0 +1,102 @@
+---
+title: 'CSS Layout — Flexbox & Grid'
+description: 'ทำไม layout ถึงเป็นหัวใจของงาน UI เครื่องมือสองอย่างที่นักออกแบบต้องรู้ และตัวอย่างแรกที่แก้ไขได้'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ทุกการตัดสินใจในงานออกแบบล้วนวนกลับมาที่คำถามเดียว: *องค์ประกอบนี้ควรอยู่ที่ไหน?* Layout คือคำตอบ มันคือระบบล่องหนที่ยึดอินเทอร์เฟซทั้งหมดของคุณไว้ด้วยกัน เหมือนกับระบบ grid ใน Figma ที่ทำให้ทุกหน้าจอดูสอดคล้องกัน
+
+ข่าวดีสำหรับนักออกแบบ: CSS layout ไม่ใช่เรื่องยาก มันแมปเกือบแบบหนึ่งต่อหนึ่งกับเครื่องมือที่คุณใช้ใน Figma ทุกวัน
+
+## เครื่องมือหลักสองอย่าง
+
+| CSS | Figma เทียบเท่า | เหมาะสำหรับ |
+|---|---|---|
+| **Flexbox** | Auto Layout | จัดเรียงไอเทมในแถวหรือคอลัมน์เดียว |
+| **CSS Grid** | Layout Grid | สร้าง layout สองมิติ (แถวและคอลัมน์พร้อมกัน) |
+
+คิดว่า **Flexbox** คือเครื่องมือที่ใช้เมื่อต้องการจัดไอเทมในแนวเส้น เช่น navigation bar แถวของการ์ด หรือปุ่มที่อยู่ตรงกลาง ส่วน **CSS Grid** ใช้สำหรับโครงสร้างหน้าโดยรวม เช่น headers, sidebars, เนื้อหาหลัก, footer
+
+คุณจะใช้ทั้งสองอย่างตลอดเวลา UI จริงส่วนใหญ่ใช้ Grid สำหรับโครงสร้างภาพรวม และ Flexbox สำหรับ layout ของคอมโพเนนต์ย่อยในแต่ละส่วน
+
+## เห็น layout ในการทำงาน
+
+ด้านล่างมีกล่องสามอัน ตอนนี้มันเรียงซ้อนกันในแนวตั้งเพราะนั่นคือวิธีที่เบราว์เซอร์จัดวาง block elements โดยค่าเริ่มต้น ลองเปลี่ยน `display: block` เป็น `display: flex` ในแผง CSS แล้วดูว่าเกิดอะไรขึ้น
+
+export const indexHtml = `<div class="container">
+  <div class="box">Box 1</div>
+  <div class="box">Box 2</div>
+  <div class="box">Box 3</div>
+</div>`;
+
+export const indexCss = `.container {
+  display: block;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f3f4f6;
+  border-radius: 8px;
+}
+.box {
+  background: #7C3AED;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+}`;
+
+<LivePreview client:visible html={indexHtml} css={indexCss} />
+
+ลอง `display: flex` — กล่องจะเรียงในแถว ลอง `display: grid` กับ `grid-template-columns: repeat(3, 1fr)` — กล่องจะอยู่ในกริดสามคอลัมน์ คุณเพิ่งใช้เครื่องมือ layout ที่สำคัญที่สุดสองอย่างใน CSS แล้ว
+
+<Tip title="คุณคิดแบบ layout อยู่แล้ว">
+ใน Figma สิ่งแรกที่คุณทำเมื่อออกแบบหน้าจอคือตั้งค่า frames, auto-layout containers และ grids ใน CSS สิ่งแรกที่คุณทำคือตั้ง `display: flex` หรือ `display: grid` บน element พ่อแม่ mental model เดียวกัน แค่ syntax ต่างกันเล็กน้อย
+</Tip>
+
+## สิ่งที่คุณจะเรียนในโมดูลนี้
+
+| บทเรียน | สิ่งที่คุณจะทำได้ |
+|---|---|
+| Display & Flow | เข้าใจว่าเบราว์เซอร์เรียง elements ตามค่าเริ่มต้นอย่างไร |
+| Flexbox | จัดแถวและคอลัมน์ของคอมโพเนนต์ได้อย่างแม่นยำ |
+| Grid | สร้าง layout สองมิติสำหรับทั้งหน้า |
+| Positioning | ควบคุม elements ที่ออกนอก flow ปกติ |
+| Spacing Systems | ใช้ spacing ที่สอดคล้องกันด้วยสเกลการออกแบบ |
+
+เมื่อจบแล้ว ทุก Figma auto-layout frame และ layout grid ที่คุณเคยสร้างจะมีการแปล CSS ตรงๆ ที่คุณสามารถเขียนจากความจำได้
+
+export const quizLayoutIndex = [
+  {
+    q: 'เครื่องมือ CSS layout ใดที่ใกล้เคียงกับ Figma Auto Layout มากที่สุด?',
+    options: ['CSS Grid', 'Flexbox', 'position: absolute', 'float'],
+    answer: 1,
+  },
+  {
+    q: 'CSS Grid เหมาะสำหรับอะไรเมื่อเทียบกับ Flexbox?',
+    options: [
+      'การจัดกึ่งกลางปุ่มเดียว',
+      'การจัดเรียงไอเทมในทิศทางเดียวเท่านั้น',
+      'การสร้างโครงสร้างหน้าสองมิติที่มีทั้งแถวและคอลัมน์',
+      'การเพิ่ม animation เมื่อ hover',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'คุณต้องตั้งค่า property ใดบน element พ่อแม่เพื่อเปิดใช้งาน Flexbox?',
+    options: [
+      'flex: 1',
+      'flex-direction: row',
+      'display: flex',
+      'align-items: center',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="layout/index" questions={quizLayoutIndex} />
+
+<ProgressTracker client:visible id="layout/index" />

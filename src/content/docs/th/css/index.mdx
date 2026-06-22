@@ -1,0 +1,148 @@
+---
+title: CSS — ชั้นการออกแบบ
+description: 'CSS คืออะไร ใช้เชื่อมกับ HTML อย่างไร และตัวอย่างแรกของคุณ'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ถ้า HTML คือโครงกระดูกของหน้าเว็บ **CSS คือผิวหนัง สีสัน และตัวเลือกตัวอักษรที่สวมทับอยู่** มันควบคุมทุกคุณสมบัติที่มองเห็นได้ — สี ฟอนต์ ขนาด ระยะห่าง และ layout หากไม่มี CSS หน้าเว็บก็จะเป็นแค่ตัวหนังสือสีดำบนพื้นขาว แต่เมื่อมี CSS มันก็กลายเป็นประสบการณ์ที่ออกแบบมาอย่างดี
+
+ลองนึกภาพแบบนี้: HTML คือโครงสร้าง Frame ใน Figma — ชั้น (layer) ที่เรียงซ้อนกัน ส่วน CSS คือ fills, strokes, font styles และ spacing rules ที่คุณนำมาใส่ในชั้นเหล่านั้น โครงสร้างและสไตล์อยู่แยกกันโดยตั้งใจ หมายความว่าคุณสามารถออกแบบหน้าตาใหม่ได้โดยไม่ต้องแตะเนื้อหา หรือนำสไตล์เดียวกันไปใช้ในหลายร้อยหน้าจากไฟล์เดียว
+
+**CSS** ย่อมาจาก **Cascading Style Sheets** คำว่า "Cascading" หมายถึงสไตล์สามารถมาจากหลายแหล่งและมีกฎที่ชัดเจนว่าอันไหนจะมีผล — เราจะเรียนเรื่องนั้นในภายหลัง ตอนนี้ให้คิดว่า stylesheet คือไฟล์สเปกการออกแบบ: รายการกฎที่บอกว่า "element นี้ควรมีหน้าตาแบบนี้"
+
+## สิ่งที่คุณจะเรียนในโมดูลนี้
+
+| บทเรียน | หัวข้อ |
+|---|---|
+| 1 | Selectors — เลือก element ที่ต้องการ |
+| 2 | Colors & Units — ค่าที่เข้าใจได้ |
+| 3 | Typography — ฟอนต์ ขนาด line height |
+| 4 | Box Model — ระยะห่างและขนาด |
+| 5 | Backgrounds & Borders — การออกแบบพื้นผิว |
+
+## โครงสร้างของ CSS rule
+
+ทุก CSS rule มีรูปแบบเดียวกัน:
+
+```
+selector { property: value; }
+```
+
+- **Selector** — ระบุว่าจะจัด style ให้ element ไหน `h1` เลือก `<h1>` ทุกอัน `.card` เลือกทุก element ที่มี `class="card"`
+- **Property** — คุณสมบัติภาพที่จะเปลี่ยน เช่น `color`, `font-size`, `padding`, `background-color`
+- **Value** — ค่าที่จะตั้ง เช่น `#7C3AED`, `1.5rem`, `2px solid black`
+
+ตัวอย่างจริง:
+
+```css
+h1 {
+  color: #7C3AED;
+  font-size: 2rem;
+}
+```
+
+อ่านออกเสียงว่า: "ทุก `h1` heading: ตั้งสีตัวอักษรเป็นสีม่วง และขนาดฟอนต์เป็น 2rem" นี่คือวิธีที่นักออกแบบจะเขียน text style spec นั่นเอง
+
+## สามวิธีในการเพิ่ม CSS
+
+1. **Inline** — `<h1 style="color: purple;">` — ใช้ได้ แต่ดูแลรักษายาก เหมือนการ hardcode ค่าแทนที่จะใช้ design token หลีกเลี่ยง
+2. **`<style>` tag** — CSS เขียนใน `<head>` ของ HTML file เหมาะสำหรับการทดลองขนาดเล็ก
+3. **External `.css` file** — ไฟล์แยกต่างหากที่ link ด้วย `<link rel="stylesheet" href="styles.css">` ใน `<head>` นี่คือวิธีมาตรฐานสำหรับโปรเจกต์จริง — ไฟล์เดียว ใช้ได้หลายหน้า
+
+ในคอร์สนี้ **LivePreview** ด้านล่างจัดการทุกอย่างให้คุณ คุณเขียน CSS ในแผงขวาและเบราว์เซอร์จะอัปเดตทันที
+
+## Card สไตล์แรกของคุณ
+
+HTML ด้านล่างคือ card เรียบง่าย — ตายตัว ไม่ต้องแก้ไข CSS ทางขวาคือของคุณ ลองเปลี่ยน `background-color`, `color`, หรือค่า `font-size` แล้วดู card อัปเดตสดๆ
+
+export const cardHtml = `<div class="card">
+  <h2>Visual Design</h2>
+  <p>CSS gives you control over every pixel — just like Figma, but in the browser.</p>
+</div>`;
+
+export const cardCss = `body {
+  font-family: system-ui, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f5f3ff;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 360px;
+  box-shadow: 0 4px 24px rgba(124, 58, 237, 0.12);
+}
+
+h2 {
+  color: #7C3AED;
+  font-size: 1.5rem;
+  margin: 0 0 0.75rem;
+}
+
+p {
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0;
+}`;
+
+<LivePreview client:visible html={cardHtml} css={cardCss} />
+
+<Tip title="CSS คือจุดแรกที่การเขียนโค้ดรู้สึกเหมือนการออกแบบ">
+ทุก property ที่คุณเขียนที่นี่มี equivalent ตรงๆ ใน Figma — `color` คือ fill, `font-size` คือค่า text style, `padding` คือ spacing ด้านในของ auto-layout frame, `border-radius` คือ corner radius คุณคิดในแง่เหล่านี้อยู่แล้ว CSS แค่ให้วิธีแสดงออกด้วยข้อความ
+</Tip>
+
+export const quizCssIndex = [
+  {
+    q: 'CSS ควบคุมอะไรในหน้าเว็บ?',
+    options: [
+      'เนื้อหาข้อความและโครงสร้างหน้า',
+      'การออกแบบภาพ — สี ฟอนต์ ขนาด และระยะห่าง',
+      'เซิร์ฟเวอร์ที่หน้าโหลดมาจาก',
+      'ลำดับของ HTML elements',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ใน CSS rule, selector ทำหน้าที่อะไร?',
+    options: [
+      'ตั้งค่าของ visual property',
+      'เชื่อม stylesheet ภายนอกกับหน้า',
+      'ระบุว่า HTML elements ไหนที่ rule นี้จะใช้กับ',
+      'กำหนด font family สำหรับทั้งหน้า',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'แนวคิดใน Figma ข้อไหนใกล้เคียงกับ CSS padding มากที่สุด?',
+    options: [
+      'สี fill ที่ใช้กับ shape',
+      'ระยะห่างด้านในของ auto-layout frame',
+      'Component variant',
+      'การตั้งค่า export รูปภาพ',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'วิธีที่แนะนำในการเพิ่ม CSS สำหรับโปรเจกต์หลายหน้าจริงๆ คืออะไร?',
+    options: [
+      'ใช้ style attribute บนทุก element',
+      'เขียน <style> tag ในทุก HTML file',
+      'Link ไฟล์ .css แยกต่างหากด้วย <link> tag ใน <head>',
+      'วาง CSS ไว้ที่ท้าย <body>',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="css/index" questions={quizCssIndex} />
+
+<ProgressTracker client:visible id="css/index" />

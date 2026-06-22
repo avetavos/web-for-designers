@@ -1,0 +1,174 @@
+---
+title: Spacing Systems
+description: 'spacing ที่สม่ำเสมอด้วย gap, margin และ padding โดยใช้ 8px spacing scale — เทียบเท่า design tokens ของคุณใน CSS'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+คุณรู้อยู่แล้วว่า spacing แบบสุ่มรู้สึกผิด เมื่อปุ่มมี padding `14px` ในที่หนึ่งและ `11px` ในอีกที่หนึ่ง ผู้ใช้รู้สึกได้ — แม้ว่าพวกเขาจะไม่สามารถบอกได้ว่าทำไม นักออกแบบใช้ spacing tokens เพื่อป้องกันสิ่งนี้ ใน CSS เราทำสิ่งเดียวกันพอดี: ผูกมัดกับ **spacing scale** และใช้เฉพาะค่าจาก scale นั้น
+
+## ระบบ spacing 4/8px
+
+spacing scale ที่ใช้กันมากที่สุดนั้นอิงตามตัวคูณของ 4 (บางครั้งเรียกว่า "4-point grid") หรือตัวคูณของ 8 ("8-point grid") ทุกค่า spacing ในโปรเจกต์ของคุณมาจากลำดับนี้:
+
+| Step | 4pt scale | 8pt scale |
+|---|---|---|
+| 1 | 4px | 8px |
+| 2 | 8px | 16px |
+| 3 | 12px | 24px |
+| 4 | 16px | 32px |
+| 5 | 20px | 40px |
+| 6 | 24px | 48px |
+
+ใน CSS มักแสดงเป็นหน่วย `rem` (โดยที่ `1rem = 16px` ตามค่าเริ่มต้น):
+
+| rem | เทียบเท่า px |
+|---|---|
+| `0.25rem` | 4px |
+| `0.5rem` | 8px |
+| `0.75rem` | 12px |
+| `1rem` | 16px |
+| `1.5rem` | 24px |
+| `2rem` | 32px |
+
+## สาม spacing properties
+
+**`padding`** — พื้นที่ *ภายใน* element ระหว่าง border กับเนื้อหา ทำให้ element เองใหญ่ขึ้น คิดว่าเหมือน "horizontal/vertical padding" ใน Figma auto-layout frame
+
+**`margin`** — พื้นที่ *ภายนอก* element ดัน neighbor ออกไป ไม่ทำให้ element ใหญ่ขึ้น — มันสร้างบัฟเฟอร์โซนรอบๆ
+
+**`gap`** — พื้นที่ *ระหว่าง* children ใน Flex หรือ Grid container วิธีที่สะอาดและคาดเดาได้มากที่สุดในการเว้นระยะไอเทม — ไม่เพิ่มพื้นที่รอบขอบ เพิ่มเฉพาะระหว่างไอเทม
+
+## เมื่อไรใช้อะไร
+
+| สถานการณ์ | ใช้ |
+|---|---|
+| พื้นที่ระหว่างไอเทมใน flex หรือ grid container | `gap` |
+| padding ภายในของปุ่ม, card หรือกล่อง | `padding` |
+| ดัน element หนึ่งออกจาก sibling | `margin` |
+| จัดกึ่งกลาง block element ในแนวนอน | `margin: 0 auto` |
+| เว้นเนื้อหาห่างจากขอบหน้า | `padding` บน body/container |
+
+## ตัวอย่างที่แก้ไขได้ — card ที่มี spacing system
+
+export const spacingHtml = `<div class="page">
+  <div class="card">
+    <h2 class="card-title">Card Title</h2>
+    <p class="card-body">This card uses a consistent spacing scale. All padding and gap values come from multiples of 8px.</p>
+    <div class="actions">
+      <button class="btn-primary">Primary</button>
+      <button class="btn-secondary">Secondary</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2 class="card-title">Another Card</h2>
+    <p class="card-body">Same component, same spacing rules. Notice how they feel consistent.</p>
+    <div class="actions">
+      <button class="btn-primary">Primary</button>
+    </div>
+  </div>
+</div>`;
+
+export const spacingCss = `body { font-family: system-ui, sans-serif; }
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #f3f4f6;
+  border-radius: 12px;
+}
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.card-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.125rem;
+  color: #1e1b4b;
+}
+.card-body {
+  margin: 0 0 1rem 0;
+  color: #6b7280;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+.actions {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+.btn-primary {
+  background: #7C3AED;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.btn-secondary {
+  background: transparent;
+  color: #7C3AED;
+  border: 2px solid #7C3AED;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.875rem;
+}`;
+
+<LivePreview client:visible html={spacingHtml} css={spacingCss} />
+
+สิ่งที่ลองได้:
+- เปลี่ยน `padding` ของ `.card` จาก `1.5rem` เป็น `0.5rem` — สังเกตว่ามันรู้สึกแออัดแค่ไหน
+- เปลี่ยน `gap` ของ `.page` จาก `1rem` เป็น `3rem` — สังเกตว่ามันโปร่งขึ้นแค่ไหน
+- เปลี่ยน `gap` ของ `.actions` จาก `0.5rem` เป็น `2rem` — ปุ่มจะห่างออกจากกัน
+- ลอง `padding: 2rem` บน `.card` — มันขยายให้พอดี
+
+<Tip title="CSS custom properties เป็น spacing tokens">
+เมื่อคุณคุ้นเคยแล้ว ย้ายค่า spacing ของคุณไปไว้ใน CSS custom properties (variables) ที่ด้านบนของ stylesheet: `--space-1: 0.25rem;` ถึง `--space-8: 2rem;` แล้วใช้ `padding: var(--space-4)` ทุกที่ นี่ mirror design tokens ได้พอดีและทำให้การเปลี่ยน spacing ทั่วโลกเป็นการอัปเดตบรรทัดเดียว — เหมือนกับการเปลี่ยนค่า token ใน design tool ของคุณพอดี
+</Tip>
+
+export const quizSpacing = [
+  {
+    q: 'คุณต้องการ 16px ระหว่างปุ่มใน flex container property ที่ดีที่สุดคือ:',
+    options: ['margin', 'padding', 'gap', 'border'],
+    answer: 2,
+  },
+  {
+    q: 'ความแตกต่างระหว่าง padding กับ margin คืออะไร?',
+    options: [
+      'Padding สำหรับข้อความ margin สำหรับรูปภาพ',
+      'Padding คือพื้นที่ภายใน element margin คือพื้นที่ภายนอก',
+      'Margin คือพื้นที่ภายใน element padding คือพื้นที่ภายนอก',
+      'พวกมันทำสิ่งเดียวกัน',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ใน 8pt spacing scale ค่าใดที่ไม่ใช่ส่วนหนึ่งของ scale?',
+    options: ['8px', '16px', '22px', '32px'],
+    answer: 2,
+  },
+  {
+    q: 'จะ center block element ในแนวนอนด้วย margin อย่างไร?',
+    options: [
+      'margin: center',
+      'margin: auto auto',
+      'margin: 0 auto',
+      'margin-left: center',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="layout/spacing-systems" questions={quizSpacing} />
+
+<ProgressTracker client:visible id="layout/spacing-systems" />

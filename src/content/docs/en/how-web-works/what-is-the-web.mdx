@@ -1,0 +1,100 @@
+---
+title: What Is the Web?
+description: Understand browsers, web pages, servers, URLs, and what actually happens when you open a website — explained in plain terms for designers.
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Every day you open dozens of web pages — portfolio sites, design inspiration, documentation, social feeds. But what is actually happening behind that first click? Understanding this will make you a better designer, because you will know *why* the web is built the way it is.
+
+## The browser
+
+A **browser** (Chrome, Safari, Firefox, Edge) is a program whose only job is to read files and draw them on screen. It reads a special kind of text file — an HTML file — and turns it into the visual page you see.
+
+Think of a browser the way you think of a PDF reader. A PDF reader takes a `.pdf` file and renders it as a formatted document. A browser takes an `.html` file and renders it as a web page. The browser is just an extremely powerful renderer.
+
+## The server
+
+Where do those HTML files live? On a **server** — a computer that is always switched on, always connected to the internet, and whose only job is to hand out files when asked.
+
+When you type a web address and press Enter, your browser sends a polite request: *"Please give me the file for this address."* The server finds the right file and sends it back. Your browser receives it and draws the page. The whole round trip usually takes less than a second.
+
+Think of a server like a design asset library in the cloud. Your Figma file links to shared component files hosted somewhere central. When you open the file, Figma fetches those assets. A server works the same way — it is a central store of files your browser can fetch.
+
+## URLs — the address of a file
+
+A **URL** (Uniform Resource Locator) is just an address. It tells your browser exactly where to find a file.
+
+```
+https://example.com/about/team.html
+  ↑         ↑          ↑
+protocol  domain      path to the file
+```
+
+- **Protocol** (`https://`) — the "language" the browser and server use to talk. The `s` means the connection is encrypted (secure).
+- **Domain** (`example.com`) — the name of the server, like a street address.
+- **Path** (`/about/team.html`) — the specific file on that server, like a room number.
+
+## Links — how pages connect
+
+A **link** (`<a>` in HTML) is an element that, when clicked, tells the browser to go fetch a different URL. That is the entire web: files that point to other files. The "web" in World Wide Web refers to this interconnected web of links.
+
+export const linkHtml = `<p>This is a paragraph with a <a href="https://www.example.com">link to another page</a>.</p>
+<p>Links are what connects all web pages together.</p>`;
+
+export const linkCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; line-height: 1.6; }
+a { color: #7C3AED; }
+a:hover { color: #5B21B6; text-decoration: none; }`;
+
+<LivePreview client:visible html={linkHtml} css={linkCss} />
+
+Hover over the link in the preview. Notice how the cursor changes. That is the browser telling you "clicking here will take you somewhere." This is behaviour built into the `<a>` element — you do not need to code it yourself.
+
+<Tip title="The web is just files">
+At its core, the web is nothing more than files on computers, connected by addresses. There is no magic. When you understand this, concepts like "hosting a website" become obvious — it just means putting your files on a server so other people's browsers can fetch them.
+</Tip>
+
+export const quizWhatIsTheWeb = [
+  {
+    q: "What is a browser's primary job?",
+    options: [
+      'To write HTML files for you',
+      'To read code files and draw them as a visual page',
+      'To store your website files',
+      'To design layouts automatically',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'What does a server do?',
+    options: [
+      'It styles the page with CSS',
+      'It is a computer that stores files and sends them to browsers on request',
+      'It is another word for a browser',
+      'It runs JavaScript animations',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'In the URL https://example.com/about/team.html, what does /about/team.html represent?',
+    options: [
+      'The protocol',
+      'The domain name',
+      'The path to a specific file on the server',
+      'The browser version',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'What HTML element creates a clickable link?',
+    options: ['<link>', '<url>', '<a>', '<button>'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="how-web-works/what-is-the-web" questions={quizWhatIsTheWeb} />
+
+<ProgressTracker client:visible id="how-web-works/what-is-the-web" />

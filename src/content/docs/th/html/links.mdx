@@ -1,0 +1,112 @@
+---
+title: Links
+description: 'สร้าง hyperlink ด้วย anchor element — เชื่อมต่อหน้าเว็บ section และเว็บไซต์ภายนอก'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ลิงก์คือเส้นใยที่ถักทอเว็บขึ้นมา ทุก navigation bar ทุกปุ่ม call-to-action ทุกข้อความ "อ่านเพิ่มเติม" — ภายใต้พื้นผิวแล้ว มันคือ HTML element เดียวกันทั้งหมด นั่นคือ `<a>` หรือ **anchor element**
+
+ลองนึกถึงลิงก์เหมือน prototype connection ใน Figma คุณกำหนดต้นทาง (ข้อความหรือรูปภาพสักชิ้น) ปลายทาง (URL หรือ frame อื่น) แล้วเบราว์เซอร์จัดการ transition ให้เมื่อผู้ใช้คลิก
+
+## Anchor element
+
+```html
+<a href="https://example.com">Visit Example</a>
+```
+
+attribute `href` — ย่อมาจาก *hypertext reference* — เก็บ URL ปลายทางเอาไว้ ส่วนข้อความที่อยู่ระหว่าง opening tag และ closing tag คือสิ่งที่ผู้ใช้มองเห็นและคลิก
+
+## ลิงก์ภายในกับลิงก์ภายนอก
+
+**ลิงก์ภายนอก (External links)** ชี้ไปยังเว็บไซต์อื่น ให้ใช้ URL เต็มที่ขึ้นต้นด้วย `https://`:
+
+```html
+<a href="https://figma.com">Open Figma</a>
+```
+
+**ลิงก์ภายใน (Internal links)** ชี้ไปยังหน้าอื่นบนเว็บไซต์ *เดียวกัน* ให้ใช้ path ที่สัมพันธ์กับไฟล์ปัจจุบัน:
+
+```html
+<a href="/about">About us</a>
+<a href="../portfolio/index.html">My portfolio</a>
+```
+
+**ลิงก์แบบ fragment** กระโดดไปยัง section ที่เจาะจงบนหน้า *เดียวกัน* โดยพุ่งเป้าไปที่ attribute `id`:
+
+```html
+<a href="#contact">Jump to Contact</a>
+...
+<section id="contact">...</section>
+```
+
+## การเปิดในแท็บใหม่
+
+เพิ่ม `target="_blank"` เพื่อเปิดลิงก์ในแท็บใหม่ของเบราว์เซอร์ แทนที่จะออกจากหน้าปัจจุบัน วิธีนี้นิยมใช้กับลิงก์ไปยังเว็บไซต์ภายนอก เพื่อให้ผู้ใช้ไม่หลุดจากตำแหน่งที่ค้างอยู่:
+
+```html
+<a href="https://figma.com" target="_blank" rel="noopener noreferrer">
+  Open Figma in a new tab
+</a>
+```
+
+ใส่ `rel="noopener noreferrer"` ควบคู่ไปกับ `target="_blank"` เสมอ — มันคือการเพิ่มความปลอดภัยเล็ก ๆ น้อย ๆ ที่ไม่มีต้นทุนอะไรเลย
+
+export const linksHtml = `<nav>
+  <a href="#">Home</a>
+  <a href="#">Portfolio</a>
+  <a href="#">About</a>
+  <a href="#">Contact</a>
+</nav>
+<p>
+  Follow my work on
+  <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer">Dribbble</a>.
+</p>`;
+
+export const linksCss = `body { font-family: system-ui, sans-serif; padding: 1rem; }
+nav { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; }
+a { color: #7C3AED; text-decoration: none; font-weight: 600; }
+a:hover { text-decoration: underline; }`;
+
+<LivePreview client:visible html={linksHtml} css={linksCss} />
+
+ลองเปลี่ยนค่า `href="#"` สักอันเป็น `https://google.com` แล้วดูว่า URL อัปเดตในพรีวิว (ลิงก์ภายใน sandbox จะไม่นำทางไปไหน แต่ HTML นั้นถูกต้องแล้ว)
+
+<Tip title="เขียนข้อความลิงก์ให้มีความหมาย">
+หลีกเลี่ยงข้อความลิงก์อย่าง "click here" หรือ "read more" ผู้ใช้ screen reader มักนำทางในหน้าเว็บด้วยการกระโดดข้ามระหว่างลิงก์ — พวกเขาได้ยินเฉพาะข้อความลิงก์โดยไม่มีประโยคแวดล้อม การเขียนว่า "ดูพอร์ตโฟลิโอของเรา" หรือ "ดาวน์โหลด PDF กรณีศึกษา" จะให้บริบทครบถ้วน นี่คือ quick win ด้าน accessibility และ usability ที่ไม่มีต้นทุนอะไรสำหรับผู้เขียนเลย
+</Tip>
+
+export const quizLinks = [
+  {
+    q: 'attribute ใดบน anchor element ที่ใช้กำหนด URL ปลายทาง?',
+    options: ['src', 'link', 'href', 'url'],
+    answer: 2,
+  },
+  {
+    q: 'target="_blank" ทำหน้าที่อะไร?',
+    options: [
+      'เปิดลิงก์ในแท็บเดิม',
+      'เปิดลิงก์ในแท็บใหม่ของเบราว์เซอร์',
+      'ปิดการใช้งานลิงก์',
+      'ทำให้ข้อความลิงก์เป็นตัวหนา',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ข้อใดเป็นตัวอย่างของลิงก์แบบ fragment (กระโดดไปยัง section บนหน้าเดียวกัน)?',
+    options: [
+      '<a href="https://example.com">Go</a>',
+      '<a href="/about">About</a>',
+      '<a href="#contact">Contact</a>',
+      '<a href="../index.html">Home</a>',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="html/links" questions={quizLinks} />
+
+<ProgressTracker client:visible id="html/links" />

@@ -1,0 +1,123 @@
+---
+title: 'จาก Figma สู่โค้ด'
+description: 'แปลง design regions เป็น HTML และ CSS ด้วย Figma Dev Mode'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+เปิดดีไซน์ที่คุณสร้างใน Figma มาดูกัน สิ่งที่คุณเห็นคือชุดของ frames, text layers และ shapes ที่ซ้อนกัน ทุกอย่างมีคู่เทียบโดยตรงใน HTML และ CSS การแปลนั้นเป็นเรื่องของกลไกมากกว่าความคิดสร้างสรรค์ — เมื่อคุณรู้การแมปแล้ว มันจะเร็วมาก
+
+## อ่านดีไซน์ทีละ layer
+
+ลองดูการ์ดโปรไฟล์ง่ายๆ: รูปภาพ ชื่อ bio สั้นๆ และปุ่ม "View Work" ใน Figma อาจมีหน้าตาแบบนี้ใน layers panel:
+
+```
+Card (Frame, white fill, rounded corners, shadow)
+  ├── Avatar (Rectangle or Image, circle clip)
+  ├── Name (Text, bold, 20px)
+  ├── Bio (Text, regular, 14px, grey)
+  └── View Work (Frame, purple fill, white text)
+```
+
+การแปลเป็น HTML นั้นตรงไปตรงมา:
+- **Card frame** → `<div class="card">`
+- **Avatar** → `<img src="..." alt="...">`
+- **Name text** → `<h3>`
+- **Bio text** → `<p>`
+- **Button frame** → `<a class="btn" href="#">`
+
+## การใช้ Figma Dev Mode
+
+สลับไปที่ Dev Mode (ไอคอน `</>` ที่มุมขวาบนของ Figma) คลิกที่ card frame คุณจะเห็น:
+- **Width/height** — แมปกับ CSS `width`/`height` หรือปล่อยให้เนื้อหากำหนดความสูง
+- **Fill** — แมปกับ `background-color`
+- **Corner radius** — แมปกับ `border-radius`
+- **Effect (shadow)** — แมปกับ `box-shadow`
+- **Padding** — แมปกับ CSS `padding`
+- **Gap (auto-layout)** — แมปกับ CSS `gap` ใน flex container
+
+คลิก Name text layer คุณจะเห็น `font-size`, `font-weight`, `line-height`, `color` คัดลอกค่าเหล่านั้นไปใส่ใน CSS ของคุณโดยตรง Dev Mode ขจัดการเดา
+
+## การ์ดในโค้ด
+
+นี่คือดีไซน์การ์ดที่แปลงเป็น HTML และ CSS แล้ว คลิกข้างในและทดลอง — ลองเปลี่ยนชื่อ ข้อความ bio หรือสีปุ่ม
+
+export const cardHtml = `<div class="card">
+  <img
+    class="avatar"
+    src="https://i.pravatar.cc/80?img=47"
+    alt="Profile photo of Alex Chen"
+  />
+  <h3 class="name">Alex Chen</h3>
+  <p class="bio">Product designer crafting clean, accessible interfaces for fintech and healthtech.</p>
+  <a class="btn" href="#">View Work</a>
+</div>`;
+
+export const cardCss = `body { font-family: system-ui, sans-serif; padding: 2rem; background: #f5f5f5; }
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  max-width: 320px;
+}
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.name { margin: 0; font-size: 1.125rem; font-weight: 700; color: #111; }
+.bio { margin: 0; font-size: 0.875rem; color: #666; line-height: 1.5; }
+.btn {
+  display: inline-block;
+  background: #7C3AED;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}`;
+
+<LivePreview client:visible html={cardHtml} css={cardCss} />
+
+ลองแก้ไขการ์ด: เปลี่ยน `border-radius: 12px` เป็น `border-radius: 0` เพื่อดูเวอร์ชันมุมแหลม เปลี่ยน `#7C3AED` เป็น `#059669` สำหรับปุ่มสีเขียว นี่คือค่าที่แน่นอนที่คุณจะพบใน Figma Dev Mode
+
+<Tip title="Dev Mode คือสเปคชีตของคุณ">
+เปิด Dev Mode ก่อนเขียน CSS สักบรรทัด คลิกทุก layer ที่คุณต้องการ style และอ่านค่าที่แน่นอน คุณไม่ได้ประมาณ — คุณกำลังคัดลอกสเปคิฟิเคชัน นี่คือวิธีที่ professional handoffs ทำงาน
+</Tip>
+
+export const quizFigmaToCode = [
+  {
+    q: 'Figma Dev Mode ช่วยให้คุณทำสิ่งใด?',
+    options: [
+      'Export ไฟล์ PNG',
+      'ตรวจสอบระยะห่างและค่า CSS ที่แน่นอน',
+      'สร้าง component ใหม่',
+      'เขียน JavaScript',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'HTML element ใดที่เหมาะสมที่สุดสำหรับ card container?',
+    options: ['<section>', '<div>', '<span>', '<footer>'],
+    answer: 1,
+  },
+  {
+    q: 'ค่า "padding" ใน Figma แมปกับ CSS property ใด?',
+    options: ['margin', 'gap', 'padding', 'border'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="workflow/figma-to-code" questions={quizFigmaToCode} />
+
+<ProgressTracker client:visible id="workflow/figma-to-code" />

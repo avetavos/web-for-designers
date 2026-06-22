@@ -1,0 +1,346 @@
+---
+title: 'สี & หน่วยวัด'
+description: 'เรียนรู้การใช้สีใน CSS (named, hex, RGB, HSL) และการเลือกหน่วยวัด px, rem, %, em — พร้อมตัวอย่างที่เชื่อมกับประสบการณ์จาก Figma และ playground สีแบบโต้ตอบ'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+สองสิ่งที่เราใช้ในเกือบทุก CSS rule คือ **สี** และ **หน่วยวัด** CSS มีวิธีเขียนหลายรูปแบบสำหรับทั้งคู่ บทเรียนนี้จะแมปแต่ละรูปแบบกับเครื่องมือที่คุณรู้จักอยู่แล้วจาก Figma เพื่อให้เลือกใช้ได้ถูกต้องโดยไม่ต้องเดา
+
+## สี (Colors)
+
+### Named colors — สีมีชื่อ
+
+CSS รู้จักชื่อสีเป็นภาษาอังกฤษหลายร้อยชื่อ เช่น `red`, `white`, `black`, `coral`, `tomato`, `steelblue` พิมพ์ได้เร็วที่สุดและอ่านเข้าใจได้ทันที
+
+ข้อจำกัดคือต้องใช้ชื่อที่ CSS กำหนดไว้เท่านั้น ซึ่งมีน้อยกว่าสเปกตรัม 16 ล้านสีอย่างมาก เหมาะสำหรับ prototype หรือสีพื้นฐานทั่วไป
+
+```css
+color: coral;
+background-color: white;
+```
+
+### Hex — รูปแบบเดียวกับ Figma
+
+`#7C3AED` คือรูปแบบเดียวกับที่แสดงใน color picker ของ Figma เลย! สีแบบ hex ขึ้นต้นด้วย `#` ตามด้วยตัวเลข 6 ตัว โดยแต่ละคู่เก็บค่าสีหนึ่งช่อง: สองตัวแรกคือ **แดง** สองตัวกลางคือ **เขียว** สองตัวสุดท้ายคือ **น้ำเงิน** — ในระบบเลขฐาน 16
+
+คุณไม่จำเป็นต้องเข้าใจเลขฐาน 16 เพียงแค่ copy ค่าจาก Figma แล้ว paste ลงใน CSS ได้เลย
+
+```css
+background-color: #7C3AED;   /* ม่วง */
+color: #ffffff;              /* ขาว */
+border-color: #e2e8f0;       /* เทาอ่อน */
+```
+
+### RGB — ตรงกับ slider ใน Figma
+
+`rgb(124, 58, 237)` ตรงกับช่องตัวเลข **R / G / B** ใน Figma โดยตรง แต่ละค่าอยู่ในช่วง 0–255: 0 คือไม่มีสีนั้นเลย 255 คือเต็มที่
+
+```css
+background-color: rgb(124, 58, 237);
+color: rgb(255, 255, 255);   /* ขาว */
+```
+
+เพิ่มช่อง alpha (ความโปร่งใส) ด้วย **RGBA** ค่าที่สี่อยู่ระหว่าง `0` (โปร่งใสสนิท) ถึง `1` (ทึบสนิท) — เหมือน opacity ใน Figma หารด้วย 100
+
+```css
+background-color: rgba(124, 58, 237, 0.15);   /* opacity 15% */
+```
+
+### HSL — วิธีที่ดีไซเนอร์คิดถึงสี
+
+`hsl(263, 70%, 46%)` คือรูปแบบสีที่ใกล้เคียงกับวิธีคิดของดีไซเนอร์มากที่สุด:
+
+- **H — Hue** (0–360): ตำแหน่งบนวงล้อสี 0 = แดง, 120 = เขียว, 240 = น้ำเงิน, 360 = แดงอีกครั้ง
+- **S — Saturation** (0–100%): ความสดของสี 0% คือเทา 100% คือสดเต็มที่
+- **L — Lightness** (0–100%): ความสว่าง 0% คือดำ 50% คือสีจริง 100% คือขาว
+
+อยากได้สีอ่อนกว่าเดิม? เพิ่ม L อยากให้หม่นลง? ลด S — ง่ายกว่าการเดาค่า hex มาก
+
+เพิ่ม **HSLA** สำหรับความโปร่งใสแบบเดียวกับ RGBA:
+
+```css
+background-color: hsl(263, 70%, 46%);
+color: hsla(263, 70%, 46%, 0.2);   /* opacity 20% */
+```
+
+---
+
+## หน่วยวัด (Units)
+
+### px — pixel แบบแน่นอน
+
+`1px` คือหนึ่ง device-independent pixel ไม่เปลี่ยนแปลงตามสิ่งใด — คงที่เหมือนค่า pixel ใน property panel ของ Figma
+
+ใช้ `px` สำหรับสิ่งที่ไม่ควรปรับขนาด เช่น **border**, **box shadow**, **รายละเอียดเล็กๆ**
+
+```css
+border: 1px solid #e2e8f0;
+border-radius: 4px;
+```
+
+หลีกเลี่ยง `px` สำหรับ font size และ spacing เพราะมันไม่สนใจการตั้งค่า font ของ browser ผู้ใช้ ซึ่งกระทบ accessibility
+
+### rem — สัมพันธ์กับ root font size
+
+`rem` ย่อมาจาก **root em** มีค่าสัมพันธ์กับ font size ที่ตั้งไว้ใน `<html>` element — โดยทั่วไปคือ `16px` ใน browser ทุกตัว ดังนั้น:
+
+- `1rem = 16px`
+- `1.5rem = 24px`
+- `0.75rem = 12px`
+
+ข้อดีสำคัญ: ถ้าผู้ใช้ตั้ง font size ใน browser ของตัวเองเป็น 20px เพื่อความสะดวกในการอ่าน `1rem` จะกลายเป็น `20px` โดยอัตโนมัติ
+
+**ใช้ `rem` สำหรับ font size และ vertical spacing** เป็น default ที่ดีที่สุดสำหรับ typography และ padding/margin
+
+```css
+font-size: 1rem;       /* 16px ที่ค่าเริ่มต้น */
+margin-bottom: 1.5rem;
+padding: 1rem 1.5rem;
+```
+
+### % — เปอร์เซ็นต์ของ element แม่
+
+`50%` คือครึ่งหนึ่งของขนาด property เดียวกันของ element แม่ `100%` คือเต็มความกว้างของ container
+
+เหมาะมากสำหรับ **width** ใน responsive layout — card ที่กำหนด `width: 100%` จะเต็ม container บนทุกหน้าจอ
+
+```css
+width: 100%;
+max-width: 640px;
+```
+
+### em — สัมพันธ์กับ font size ของ element นั้นเอง
+
+`em` มีค่าสัมพันธ์กับ font size ของ **element ปัจจุบัน** (ไม่ใช่ root) ถ้า element มี `font-size: 20px` แล้ว `1em = 20px` สำหรับ element นั้น
+
+`em` มีประโยชน์สำหรับ padding และ margin ที่ต้องการให้สเกลตามขนาดตัวอักษร เช่น ปุ่มที่ padding ซ้ายขวาควรสัมพันธ์กับขนาดข้อความบนปุ่ม
+
+```css
+font-size: 1.25rem;
+padding: 0.5em 1em;   /* สเกลตาม font-size ของ element นี้ */
+```
+
+### สรุปง่ายๆ
+
+| สิ่งที่กำลังกำหนดขนาด | หน่วยที่แนะนำ |
+|---|---|
+| Font size | `rem` |
+| Spacing แนวตั้ง (padding, margin) | `rem` |
+| ความกว้าง (width) | `%` |
+| Border, shadow, รายละเอียดเล็ก | `px` |
+| Padding ที่ต้องสัมพันธ์กับตัวอักษร | `em` |
+
+---
+
+export const colorsUnitsHtml = `<div class="palette-page">
+  <h2>Color Formats</h2>
+  <div class="swatches">
+    <div class="swatch named">
+      <div class="color-block"></div>
+      <span class="label">named</span>
+      <code>coral</code>
+    </div>
+    <div class="swatch hex">
+      <div class="color-block"></div>
+      <span class="label">hex</span>
+      <code>#7C3AED</code>
+    </div>
+    <div class="swatch rgb">
+      <div class="color-block"></div>
+      <span class="label">rgb</span>
+      <code>rgb(14,165,233)</code>
+    </div>
+    <div class="swatch hsl">
+      <div class="color-block"></div>
+      <span class="label">hsl</span>
+      <code>hsl(142,71%,45%)</code>
+    </div>
+    <div class="swatch alpha">
+      <div class="color-block"></div>
+      <span class="label">rgba</span>
+      <code>rgba(124,58,237,0.3)</code>
+    </div>
+  </div>
+
+  <h2>Units in Action</h2>
+  <div class="units-demo">
+    <div class="unit-box px-box">px<br/><small>border: 2px</small></div>
+    <div class="unit-box rem-box">rem<br/><small>font-size: 1.25rem</small></div>
+    <div class="unit-box pct-box">%<br/><small>width: 60%</small></div>
+    <div class="unit-box em-box">em<br/><small>padding: 0.5em 1em</small></div>
+  </div>
+</div>`;
+
+export const colorsUnitsCss = `body {
+  font-family: system-ui, sans-serif;
+  background: #f8fafc;
+  padding: 1.5rem;
+}
+
+h2 {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin: 1.5rem 0 0.75rem;
+}
+
+/* --- Color swatches --- */
+.swatches {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: white;
+  border-radius: 12px;
+  padding: 0.75rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  min-width: 90px;
+}
+
+.color-block {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+}
+
+.label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+code {
+  font-size: 0.65rem;
+  color: #475569;
+  background: #f1f5f9;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+}
+
+/* Try changing these color values! */
+.named  .color-block { background: coral; }
+.hex    .color-block { background: #7C3AED; }
+.rgb    .color-block { background: rgb(14, 165, 233); }
+.hsl    .color-block { background: hsl(142, 71%, 45%); }
+.alpha  .color-block {
+  background: rgba(124, 58, 237, 0.3);
+  border: 1px dashed #c4b5fd;
+}
+
+/* --- Units demo --- */
+.units-demo {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.unit-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.unit-box small {
+  font-size: 0.65rem;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+/* px — fixed border demo */
+.px-box {
+  background: #f97316;
+  border: 3px solid #c2410c;
+  width: 90px;
+  height: 90px;
+  font-size: 1rem;
+}
+
+/* rem — font-size scales */
+.rem-box {
+  background: #7C3AED;
+  width: 90px;
+  height: 90px;
+  font-size: 1.25rem;
+}
+
+/* % — fills proportional width */
+.pct-box {
+  background: #0ea5e9;
+  width: 60%;
+  min-width: 80px;
+  height: 70px;
+  font-size: 1rem;
+}
+
+/* em — padding scales with font */
+.em-box {
+  background: hsl(142, 71%, 38%);
+  font-size: 1.25rem;
+  padding: 0.5em 1em;
+  height: auto;
+  min-height: 70px;
+}`;
+
+<LivePreview client:visible html={colorsUnitsHtml} css={colorsUnitsCss} />
+
+แผง CSS แก้ไขได้โดยตรง ลองทดสอบดู:
+
+- เปลี่ยน `.hex .color-block { background: #7C3AED; }` เป็นสี hex ใดๆ จาก Figma
+- ปรับค่า lightness ใน hsl — ลอง `hsl(142, 71%, 70%)` เพื่อดูสีพาสเทล
+- เปลี่ยน `.pct-box { width: 60%; }` เป็น `100%` หรือ `30%` แล้วดูว่า box ปรับขนาดอย่างไร
+
+<Tip title="ใช้ HSL เมื่อต้องการสร้าง variant สีแบบโปรแกรม">
+ใช้ HSL เมื่อต้องการสร้างสีที่อ่อนกว่า เข้มกว่า หรือหม่นกว่า เพียงแค่เปลี่ยนค่า L (lightness) หรือ S (saturation) Hex และ RGB เหมาะสำหรับ copy-paste ค่าที่แม่นยำจาก Figma แต่ HSL อ่านเข้าใจง่ายกว่ามากเมื่อต้องสร้าง color scale ทั้งชุด
+</Tip>
+
+export const quizCssColorsUnits = [
+  {
+    q: 'รูปแบบสีใดที่ใช้ hue, saturation และ lightness?',
+    options: ['RGB', 'Hex', 'HSL', 'Named'],
+    answer: 2,
+  },
+  {
+    q: 'หน่วย `rem` วัดสัมพันธ์กับอะไร?',
+    options: [
+      'font size ของ element ปัจจุบัน',
+      'font size ของ root (html) element',
+      'ความกว้างของ viewport',
+      'ความกว้างของ element แม่',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'หน่วย CSS ใดที่ให้ขนาดแน่นอน (fixed) ไม่เปลี่ยนแปลงตามอะไรเลย?',
+    options: ['rem', '%', 'em', 'px'],
+    answer: 3,
+  },
+  {
+    q: 'ตัว A ใน RGBA ย่อมาจากอะไร?',
+    options: ['Angle', 'Alpha (ความโปร่งใส)', 'Adjustment', 'Absolute'],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="css/colors-units" questions={quizCssColorsUnits} />
+
+<ProgressTracker client:visible id="css/colors-units" />

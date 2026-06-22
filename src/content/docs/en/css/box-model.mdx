@@ -1,0 +1,208 @@
+---
+title: The Box Model
+description: 'Content, padding, border, and margin — the four layers of every CSS element, and why box-sizing: border-box changes everything.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+If there is one mental model you must internalize before writing another line of CSS, it is this: **every HTML element is a rectangular box**. Not sometimes — always. A heading, a button, an image, a `<div>` you cannot even see — all boxes. And every box is built from the same four layers, stacked from inside out.
+
+You already know these layers from Figma. CSS just gives them names.
+
+## The four layers
+
+### 1. Content
+
+The innermost area. This is where your text, image, or child elements live. You control its size with `width` and `height`.
+
+```css
+.card {
+  width: 320px;
+  height: 200px;
+}
+```
+
+### 2. Padding
+
+Space **inside** the box, between the content and the border. Think of it as the inner spacing in a Figma auto-layout frame — pushing the content away from the edges without moving the element itself.
+
+```css
+.card {
+  padding: 2rem;          /* all four sides */
+  padding: 1rem 2rem;     /* top/bottom 1rem, left/right 2rem */
+  padding-top: 1rem;      /* one side only */
+}
+```
+
+### 3. Border
+
+A visible line drawn around the element — exactly like Figma's stroke. You set its thickness, style, and color:
+
+```css
+.card {
+  border: 2px solid #7C3AED;   /* width style color */
+  border-radius: 12px;          /* rounded corners */
+}
+```
+
+### 4. Margin
+
+Space **outside** the box, pushing neighboring elements away. This is not part of the element's visual area — it is invisible breathing room between boxes. Think of it as the gap between frames in Figma's layout grid.
+
+```css
+.card {
+  margin: 2rem;           /* all sides */
+  margin: 1rem 0;         /* top/bottom 1rem, left/right 0 */
+  margin-bottom: 1.5rem;  /* one side only */
+}
+```
+
+## Shorthand order
+
+When you give two values — `padding: 1rem 2rem` — the order is **top/bottom first, left/right second**. Four values follow the clockwise compass: **top, right, bottom, left**.
+
+```css
+padding: 1rem 2rem 1rem 2rem;   /* top right bottom left */
+```
+
+## The `box-sizing` trap
+
+Here is where most beginners get surprised. By default, `width` in CSS measures **only the content area**. If you set a box to `width: 300px` then add `padding: 20px` and `border: 2px solid`, the actual rendered width becomes 344px — not 300px.
+
+This is the opposite of how design tools work. In Figma, the frame boundary includes strokes and inner spacing. The CSS property `box-sizing: border-box` matches that behavior: `width` now measures from border edge to border edge — padding and border are *included*, not added on top.
+
+```css
+/* Add this to every project's global styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+```
+
+With `border-box`, a `width: 300px` element is always exactly 300px wide, no matter how much padding or border you add. Padding and border eat into the content area instead of expanding the box outward. Predictable. Figma-like.
+
+## `display`: block, inline, and inline-block
+
+The box model only fully applies when an element is displayed as a **block**. The `display` property controls this:
+
+| Value | Behavior |
+|---|---|
+| `block` | Takes up the full available width, stacks vertically. Default for `<div>`, `<p>`, `<h1>`–`<h6>`. |
+| `inline` | Sits in the flow of text. Width/height have no effect. Default for `<span>`, `<a>`, `<strong>`. |
+| `inline-block` | Sits in text flow but respects `width`, `height`, padding, and margin. Useful for buttons and badges. |
+
+This is why a `<div>` stacks below the previous element but a `<span>` does not — one is block, the other inline.
+
+export const boxModelHtml = `<div class="wrapper">
+  <p class="label">Outer wrapper (margin area)</p>
+  <div class="box">
+    <p class="label">Content + Padding + Border</p>
+    <div class="content">
+      Content area
+    </div>
+  </div>
+</div>`;
+
+export const boxModelCss = `body {
+  font-family: system-ui, sans-serif;
+  background-color: #f5f3ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* The outer wrapper shows the margin zone */
+.wrapper {
+  background-color: #ede9fe;
+  padding: 2rem;
+  border-radius: 16px;
+}
+
+/* The main box: padding + border are visible */
+.box {
+  background-color: #c4b5fd;
+  padding: 2rem;
+  border: 4px solid #7C3AED;
+  border-radius: 10px;
+  box-sizing: border-box;
+  width: 320px;
+  margin: 0 auto;
+}
+
+/* The innermost content area */
+.content {
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  color: #4c1d95;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: #6d28d9;
+  margin: 0 0 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}`;
+
+<LivePreview client:visible html={boxModelHtml} css={boxModelCss} />
+
+Try editing the CSS: increase `padding` on `.box`, change `border` width, or adjust the `width`. With `box-sizing: border-box` set, the outer edge of `.box` stays at 320px — the content area shrinks to absorb your changes.
+
+<Tip title="Add box-sizing: border-box to every project">
+Always add `box-sizing: border-box` to every project's global styles. It makes sizing elements predictable and matches the default behavior in most design tools — including Figma. Without it, adding padding to a sized element will break your layout in ways that are hard to debug.
+</Tip>
+
+export const quizCssBoxModel = [
+  {
+    q: 'Which layer of the box model is OUTSIDE the border?',
+    options: [
+      'Content',
+      'Padding',
+      'Border',
+      'Margin',
+    ],
+    answer: 3,
+  },
+  {
+    q: 'What does padding control?',
+    options: [
+      'Space outside the box that pushes other elements away',
+      'The thickness of the visible line around the element',
+      'Space inside the box between the content and the border',
+      'The width and height of the content area',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'What does `box-sizing: border-box` change?',
+    options: [
+      'It removes all default margins and padding',
+      'It makes the border invisible',
+      'It makes `width` include padding and border, not just the content area',
+      'It sets all four box layers to the same size',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'Which Figma concept is closest to CSS margin?',
+    options: [
+      'Stroke (border line around a layer)',
+      'Inner spacing in an auto-layout frame',
+      'The gap between frames or layers',
+      'Corner radius',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="css/box-model" questions={quizCssBoxModel} />
+
+<ProgressTracker client:visible id="css/box-model" />

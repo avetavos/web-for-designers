@@ -1,0 +1,121 @@
+---
+title: 'Components'
+description: 'Reusable UI pieces in HTML and CSS — the same idea as Figma components, expressed as CSS classes.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+In Figma, a component is a piece of UI you define once and reuse everywhere. Swap the content, keep the style. In HTML and CSS, you do the same thing with **classes**. Define a `.btn` class once; apply it to every button on the page. Every button looks consistent — and when you change `.btn`, all of them update.
+
+## Figma components → CSS classes
+
+| Figma | CSS |
+|---|---|
+| Component named `Button/Primary` | Class `.btn.btn--primary` |
+| Component named `Button/Secondary` | Class `.btn.btn--secondary` |
+| Component named `Card` | Class `.card` |
+| Instance of Card | `<div class="card">...</div>` |
+| Component property (variant) | Modifier class `.btn--large` |
+
+The naming convention most developers use is **BEM** — Block, Element, Modifier. The pattern:
+- **Block:** the component itself → `.card`
+- **Element:** a part of it → `.card__title`, `.card__body`
+- **Modifier:** a variant → `.btn--primary`, `.btn--secondary`
+
+You do not need to memorize BEM. What matters is the idea: **name your classes after what the thing *is*, not what it looks like.** `.card` beats `.white-rounded-box`. `.btn--primary` beats `.purple-button`.
+
+## Building reusable components
+
+Below are two button variants and two card instances — all built from the same CSS classes. Click into the code and add a third card or a third button.
+
+export const componentsHtml = `<section class="demo">
+  <div class="button-row">
+    <a href="#" class="btn btn--primary">Get started</a>
+    <a href="#" class="btn btn--secondary">Learn more</a>
+  </div>
+  <div class="card-row">
+    <div class="card">
+      <h3 class="card__title">Brand Identity</h3>
+      <p class="card__body">Logo systems, color palettes, and typography guidelines for modern brands.</p>
+      <a href="#" class="btn btn--primary">View project</a>
+    </div>
+    <div class="card">
+      <h3 class="card__title">Mobile App Design</h3>
+      <p class="card__body">End-to-end product design for iOS and Android with a focus on accessibility.</p>
+      <a href="#" class="btn btn--secondary">View project</a>
+    </div>
+  </div>
+</section>`;
+
+export const componentsCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; background: #f5f5f5; }
+.demo { display: flex; flex-direction: column; gap: 1.5rem; }
+.button-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.card-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn:hover { opacity: 0.85; }
+.btn--primary { background: #7C3AED; color: #fff; }
+.btn--secondary { background: transparent; color: #7C3AED; border: 2px solid #7C3AED; }
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.card__title { margin: 0; font-size: 1rem; font-weight: 700; color: #111; }
+.card__body { margin: 0; font-size: 0.875rem; color: #666; line-height: 1.6; flex: 1; }`;
+
+<LivePreview client:visible html={componentsHtml} css={componentsCss} />
+
+Notice both cards use the exact same `.card`, `.card__title`, and `.card__body` classes — only the content differs. This is the component model in HTML and CSS.
+
+<Tip title="Copy-paste is a component trying to exist">
+If you find yourself writing the same CSS for a second button, stop. Extract it into a `.btn` class. If you write a third card, make sure it uses the same `.card` class as the first two. Reuse in CSS is not laziness — it is the discipline that keeps a design system coherent.
+</Tip>
+
+export const quizComponents = [
+  {
+    q: 'In CSS, what makes a style rule "reusable" across multiple elements?',
+    options: [
+      'Using an ID selector',
+      'Using a class selector',
+      'Writing it in every element',
+      'Using inline styles',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which Figma concept is most similar to a CSS class?',
+    options: [
+      'A Figma frame',
+      'A Figma component',
+      'A Figma color style',
+      'A Figma prototype link',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'BEM naming convention uses what separator between block and element?',
+    options: ['-', '__', '::', '&&'],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="workflow/components" questions={quizComponents} />
+
+<ProgressTracker client:visible id="workflow/components" />

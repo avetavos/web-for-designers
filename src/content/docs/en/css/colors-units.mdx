@@ -1,0 +1,346 @@
+---
+title: 'Colors & Units'
+description: 'Learn how CSS colors work (named, hex, RGB, HSL) and when to use px, rem, %, or em — with designer-friendly explanations and a live color playground.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Two things you reach for in almost every CSS rule: a **color** and a **unit**. CSS gives you several ways to write each. This lesson maps them to tools you already know from Figma so you can pick the right format without guessing.
+
+## Colors
+
+### Named colors
+
+CSS knows hundreds of plain-English color names: `red`, `white`, `black`, `coral`, `tomato`, `steelblue`. They are the fastest to type and the easiest to read at a glance.
+
+The trade-off: you are locked to the names CSS defines, which is a small palette compared to the full 16-million-color spectrum. Use them for quick prototypes or very standard tones.
+
+```css
+color: coral;
+background-color: white;
+```
+
+### Hex — the Figma format
+
+`#7C3AED` — this is the exact format shown in Figma's color picker. A hex color starts with `#` followed by six digits. Under the hood, each pair of digits encodes one channel: the first two are **red**, the next two are **green**, the last two are **blue** — all in hexadecimal (base-16) notation.
+
+You never have to think in hexadecimal. Just copy the value straight from Figma and paste it into CSS.
+
+```css
+background-color: #7C3AED;   /* purple */
+color: #ffffff;              /* white */
+border-color: #e2e8f0;       /* light grey */
+```
+
+### RGB — Figma's sliders as code
+
+`rgb(124, 58, 237)` maps directly to Figma's **R / G / B** number inputs. Each value is 0–255: 0 is none of that channel, 255 is full intensity.
+
+```css
+background-color: rgb(124, 58, 237);
+color: rgb(255, 255, 255);   /* white */
+```
+
+Add an alpha (transparency) channel with **RGBA**. The fourth value goes from `0` (fully transparent) to `1` (fully opaque) — the same as Figma's opacity percentage divided by 100.
+
+```css
+background-color: rgba(124, 58, 237, 0.15);   /* 15% opacity */
+```
+
+### HSL — how designers think about color
+
+`hsl(263, 70%, 46%)` is the color format that matches the way designers intuitively describe color:
+
+- **H — Hue** (0–360): position on the color wheel. 0 = red, 120 = green, 240 = blue, 360 = red again.
+- **S — Saturation** (0–100%): how vivid the color is. 0% is grey; 100% is full intensity.
+- **L — Lightness** (0–100%): how light or dark. 0% is black; 50% is the "true" color; 100% is white.
+
+Want a lighter variant of your brand color? Increase L. Want a muted tint? Decrease S. This is far more intuitive than guessing hex digits.
+
+Add **HSLA** for transparency the same way as RGBA:
+
+```css
+background-color: hsl(263, 70%, 46%);
+color: hsla(263, 70%, 46%, 0.2);   /* 20% opacity */
+```
+
+---
+
+## Units
+
+### px — absolute pixels
+
+`1px` is one device-independent pixel. It does not change based on anything — it is fixed, like a pixel value in Figma's property panel.
+
+Use `px` for things that should never scale: **borders**, **box shadows**, **fine details**.
+
+```css
+border: 1px solid #e2e8f0;
+border-radius: 4px;
+```
+
+Avoid `px` for font sizes and spacing — it ignores the user's browser font-size preference, which hurts accessibility.
+
+### rem — relative to the root font size
+
+`rem` stands for **root em**. It is relative to the font size set on the `<html>` element — usually `16px` by default in all browsers. So:
+
+- `1rem = 16px`
+- `1.5rem = 24px`
+- `0.75rem = 12px`
+
+The big win: if a user has set their browser's base font size to 20px for readability, `1rem` becomes `20px` automatically. Your layout adapts for free.
+
+**Use `rem` for font sizes and vertical spacing.** It is the professional default for typography and padding/margin.
+
+```css
+font-size: 1rem;       /* 16px at default */
+margin-bottom: 1.5rem;
+padding: 1rem 1.5rem;
+```
+
+### % — percentage of the parent
+
+`50%` means half the size of the parent element's corresponding property. `100%` means fill the parent entirely.
+
+This is perfect for **widths** in responsive layouts — a card set to `width: 100%` fills its container on any screen size.
+
+```css
+width: 100%;
+max-width: 640px;
+```
+
+### em — relative to the element's own font size
+
+`em` is relative to the font size of the **current element** (not the root). If an element has `font-size: 20px`, then `1em = 20px` for that element's own children.
+
+`em` is useful for padding and margins you want to scale proportionally with text size — for example, a button whose horizontal padding should stay in proportion to its label.
+
+```css
+font-size: 1.25rem;
+padding: 0.5em 1em;   /* scales with this element's font-size */
+```
+
+### Rule of thumb
+
+| What you are sizing | Preferred unit |
+|---|---|
+| Font sizes | `rem` |
+| Vertical spacing (padding, margin) | `rem` |
+| Widths | `%` |
+| Borders, shadows, fine details | `px` |
+| Padding proportional to text | `em` |
+
+---
+
+export const colorsUnitsHtml = `<div class="palette-page">
+  <h2>Color Formats</h2>
+  <div class="swatches">
+    <div class="swatch named">
+      <div class="color-block"></div>
+      <span class="label">named</span>
+      <code>coral</code>
+    </div>
+    <div class="swatch hex">
+      <div class="color-block"></div>
+      <span class="label">hex</span>
+      <code>#7C3AED</code>
+    </div>
+    <div class="swatch rgb">
+      <div class="color-block"></div>
+      <span class="label">rgb</span>
+      <code>rgb(14,165,233)</code>
+    </div>
+    <div class="swatch hsl">
+      <div class="color-block"></div>
+      <span class="label">hsl</span>
+      <code>hsl(142,71%,45%)</code>
+    </div>
+    <div class="swatch alpha">
+      <div class="color-block"></div>
+      <span class="label">rgba</span>
+      <code>rgba(124,58,237,0.3)</code>
+    </div>
+  </div>
+
+  <h2>Units in Action</h2>
+  <div class="units-demo">
+    <div class="unit-box px-box">px<br/><small>border: 2px</small></div>
+    <div class="unit-box rem-box">rem<br/><small>font-size: 1.25rem</small></div>
+    <div class="unit-box pct-box">%<br/><small>width: 60%</small></div>
+    <div class="unit-box em-box">em<br/><small>padding: 0.5em 1em</small></div>
+  </div>
+</div>`;
+
+export const colorsUnitsCss = `body {
+  font-family: system-ui, sans-serif;
+  background: #f8fafc;
+  padding: 1.5rem;
+}
+
+h2 {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  margin: 1.5rem 0 0.75rem;
+}
+
+/* --- Color swatches --- */
+.swatches {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  background: white;
+  border-radius: 12px;
+  padding: 0.75rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  min-width: 90px;
+}
+
+.color-block {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+}
+
+.label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+code {
+  font-size: 0.65rem;
+  color: #475569;
+  background: #f1f5f9;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+}
+
+/* Try changing these color values! */
+.named  .color-block { background: coral; }
+.hex    .color-block { background: #7C3AED; }
+.rgb    .color-block { background: rgb(14, 165, 233); }
+.hsl    .color-block { background: hsl(142, 71%, 45%); }
+.alpha  .color-block {
+  background: rgba(124, 58, 237, 0.3);
+  border: 1px dashed #c4b5fd;
+}
+
+/* --- Units demo --- */
+.units-demo {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.unit-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.unit-box small {
+  font-size: 0.65rem;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+/* px — fixed border demo */
+.px-box {
+  background: #f97316;
+  border: 3px solid #c2410c;
+  width: 90px;
+  height: 90px;
+  font-size: 1rem;
+}
+
+/* rem — font-size scales */
+.rem-box {
+  background: #7C3AED;
+  width: 90px;
+  height: 90px;
+  font-size: 1.25rem;
+}
+
+/* % — fills proportional width */
+.pct-box {
+  background: #0ea5e9;
+  width: 60%;
+  min-width: 80px;
+  height: 70px;
+  font-size: 1rem;
+}
+
+/* em — padding scales with font */
+.em-box {
+  background: hsl(142, 71%, 38%);
+  font-size: 1.25rem;
+  padding: 0.5em 1em;
+  height: auto;
+  min-height: 70px;
+}`;
+
+<LivePreview client:visible html={colorsUnitsHtml} css={colorsUnitsCss} />
+
+The CSS panel is fully editable. Try these experiments:
+
+- Change `.hex .color-block { background: #7C3AED; }` to any hex from Figma.
+- Adjust the `hsl()` lightness value — try `hsl(142, 71%, 70%)` for a pastel.
+- Change `.pct-box { width: 60%; }` to `100%` or `30%` and watch the box resize.
+
+<Tip title="HSL for programmatic color variants">
+Use HSL when you want to create lighter, darker, or more muted versions of a color — just change the L (lightness) or S (saturation) value. Hex and RGB are great for copy-pasting exact values from Figma, but HSL is more readable when you're building a full color scale.
+</Tip>
+
+export const quizCssColorsUnits = [
+  {
+    q: 'Which color format uses hue, saturation, and lightness?',
+    options: ['RGB', 'Hex', 'HSL', 'Named'],
+    answer: 2,
+  },
+  {
+    q: 'What does `rem` measure relative to?',
+    options: [
+      "The current element's font size",
+      'The root (html) element font size',
+      'The viewport width',
+      'The parent element width',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which CSS unit produces a fixed, absolute size that never scales?',
+    options: ['rem', '%', 'em', 'px'],
+    answer: 3,
+  },
+  {
+    q: 'What does the A in RGBA stand for?',
+    options: ['Angle', 'Alpha (transparency)', 'Adjustment', 'Absolute'],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="css/colors-units" questions={quizCssColorsUnits} />
+
+<ProgressTracker client:visible id="css/colors-units" />

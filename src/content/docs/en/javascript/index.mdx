@@ -1,0 +1,133 @@
+---
+title: 'A Little JavaScript'
+description: 'What JavaScript is, what it is not, and how a single click handler brings a page to life — no experience needed.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+You have already learned that HTML gives a page its content skeleton and CSS gives it its visual design. There is one more layer: **JavaScript**. This module is a gentle introduction — you will not become a developer today, but you will understand what JavaScript does, why it matters, and how even a tiny amount of it can bring a page to life.
+
+## Think of it like a Figma prototype
+
+In Figma, a static frame shows how something looks. When you wire up a prototype, you add *behaviour* — clicking a button navigates to the next screen, hovering highlights a component, tapping a menu opens a drawer. That prototype layer is exactly the role JavaScript plays on the web.
+
+| Layer | Figma equivalent | What it does |
+|-------|-----------------|--------------|
+| HTML  | The frames and layers panel | Defines the content and structure |
+| CSS   | Styles and design tokens | Controls colours, fonts, spacing, layout |
+| JavaScript | Prototype interactions | Adds behaviour and interactivity |
+
+Without JavaScript a web page can still be completely real and useful — just like a beautifully designed static mockup. JavaScript is **optional but powerful**.
+
+## You do not have to write it — but understanding it helps
+
+Designers who understand even a small amount of JavaScript can:
+
+- Communicate more clearly with developers about what an interaction should do
+- Read existing code and recognise what a behaviour is trying to achieve
+- Know what is easy to build versus what is a large effort
+- Prototype light interactions in browser-based tools like CodePen or StackBlitz
+
+None of that requires you to write production code. A little literacy goes a long way.
+
+## Your first interaction: a button that changes text
+
+The example below is as simple as it gets. There is a button. When you click it, a line of text changes. That is it. Try it — click the button.
+
+export const exampleHtml = `<button id="myBtn">Click me</button>
+<p id="msg">Nothing has happened yet.</p>`;
+
+export const exampleCss = `body {
+  font-family: system-ui, sans-serif;
+  padding: 1.5rem;
+}
+button {
+  background: #7C3AED;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+p {
+  margin-top: 1rem;
+  color: #374151;
+  font-size: 1.1rem;
+}`;
+
+export const exampleJs = `var btn = document.querySelector('#myBtn');
+var msg = document.querySelector('#msg');
+btn.addEventListener('click', function() {
+  msg.textContent = 'JavaScript just changed this!';
+});`;
+
+<LivePreview client:visible html={exampleHtml} css={exampleCss} js={exampleJs} />
+
+### What is happening in those three lines?
+
+Here is the JavaScript spelled out in plain English:
+
+1. **`document.querySelector('#myBtn')`** — "Find the element on the page with the id `myBtn`." Think of it like selecting a layer by name in Figma.
+2. **`addEventListener('click', function() { ... })`** — "When someone clicks that element, run the instructions inside the curly braces." This is the prototype trigger.
+3. **`msg.textContent = 'JavaScript just changed this!'`** — "Change the visible text of the `msg` element to this new string." The page updates instantly, without reloading.
+
+That is the entire mental model for most simple interactions: *find something, listen for an event, then do something when it happens*.
+
+<Tip title="You already know the hardest part">
+The hardest part of JavaScript for designers is not the syntax — it is knowing *what to ask for*. Once you can describe an interaction clearly ("when the user clicks the button, the label changes to X"), a developer or an AI assistant can write the code in seconds. Your design thinking is the skill; the code is just the translation.
+</Tip>
+
+## JavaScript lives alongside HTML and CSS
+
+Just as CSS can live in a `<style>` tag or a separate `.css` file, JavaScript lives in a `<script>` tag or a separate `.js` file. In a real project the three files work together:
+
+- `index.html` — the bones
+- `styles.css` — the appearance
+- `script.js` — the behaviour
+
+Browsers load all three and assemble the final experience. Changing any one of them changes something about the page.
+
+## What comes next
+
+This module will walk through the core ideas one small step at a time — variables, conditions, loops, and working with the page. Every concept will be anchored in something visual and every example will be editable. Take it at your own pace. There is no deadline, and nothing here will break if you make a mistake.
+
+export const quizSlug = [
+  {
+    q: 'What does JavaScript add to a web page?',
+    options: [
+      'The visual colours and fonts',
+      'The content structure like headings and paragraphs',
+      'Behaviour and interactivity',
+      'The page title in the browser tab'
+    ],
+    answer: 2
+  },
+  {
+    q: 'Which Figma concept is most like JavaScript\'s role?',
+    options: [
+      'A colour style',
+      'A prototype link that triggers an action',
+      'A component master',
+      'An auto-layout frame'
+    ],
+    answer: 1
+  },
+  {
+    q: 'Do you need to know JavaScript to build a web page?',
+    options: [
+      'Yes, it is required for any web page',
+      'No — HTML and CSS alone create real web pages',
+      'Yes, without it nothing displays',
+      'No, but CSS requires it'
+    ],
+    answer: 1
+  }
+];
+
+<Quiz client:visible id="javascript/index" questions={quizSlug} />
+
+<ProgressTracker client:visible id="javascript/index" />

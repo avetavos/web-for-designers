@@ -1,0 +1,182 @@
+---
+title: Mobile-First Design
+description: 'Write CSS for small screens first, then layer on complexity for larger screens using min-width queries — the modern standard approach.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+There are two ways to write responsive CSS. The first way is **desktop-first**: you design for a wide screen and then write `max-width` media queries to shrink things down for smaller screens. The second way — and the modern standard — is **mobile-first**: you design for the smallest screen first, then use `min-width` queries to *add* complexity as more space becomes available.
+
+## Why mobile-first?
+
+- **Most users are on phones.** Writing for the small screen first means your baseline works for the majority of your audience with zero media queries.
+- **Simpler defaults.** A single column of content requires almost no CSS. Adding a two-column layout for large screens is one media query. Going the other way — collapsing a complex grid into a single column — is far more CSS to write and easier to get wrong.
+- **Faster on slow connections.** Mobile browsers on slow networks download and apply the base CSS immediately. Desktop enhancements only apply when needed.
+- **Figma parallel.** Most design teams today start with the mobile artboard before building up to tablet and desktop. Mobile-first CSS matches that workflow.
+
+## The pattern
+
+```css
+/* Base styles — small screen, no media query needed */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Tablet and up: switch to a row */
+@media (min-width: 420px) {
+  .nav {
+    flex-direction: row;
+  }
+}
+
+/* Desktop and up: add more space */
+@media (min-width: 700px) {
+  .nav {
+    gap: 2rem;
+  }
+}
+```
+
+Notice the progression: default = narrowest, each query adds on top.
+
+## See it in action
+
+The preview pane is your screen. **Narrow your browser window** (or view on a phone) to see the mobile base layout. Widen it past 420 px and the desktop enhancement kicks in.
+
+export const mobileFirstHtml = `<nav class="nav">
+  <a class="nav__link nav__link--active" href="#">Home</a>
+  <a class="nav__link" href="#">Work</a>
+  <a class="nav__link" href="#">About</a>
+  <a class="nav__link" href="#">Contact</a>
+</nav>
+<main class="main">
+  <h1 class="hero__title">Design for every screen</h1>
+  <p class="hero__sub">Start small, build up.</p>
+</main>`;
+
+export const mobileFirstCss = `*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f8fafc;
+}
+
+/* ── Mobile base ── */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: #1e293b;
+  padding: 0.5rem;
+}
+
+.nav__link {
+  display: block;
+  padding: 0.6rem 1rem;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+}
+
+.nav__link:hover,
+.nav__link--active {
+  background: #334155;
+  color: #fff;
+}
+
+.main {
+  padding: 1.5rem 1rem;
+}
+
+.hero__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  color: #1e293b;
+}
+
+.hero__sub {
+  margin: 0;
+  color: #64748b;
+}
+
+/* ── Tablet and up (min-width: 420px) ── */
+@media (min-width: 420px) {
+  .nav {
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    gap: 0.25rem;
+  }
+
+  .hero__title {
+    font-size: 2rem;
+  }
+
+  .main {
+    padding: 2rem 1.5rem;
+  }
+}`;
+
+<LivePreview client:visible html={mobileFirstHtml} css={mobileFirstCss} height="240px" />
+
+At narrow widths the nav links stack vertically — the natural mobile pattern. Once the pane exceeds 420 px, a single `@media (min-width: 420px)` block switches the nav to a horizontal row and increases the heading size.
+
+<Tip title="Read your media queries in order">
+In mobile-first CSS, read media queries from top (narrowest, most common) to bottom (widest, enhanced). The base styles at the top are the foundation. Each `min-width` query builds on that foundation — like adding rooms to a house rather than demolishing walls. This mental model prevents you from accidentally overriding styles you didn't intend to touch.
+</Tip>
+
+export const quizMobileFirst = [
+  {
+    q: 'In mobile-first CSS, which kind of media query do you use to enhance a layout for wider screens?',
+    options: [
+      '@media (max-width: ...)',
+      '@media (min-width: ...)',
+      '@media (orientation: landscape)',
+      '@media print',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Why is mobile-first considered better than desktop-first for most projects?',
+    options: [
+      'It requires no CSS at all for mobile screens',
+      'Most users are on phones, so the default (no media query) already works for the largest audience',
+      'Mobile-first CSS runs faster because phones have faster CPUs',
+      'Desktop-first is no longer supported by browsers',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'In the nav example, what change does the @media (min-width: 420px) block apply?',
+    options: [
+      'The nav hides on wide screens',
+      'The nav links change colour',
+      'The nav switches from a vertical column to a horizontal row',
+      'The nav font size shrinks on wide screens',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'Which describes the correct order of rules in a mobile-first stylesheet?',
+    options: [
+      'Desktop styles at the top, then max-width queries below',
+      'Mobile base styles at the top, then min-width queries below',
+      'All media queries at the top, then base styles below',
+      'No particular order is needed',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="responsive/mobile-first" questions={quizMobileFirst} />
+
+<ProgressTracker client:visible id="responsive/mobile-first" />

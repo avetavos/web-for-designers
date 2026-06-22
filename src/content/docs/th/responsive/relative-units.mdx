@@ -1,0 +1,123 @@
+---
+title: Relative Units
+description: 'ทำความเข้าใจ %, rem, em, vw และ vh — หน่วยวัดที่ทำให้ Layout ปรับตัวแทนที่จะพัง'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+เมื่อคุณตั้งค่า Frame ให้ **กว้าง 1440 px** ใน Figma ตัวเลขนั้นตายตัว ไม่เปลี่ยนแปลง ถ้าทำแบบเดิมใน CSS คุณจะได้ Layout ที่สวยงามบนจอ 1440 px แต่พังบนอุปกรณ์อื่น ทางออกคือ **Relative Units** — ค่าที่คำนวณจากบริบทโดยรอบเสมอ จึงปรับตัวได้โดยธรรมชาติ
+
+## สี่หน่วยที่ต้องรู้จัก
+
+### `%` — เปอร์เซ็นต์ของ Parent
+
+`width: 50%` หมายถึง "ครึ่งหนึ่งของความกว้าง Parent" ถ้า Parent กว้าง 800 px Element นี้จะกว้าง 400 px เมื่อ Parent ย่อเหลือ 400 px Element นี้จะเหลือ 200 px ปรับตัวเสมอ
+
+### `rem` — สัมพัทธ์กับ Root Font Size
+
+`rem` ย่อมาจาก "root em" โดย Default Browser กำหนด Root Font Size ที่ 16 px ดังนั้น `1rem = 16px` จุดแข็งคือถ้าผู้ใช้เปลี่ยนขนาด Text ใน Browser (เพื่อการเข้าถึง) ค่า `rem` จะปรับตาม แต่ค่า `px` ตายตัวจะไม่เปลี่ยน
+
+- `1.5rem` = 24 px (ที่ Root 16 px)
+- `0.875rem` = 14 px
+
+ใช้ `rem` สำหรับ Font Size, Spacing, Padding และ Margin
+
+### `em` — สัมพัทธ์กับ Font Size ของ Element ปัจจุบัน
+
+`em` คูณกับ `font-size` ของ **Element นั้นเอง** ทำให้มีประโยชน์สำหรับ Padding ที่ควรปรับตามขนาด Text เช่น Button ที่รู้สึกสัดส่วนเดิมไม่ว่า Text จะใหญ่แค่ไหน แต่เมื่อ Nest กันลึกๆ อาจเกิดผลสะสมที่ไม่คาดคิด นักออกแบบส่วนใหญ่จึงนิยม `rem` สำหรับ Spacing ทั่วไปมากกว่า
+
+### `vw` / `vh` — เปอร์เซ็นต์ของ Viewport
+
+`1vw = 1%` ของความกว้าง Viewport (หน้าต่าง Browser) และ `1vh = 1%` ของความสูง Viewport ค่าเหล่านี้สัมพัทธ์กับหน้าต่าง Browser โดยตรง ไม่ใช่ Parent ใดๆ ต้องการ Hero Section ที่เต็มจอเสมอ? `height: 100vh` ต้องการหัวข้อที่ใหญ่ขึ้นตามหน้าจอ? `font-size: 5vw`
+
+## Fixed vs Relative — เปรียบเทียบแบบ Side by Side
+
+Preview ด้านล่างแสดงกล่องสองใบ ใบแรกใช้ `px` ตายตัว ใบที่สองใช้ `%` และ `rem` **ย่อ Preview Pane** (ทำหน้าต่าง Browser ให้แควลง หรือดูบนโทรศัพท์) เพื่อดูความแตกต่าง
+
+export const relativeUnitsHtml = `<div class="demo">
+  <div class="box box--fixed">
+    Fixed: 280px wide,\\n16px font
+  </div>
+  <div class="box box--fluid">
+    Fluid: 80% wide,\\n1rem font
+  </div>
+</div>`;
+
+export const relativeUnitsCss = `body {
+  font-family: system-ui, sans-serif;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.box {
+  padding: 1rem;
+  border-radius: 8px;
+  color: #fff;
+  white-space: pre-line;
+}
+
+.box--fixed {
+  width: 280px;
+  font-size: 16px;
+  background: #dc2626;
+}
+
+.box--fluid {
+  width: 80%;
+  font-size: 1rem;
+  background: #16a34a;
+}`;
+
+<LivePreview client:visible html={relativeUnitsHtml} css={relativeUnitsCss} />
+
+สังเกตว่ากล่องสีแดงยังคงกว้าง 280 px เสมอ บนหน้าจอแควจะล้นออกหรือถูกตัด แต่กล่องสีเขียวย่อตัวอย่างสวยงามเพราะ `80%` สัมพัทธ์กับพื้นที่ที่มีอยู่เสมอ
+
+<Tip title="เริ่มด้วย rem สำหรับทุกอย่าง ยกเว้น Layout Width">
+หลักปฏิบัติที่ดี: ใช้ `rem` สำหรับ Font Size และ Spacing (padding, margin, gap) ใช้ `%` สำหรับ Width ที่ควรเต็มพื้นที่ Parent สงวน `vw`/`vh` ไว้สำหรับ Section เต็มจอเช่น Hero หรือ Modal หลีกเลี่ยง `px` สำหรับสิ่งที่ควรปรับตามขนาด Text หรือหน้าจอ
+</Tip>
+
+export const quizRelativeUnits = [
+  {
+    q: '`width: 50%` ใน CSS หมายความว่าอะไร?',
+    options: [
+      'กว้าง 50 Pixels',
+      'ครึ่งหนึ่งของความกว้าง Viewport',
+      'ครึ่งหนึ่งของความกว้าง Parent Element',
+      'ครึ่งหนึ่งของความกว้างหน้าต่าง Browser',
+    ],
+    answer: 2,
+  },
+  {
+    q: '1rem มีค่าเท่าไรใน Browser ส่วนใหญ่ตาม Default?',
+    options: ['10px', '12px', '14px', '16px'],
+    answer: 3,
+  },
+  {
+    q: 'หน่วยใดสัมพัทธ์กับ Viewport ของ Browser โดยตรง ไม่ใช่ Parent Element?',
+    options: ['%', 'rem', 'em', 'vw'],
+    answer: 3,
+  },
+  {
+    q: 'ทำไมการใช้ rem สำหรับ Font Size ถึงดีกว่า px ในแง่ Accessibility?',
+    options: [
+      'ค่า rem โหลดเร็วกว่า',
+      'ค่า rem ปรับตามเมื่อผู้ใช้เปลี่ยนขนาด Text ใน Browser',
+      'ค่า rem ใหญ่กว่า px เสมอ',
+      'rem เป็น Standard ใหม่ที่รองรับเฉพาะ Browser ทันสมัย',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="responsive/relative-units" questions={quizRelativeUnits} />
+
+<ProgressTracker client:visible id="responsive/relative-units" />

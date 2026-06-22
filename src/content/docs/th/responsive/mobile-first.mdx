@@ -1,0 +1,182 @@
+---
+title: Mobile-First Design
+description: 'เขียน CSS สำหรับหน้าจอเล็กก่อน แล้วเพิ่มความซับซ้อนสำหรับหน้าจอใหญ่ด้วย min-width queries — แนวทางมาตรฐานสมัยใหม่'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+มีสองวิธีในการเขียน Responsive CSS วิธีแรกคือ **Desktop-First**: ออกแบบสำหรับหน้าจอกว้างแล้วเขียน `max-width` Media Queries เพื่อลดขนาดลงสำหรับหน้าจอเล็ก วิธีที่สอง — และเป็นมาตรฐานสมัยใหม่ — คือ **Mobile-First**: ออกแบบสำหรับหน้าจอที่เล็กที่สุดก่อน แล้วใช้ `min-width` Queries เพื่อ *เพิ่ม* ความซับซ้อนเมื่อมีพื้นที่มากขึ้น
+
+## ทำไมต้อง Mobile-First?
+
+- **ผู้ใช้ส่วนใหญ่อยู่บนโทรศัพท์** การเขียนสำหรับหน้าจอเล็กก่อนหมายความว่า Baseline ทำงานได้กับผู้ใช้ส่วนใหญ่โดยไม่ต้องเขียน Media Query เลย
+- **Default ที่เรียบง่ายกว่า** เนื้อหาแบบ Single Column แทบไม่ต้องการ CSS เลย การเพิ่ม Two-Column Layout สำหรับหน้าจอใหญ่ใช้แค่ Media Query เดียว การทำตรงกันข้าม — ยุบ Grid ซับซ้อนให้เป็น Single Column — ต้องเขียน CSS มากกว่าและผิดพลาดง่ายกว่า
+- **เร็วกว่าบน Connection ช้า** Browser มือถือบน Network ช้าดาวน์โหลดและใช้งาน Base CSS ทันที Desktop Enhancements จะถูกใช้เมื่อจำเป็นเท่านั้น
+- **ตรงกับ Figma Workflow** ทีม Design ส่วนใหญ่ในปัจจุบันเริ่มด้วย Mobile Artboard ก่อนสร้างขึ้นไป Mobile-First CSS ตรงกับ Workflow นั้น
+
+## รูปแบบ
+
+```css
+/* Base styles — หน้าจอเล็ก ไม่ต้องการ Media Query */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Tablet ขึ้นไป: สลับเป็น Row */
+@media (min-width: 420px) {
+  .nav {
+    flex-direction: row;
+  }
+}
+
+/* Desktop ขึ้นไป: เพิ่มช่องว่าง */
+@media (min-width: 700px) {
+  .nav {
+    gap: 2rem;
+  }
+}
+```
+
+สังเกต Progression: Default = แคบที่สุด แต่ละ Query ต่อเติมด้านบน
+
+## เห็นผลจริง
+
+Preview Pane คือหน้าจอของคุณ **ย่อหน้าต่าง Browser** ให้แคว (หรือดูบนโทรศัพท์) เพื่อดู Mobile Base Layout เมื่อกว้างเกิน 420 px Desktop Enhancement จะเริ่มทำงาน
+
+export const mobileFirstHtml = `<nav class="nav">
+  <a class="nav__link nav__link--active" href="#">Home</a>
+  <a class="nav__link" href="#">Work</a>
+  <a class="nav__link" href="#">About</a>
+  <a class="nav__link" href="#">Contact</a>
+</nav>
+<main class="main">
+  <h1 class="hero__title">Design for every screen</h1>
+  <p class="hero__sub">Start small, build up.</p>
+</main>`;
+
+export const mobileFirstCss = `*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f8fafc;
+}
+
+/* ── Mobile base ── */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: #1e293b;
+  padding: 0.5rem;
+}
+
+.nav__link {
+  display: block;
+  padding: 0.6rem 1rem;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+}
+
+.nav__link:hover,
+.nav__link--active {
+  background: #334155;
+  color: #fff;
+}
+
+.main {
+  padding: 1.5rem 1rem;
+}
+
+.hero__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  color: #1e293b;
+}
+
+.hero__sub {
+  margin: 0;
+  color: #64748b;
+}
+
+/* ── Tablet ขึ้นไป (min-width: 420px) ── */
+@media (min-width: 420px) {
+  .nav {
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    gap: 0.25rem;
+  }
+
+  .hero__title {
+    font-size: 2rem;
+  }
+
+  .main {
+    padding: 2rem 1.5rem;
+  }
+}`;
+
+<LivePreview client:visible html={mobileFirstHtml} css={mobileFirstCss} height="240px" />
+
+ที่ความกว้างแคว Nav Links จะเรียงซ้อนกันในแนวตั้ง — รูปแบบ Mobile ตามธรรมชาติ เมื่อ Pane กว้างเกิน 420 px Media Query Block เดียวจะสลับ Nav เป็นแนวนอนและเพิ่มขนาด Heading
+
+<Tip title="อ่าน Media Queries ตามลำดับ">
+ใน Mobile-First CSS ให้อ่าน Media Queries จากบน (แควที่สุด พบบ่อยที่สุด) ลงล่าง (กว้างที่สุด เสริมประสิทธิภาพ) Base Styles ที่ด้านบนคือรากฐาน แต่ละ `min-width` Query ต่อเติมบนรากฐานนั้น — เหมือนการเพิ่มห้องให้บ้านแทนที่จะทุบกำแพง Mental Model นี้ป้องกันไม่ให้คุณ Override Style โดยไม่ตั้งใจ
+</Tip>
+
+export const quizMobileFirst = [
+  {
+    q: 'ใน Mobile-First CSS คุณใช้ Media Query ชนิดใดเพื่อเสริมประสิทธิภาพสำหรับหน้าจอกว้างขึ้น?',
+    options: [
+      '@media (max-width: ...)',
+      '@media (min-width: ...)',
+      '@media (orientation: landscape)',
+      '@media print',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ทำไม Mobile-First ถึงถือว่าดีกว่า Desktop-First สำหรับโปรเจกต์ส่วนใหญ่?',
+    options: [
+      'ไม่ต้องใช้ CSS เลยสำหรับหน้าจอมือถือ',
+      'ผู้ใช้ส่วนใหญ่อยู่บนโทรศัพท์ ดังนั้น Default (ไม่มี Media Query) ทำงานได้กับผู้ใช้กลุ่มใหญ่ที่สุดแล้ว',
+      'Mobile-First CSS รันเร็วกว่าเพราะโทรศัพท์มี CPU เร็วกว่า',
+      'Desktop-First ไม่รองรับโดย Browser อีกต่อไป',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ในตัวอย่าง Nav @media (min-width: 420px) ทำการเปลี่ยนแปลงอะไร?',
+    options: [
+      'Nav ซ่อนบนหน้าจอกว้าง',
+      'สี Nav Links เปลี่ยน',
+      'Nav สลับจากแนวตั้งเป็นแนวนอน',
+      'ขนาด Font ของ Nav ลดลงบนหน้าจอกว้าง',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'อะไรคือลำดับที่ถูกต้องของกฎใน Mobile-First Stylesheet?',
+    options: [
+      'Desktop Styles ด้านบน แล้วตาม max-width Queries ด้านล่าง',
+      'Mobile Base Styles ด้านบน แล้วตาม min-width Queries ด้านล่าง',
+      'Media Queries ทั้งหมดด้านบน แล้วตาม Base Styles ด้านล่าง',
+      'ไม่มีลำดับที่ต้องการเป็นพิเศษ',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="responsive/mobile-first" questions={quizMobileFirst} />
+
+<ProgressTracker client:visible id="responsive/mobile-first" />

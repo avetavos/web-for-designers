@@ -1,0 +1,103 @@
+---
+title: Events
+description: 'เรียนรู้วิธีที่ addEventListener ทำงาน — เทียบเท่ากับ prototype trigger ใน Figma — เพื่อให้หน้าเว็บตอบสนองต่อสิ่งที่ผู้ใช้ทำ'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ถ้าคุณเคยสร้าง prototype ใน Figma มาก่อน คุณก็เข้าใจแนวคิดหลักของ JavaScript events แล้ว เมื่อคุณตั้งค่า prototype interaction ไว้ว่า "เมื่อผู้ใช้แตะ hotspot นี้ ให้ไปที่ frame X" นั่นคือการอธิบาย trigger และ response JavaScript ทำงานแบบเดียวกันทุกประการ: คุณรอฟังสิ่งที่จะเกิดขึ้น แล้วเมื่อมันเกิด คุณก็รันโค้ด
+
+## Event คืออะไร?
+
+**Event** คือ ช่วงเวลาที่บางอย่างเกิดขึ้นในเบราว์เซอร์ ผู้ใช้คลิกปุ่ม — นั่นคือ event การกดแป้นพิมพ์ — นั่นก็คือ event การ hover เมาส์เหนือรูปภาพ — ก็เป็น event เช่นกัน
+
+เบราว์เซอร์กำลังจับตาดูช่วงเวลาเหล่านี้ตลอดเวลา หน้าที่ของคุณในฐานะนักพัฒนาคือบอกเบราว์เซอร์ว่า "เมื่อ *event นี้* เกิดขึ้นบน *element นั้น* ให้รัน *โค้ดนี้*"
+
+## addEventListener
+
+method ที่เชื่อมทุกอย่างเข้าด้วยกันคือ `addEventListener` ซึ่งรับสองสิ่ง:
+
+1. **ชื่อ** ของ event ที่ต้องการฟัง (เช่น `'click'`)
+2. **ฟังก์ชัน** ที่จะรันเมื่อ event นั้นเกิดขึ้น — เรียกว่า **handler** หรือ **callback**
+
+```js
+var btn = document.querySelector('#myButton');
+
+btn.addEventListener('click', function() {
+  // โค้ดนี้จะรันทุกครั้งที่ปุ่มถูกคลิก
+});
+```
+
+ลองนึกถึง `addEventListener` เหมือนกับแผง prototype ใน Figma คุณเลือก element เลือก trigger ("On click") แล้วระบุว่าจะเกิดอะไรขึ้นต่อไป ในที่นี้ trigger คือ `'click'` และ "สิ่งที่จะเกิดขึ้นต่อไป" คือฟังก์ชันที่คุณส่งเข้าไป
+
+ฟังก์ชันที่อยู่ข้างใน `addEventListener` เรียกว่า **callback** เพราะเบราว์เซอร์จะ "โทรกลับ" มาเรียกมันในเวลาที่เหมาะสม — คุณไม่ได้เรียกมันเอง
+
+## ปุ่มที่นับจำนวนคลิก
+
+นี่คือตัวอย่างที่สมบูรณ์ ปุ่มที่คอยติดตามว่าถูกคลิกไปกี่ครั้ง และอัปเดตหน้าเว็บเพื่อแสดงยอดรวมที่เพิ่มขึ้น
+
+export const eventsHtml = `<button id="countBtn">Click me!</button>
+<p id="counter">You have clicked 0 times.</p>`;
+
+export const eventsCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+button { background: #7C3AED; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+p { margin-top: 1rem; color: #374151; font-size: 1.1rem; }`;
+
+export const eventsJs = `var count = 0;
+var btn = document.querySelector('#countBtn');
+var counter = document.querySelector('#counter');
+btn.addEventListener('click', function() {
+  count = count + 1;
+  counter.textContent = 'You have clicked ' + count + ' times.';
+});`;
+
+<LivePreview client:visible html={eventsHtml} css={eventsCss} js={eventsJs} />
+
+มาดูทีละขั้นตอนว่าเกิดอะไรขึ้น:
+
+- `var count = 0` — ตัวแปรที่เริ่มต้นที่ศูนย์และเพิ่มขึ้นทุกครั้งที่คลิก
+- `document.querySelector('#countBtn')` — ดึงปุ่มออกมาจากหน้าเว็บ
+- `document.querySelector('#counter')` — ดึงย่อหน้าที่แสดงยอดรวมออกมา
+- `addEventListener('click', function() { ... })` — ทุกครั้งที่ปุ่มถูกคลิก ฟังก์ชันข้างในจะทำงาน
+- ภายในฟังก์ชัน `count` จะเพิ่มขึ้นทีละหนึ่ง จากนั้น `counter.textContent` จะถูกอัปเดตเพื่อสะท้อนยอดรวมใหม่โดยใช้การต่อ string (`+`)
+
+สังเกตว่า `textContent` ใช้ตัวดำเนินการ `+` เพื่อนำตัวเลขมาต่อกับข้อความรอบข้าง ซึ่งทำให้โค้ดอ่านง่ายและหลีกเลี่ยง syntax พิเศษภายใน string
+
+<Tip title="Handler จะรันทีหลัง ไม่ใช่ทันที">
+เมื่อคุณเขียน `addEventListener('click', function() { ... })` ฟังก์ชันจะ **ไม่รันทันที** มันถูกลงทะเบียนแล้วรอ เบราว์เซอร์จะเรียกมันก็ต่อเมื่อผู้ใช้คลิกจริงๆ เท่านั้น นี่คือความหมายของคำว่า "callback" — เบราว์เซอร์โทรกลับมาหาคุณในเวลาที่เหมาะสม
+</Tip>
+
+## เปรียบเทียบกับ Figma
+
+| Figma | JavaScript |
+|---|---|
+| เลือก hotspot | `document.querySelector('#myElement')` |
+| เลือก trigger: On Click | `addEventListener('click', ...)` |
+| เลือก action: navigate / change variant | ส่วนของฟังก์ชัน — โค้ดที่คุณกำหนดเอง |
+
+ใน Figma ทุก prototype interaction คือ: *trigger → action* ใน JavaScript ทุก event listener คือ: *event → callback* แนวคิดเหมือนกันทุกประการ มีแค่ syntax เท่านั้นที่ใหม่
+
+export const quizEvents = [
+  {
+    q: '"event" ในเบราว์เซอร์คืออะไร?',
+    options: ['CSS animation', 'ช่วงเวลาที่บางอย่างเกิดขึ้น เช่น การคลิกหรือการกดแป้น', 'HTML attribute', 'ประเภทของตัวแปร'],
+    answer: 1,
+  },
+  {
+    q: 'method ใดที่ผูกฟังก์ชันให้รันเมื่อคลิก element?',
+    options: ['element.onClick()', 'element.trigger()', 'element.addEventListener("click", fn)', 'element.runOnClick(fn)'],
+    answer: 2,
+  },
+  {
+    q: 'ในแง่ของ Figma อะไรที่ใกล้เคียงกับ event listener มากที่สุด?',
+    options: ['Color style', 'Component variant', 'Prototype trigger บน hotspot', 'Auto-layout rule'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="javascript/events" questions={quizEvents} />
+
+<ProgressTracker client:visible id="javascript/events" />

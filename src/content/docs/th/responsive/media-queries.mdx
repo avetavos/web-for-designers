@@ -1,0 +1,172 @@
+---
+title: Media Queries
+description: 'ใช้ @media rules เพื่อใช้ CSS ที่ต่างกันตามความกว้างหน้าจอ — เทียบเท่ากับการสลับ Artboard ใน Figma โดยตรง'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ใน Figma คุณมี Artboard แยกกันสำหรับ Desktop, Tablet และ Mobile คุณตัดสินใจว่า Layer ไหนมองเห็น Font ไหนใหญ่กว่า Column ไหนยุบ **Media Query** คือวิธีที่คุณแสดง Logic นั้นเป็นโค้ด CSS — "ใช้ *กฎเหล่านี้* เมื่อหน้าจอกว้าง *เท่านี้*"
+
+## Syntax
+
+```css
+@media (max-width: 480px) {
+  /* กฎใน Block นี้จะใช้เฉพาะเมื่อ Viewport กว้าง 480 px หรือแควกว่า */
+}
+
+@media (min-width: 480px) {
+  /* กฎใน Block นี้จะใช้เฉพาะเมื่อ Viewport กว้าง 480 px หรือกว้างกว่า */
+}
+```
+
+คิดว่ามันเป็นประโยค `if` สำหรับ CSS:
+
+- `max-width` = "ถ้าหน้าจอกว้าง **ไม่เกิน** นี้ ให้ทำ..." (ใหญ่ → เล็ก)
+- `min-width` = "ถ้าหน้าจอกว้าง **อย่างน้อย** นี้ ให้ทำ..." (เล็ก → ใหญ่)
+
+## ตัวอย่างจริง — Card ที่เปลี่ยน Layout
+
+กรอบ Preview ด้านล่างคือหน้าจอของคุณ **ย่อหน้าต่าง Browser** ให้แคบลง (หรือดูบนโทรศัพท์) แล้วสังเกต Card ที่เปลี่ยน Layout เพราะ Preview Pane มีความกว้างประมาณครึ่งหน้าจอบน Desktop Breakpoint ที่ `max-width: 420px` จะทำงานได้จริงโดยไม่ต้องใช้โทรศัพท์
+
+export const mediaQueriesHtml = `<div class="card">
+  <div class="card__image"></div>
+  <div class="card__body">
+    <h2 class="card__title">Sunset over the hills</h2>
+    <p class="card__text">A short description of the photo that wraps naturally on small screens.</p>
+    <a class="card__btn" href="#">View full size</a>
+  </div>
+</div>`;
+
+export const mediaQueriesCss = `body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 1rem;
+  background: #f1f5f9;
+}
+
+/* Default (กว้าง): รูปซ้าย ข้อความขวา */
+.card {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  padding: 1rem;
+}
+
+.card__image {
+  flex: 0 0 140px;
+  height: 140px;
+  background: linear-gradient(135deg, #7C3AED, #2563EB);
+  border-radius: 8px;
+}
+
+.card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+.card__text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.card__btn {
+  display: inline-block;
+  margin-top: auto;
+  padding: 0.4rem 0.9rem;
+  background: #7C3AED;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Layout แคว: เรียงซ้อนแนวตั้ง */
+@media (max-width: 420px) {
+  .card {
+    flex-direction: column;
+  }
+
+  .card__image {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 120px;
+    border-radius: 8px;
+  }
+}`;
+
+<LivePreview client:visible html={mediaQueriesHtml} css={mediaQueriesCss} height="280px" />
+
+ที่ความกว้างมากขึ้น รูปภาพและข้อความจะอยู่เคียงกัน เมื่อ Pane แคบกว่า 420 px Block `@media (max-width: 420px)` จะเริ่มทำงานและเรียงซ้อนกันในแนวตั้ง นี่คือสิ่งที่คุณจะแสดงให้ Developer เห็นโดยสลับระหว่าง Mobile และ Desktop Artboard ใน Figma
+
+## เปลี่ยน Typography ด้วย
+
+คุณไม่จำกัดแค่ Layout สามารถเปลี่ยน Font Size ซ่อน Element ปรับ Spacing — ทุกอย่างใน CSS สามารถ Override ได้ภายใน Media Query
+
+```css
+h1 {
+  font-size: 2.5rem;   /* default: หน้าจอใหญ่ */
+}
+
+@media (max-width: 420px) {
+  h1 {
+    font-size: 1.6rem;  /* เล็กลงบนหน้าจอแคว */
+  }
+}
+```
+
+<Tip title="ใช้ Breakpoint ที่ 420px ใน Preview ไม่ใช่ 768px">
+Preview Pane ในหลักสูตรนี้มีความกว้างประมาณครึ่งหน้าจอบน Desktop — ส่วนใหญ่ประมาณ 400–500 px กว้าง Breakpoint ที่ 768 px จะไม่เกิดขึ้นใน Preview เพราะ Pane แคบกว่านั้นอยู่แล้ว ใช้ Breakpoint ประมาณ 400–480 px ในตัวอย่างเพื่อสังเกตการเปลี่ยนแปลงโดยไม่ต้องใช้โทรศัพท์ ในโปรเจกต์จริงคุณจะใช้ Breakpoint มาตรฐาน (640 px, 768 px, 1024 px) แต่เพื่อการเรียนรู้ให้เล็กไว้ก่อน
+</Tip>
+
+export const quizMediaQueries = [
+  {
+    q: '`@media (max-width: 480px)` หมายความว่าอะไร?',
+    options: [
+      'ใช้กฎเหล่านี้เฉพาะบนหน้าจอที่กว้างกว่า 480 px',
+      'ใช้กฎเหล่านี้เฉพาะบนหน้าจอที่กว้าง 480 px หรือแควกว่า',
+      'กำหนดความกว้างสูงสุดของหน้าเป็น 480 px',
+      'ซ่อนทุกอย่างที่กว้างกว่า 480 px',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ในตัวอย่าง Card การเปลี่ยนแปลง CSS อะไรที่เกิดขึ้นบนหน้าจอแคว?',
+    options: [
+      'สีพื้นหลังของ Card เปลี่ยน',
+      'ข้อความใน Card หายไป',
+      'flex-direction เปลี่ยนจาก row เป็น column',
+      'รูปภาพถูกซ่อน',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'ทำไมถึงแนะนำ Breakpoint เล็ก (ประมาณ 420 px) สำหรับ Live Preview ในหลักสูตรนี้?',
+    options: [
+      'เพราะ 420 px คือ Breakpoint มาตรฐานของมือถือ',
+      'เพราะ Preview Pane แคบอยู่แล้ว Breakpoint ที่ 768 px จึงไม่เกิดขึ้นใน Preview',
+      'เพราะ Breakpoint เล็กโหลดเร็วกว่า',
+      'เพราะ 420 px ตรงกับขนาดหน้าจอ iPhone พอดี',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="responsive/media-queries" questions={quizMediaQueries} />
+
+<ProgressTracker client:visible id="responsive/media-queries" />

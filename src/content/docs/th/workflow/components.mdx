@@ -1,0 +1,121 @@
+---
+title: 'Components'
+description: 'UI ที่ใช้ซ้ำได้ — เช่นเดียวกับ Figma components'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ใน Figma component คือ UI ที่คุณกำหนดครั้งเดียวและนำไปใช้ซ้ำทุกที่ เปลี่ยนเนื้อหา คง style ไว้ ใน HTML และ CSS คุณทำสิ่งเดียวกันด้วย **classes** กำหนด class `.btn` ครั้งเดียว แล้วนำไปใช้กับทุกปุ่มบนเพจ ทุกปุ่มจะดูสอดคล้องกัน — และเมื่อคุณเปลี่ยน `.btn` ทุกปุ่มจะอัปเดต
+
+## Figma components → CSS classes
+
+| Figma | CSS |
+|---|---|
+| Component ชื่อ `Button/Primary` | Class `.btn.btn--primary` |
+| Component ชื่อ `Button/Secondary` | Class `.btn.btn--secondary` |
+| Component ชื่อ `Card` | Class `.card` |
+| Instance ของ Card | `<div class="card">...</div>` |
+| Component property (variant) | Modifier class `.btn--large` |
+
+Convention การตั้งชื่อที่นักพัฒนาส่วนใหญ่ใช้คือ **BEM** — Block, Element, Modifier รูปแบบ:
+- **Block:** component เอง → `.card`
+- **Element:** ส่วนประกอบของมัน → `.card__title`, `.card__body`
+- **Modifier:** variant → `.btn--primary`, `.btn--secondary`
+
+คุณไม่จำเป็นต้องจำ BEM สิ่งสำคัญคือแนวคิด: **ตั้งชื่อ class ตามสิ่งที่มัน *เป็น* ไม่ใช่ตามหน้าตา** `.card` ดีกว่า `.white-rounded-box` `.btn--primary` ดีกว่า `.purple-button`
+
+## สร้าง components ที่ใช้ซ้ำได้
+
+ด้านล่างคือ button สองแบบและ card สองอัน — ทั้งหมดสร้างจาก CSS classes เดียวกัน คลิกในโค้ดและเพิ่ม card ที่สามหรือปุ่มที่สาม
+
+export const componentsHtml = `<section class="demo">
+  <div class="button-row">
+    <a href="#" class="btn btn--primary">Get started</a>
+    <a href="#" class="btn btn--secondary">Learn more</a>
+  </div>
+  <div class="card-row">
+    <div class="card">
+      <h3 class="card__title">Brand Identity</h3>
+      <p class="card__body">Logo systems, color palettes, and typography guidelines for modern brands.</p>
+      <a href="#" class="btn btn--primary">View project</a>
+    </div>
+    <div class="card">
+      <h3 class="card__title">Mobile App Design</h3>
+      <p class="card__body">End-to-end product design for iOS and Android with a focus on accessibility.</p>
+      <a href="#" class="btn btn--secondary">View project</a>
+    </div>
+  </div>
+</section>`;
+
+export const componentsCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; background: #f5f5f5; }
+.demo { display: flex; flex-direction: column; gap: 1.5rem; }
+.button-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.card-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn:hover { opacity: 0.85; }
+.btn--primary { background: #7C3AED; color: #fff; }
+.btn--secondary { background: transparent; color: #7C3AED; border: 2px solid #7C3AED; }
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.card__title { margin: 0; font-size: 1rem; font-weight: 700; color: #111; }
+.card__body { margin: 0; font-size: 0.875rem; color: #666; line-height: 1.6; flex: 1; }`;
+
+<LivePreview client:visible html={componentsHtml} css={componentsCss} />
+
+สังเกตว่าทั้งสองการ์ดใช้ classes `.card`, `.card__title` และ `.card__body` เดียวกัน — เนื้อหาเท่านั้นที่ต่างกัน นี่คือ component model ใน HTML และ CSS
+
+<Tip title="การ copy-paste คือ component ที่กำลังรอให้สร้าง">
+ถ้าคุณพบว่าตัวเองเขียน CSS เดิมสำหรับปุ่มที่สอง หยุด ดึงออกมาเป็น class `.btn` ถ้าคุณเขียนการ์ดที่สาม ให้แน่ใจว่ามันใช้ class `.card` เดียวกับสองอันแรก การ reuse ใน CSS ไม่ใช่ความขี้เกียจ — มันคือวินัยที่รักษา design system ให้สอดคล้องกัน
+</Tip>
+
+export const quizComponents = [
+  {
+    q: 'ใน CSS สิ่งใดที่ทำให้ style rule "ใช้ซ้ำได้" ในหลาย elements?',
+    options: [
+      'การใช้ ID selector',
+      'การใช้ class selector',
+      'การเขียนใน element ทุกอัน',
+      'การใช้ inline styles',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'แนวคิด Figma ใดที่คล้ายกับ CSS class มากที่สุด?',
+    options: [
+      'Figma frame',
+      'Figma component',
+      'Figma color style',
+      'Figma prototype link',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'BEM naming convention ใช้ตัวคั่นอะไรระหว่าง block และ element?',
+    options: ['-', '__', '::', '&&'],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="workflow/components" questions={quizComponents} />
+
+<ProgressTracker client:visible id="workflow/components" />

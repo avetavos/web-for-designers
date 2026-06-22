@@ -1,0 +1,107 @@
+---
+title: Responsive Design
+description: 'เรียนรู้ว่าทำไม Design หนึ่งชิ้นต้องทำงานได้ทุกขนาดหน้าจอ และลองสร้าง Layout แบบ Fluid ครั้งแรก'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ใน Figma คุณสร้าง Artboard แยกกัน — หนึ่งสำหรับ Desktop (1440 px), หนึ่งสำหรับ Tablet (768 px), หนึ่งสำหรับ Mobile (375 px) นั่นคือสิ่งที่ Responsive Design ทำบนเว็บ เพียงแต่ Browser จะสลับให้โดยอัตโนมัติ
+
+เว็บไซต์ Responsive คือ HTML และ CSS ชุดเดียวที่ **ปรับรูปแบบ** ให้เข้ากับทุกหน้าจอ หน้าเดียวกันที่แสดงผลเต็มจอ 27 นิ้ว ก็พอดีกับโทรศัพท์ขนาด 5 นิ้วด้วย ไม่ต้องซูมขยาย ไม่ต้องเลื่อนซ้าย-ขวา ไม่มีข้อความถูกตัดขาด
+
+## ทำไมต้องสนใจ?
+
+ปัจจุบันมากกว่าครึ่งของ Traffic บนเว็บมาจากโทรศัพท์มือถือ ถ้า Design ของคุณดูดีเฉพาะที่ 1440 px คุณกำลังทำให้ผู้ใช้ส่วนใหญ่ได้รับประสบการณ์ที่แย่ Responsive Design จึงไม่ใช่ตัวเลือก แต่เป็นมาตรฐานพื้นฐาน
+
+## เครื่องมือหลักสามอย่าง
+
+บทเรียนถัดไปจะสอนแต่ละอย่างโดยละเอียด นี่คือภาพรวมก่อน:
+
+| เครื่องมือ | หน้าที่ | Figma Analogy |
+|---|---|---|
+| **Relative Units** (`%`, `rem`, `vw`) | ขนาดที่ปรับตามบริบท | Constraints (fill, hug, fixed) |
+| **Media Queries** (`@media`) | ใช้ CSS ต่างกันตามความกว้างหน้าจอ | แสดง/ซ่อน Layer ตาม Artboard |
+| **Mobile-First** | เริ่มออกแบบจากหน้าจอเล็กก่อน | ออกแบบ Mobile Artboard ก่อน |
+
+## Layout แบบ Fluid ครั้งแรก
+
+กรอบ Preview ด้านล่างคือหน้าจอของคุณ ลอง **ย่อหน้าต่าง Browser** ให้แคบลง (หรือดูบนโทรศัพท์) แล้วสังเกตว่ากล่องสีจะปรับตัว — เริ่มแรกอยู่เคียงกัน แล้วเมื่อพื้นที่แคบลงจะเรียงซ้อนกันในแนวตั้งโดยอัตโนมัติ
+
+export const indexHtml = `<div class="row">
+  <div class="box box--a">Header / Hero</div>
+  <div class="box box--b">Sidebar</div>
+  <div class="box box--c">Main content</div>
+</div>`;
+
+export const indexCss = `body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 0.75rem;
+  background: #f8fafc;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.box {
+  flex: 1 1 200px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  padding: 1rem;
+}
+
+.box--a { background: #7C3AED; }
+.box--b { background: #2563EB; }
+.box--c { background: #0891b2; }`;
+
+<LivePreview client:visible html={indexHtml} css={indexCss} />
+
+สังเกต `flex: 1 1 200px` — บรรทัดนี้บอกว่า "แต่ละกล่องสามารถขยายและย่อได้ แต่ต้องไม่แคบกว่า 200 px" เมื่อกรอบแคบเกินไปจนไม่สามารถวางสองกล่องเคียงกันได้ กล่องจะขึ้นบรรทัดใหม่โดยอัตโนมัติ — โดยไม่ต้องเขียน Media Query เลย
+
+<Tip title="Figma Constraints vs CSS Flex">
+ใน Figma "Fill container" ใกล้เคียงกับ `flex: 1` ที่สุด — Item ขยายเพื่อใช้พื้นที่ที่มีอยู่ ส่วน "Hug contents" ตรงกับ `flex: 0 0 auto` — Item มีขนาดเท่ากับเนื้อหาภายใน การเข้าใจ Mapping นี้ทำให้การแปลง Figma Design เป็น CSS รู้สึกเป็นธรรมชาติมากขึ้น
+</Tip>
+
+export const quizResponsiveIndex = [
+  {
+    q: 'เป้าหมายหลักของ Responsive Design คืออะไร?',
+    options: [
+      'สร้างเว็บไซต์แยกกันสำหรับแต่ละอุปกรณ์',
+      'Layout หนึ่งชิ้นที่ปรับตัวได้กับทุกขนาดหน้าจอ',
+      'ใช้ Font ขนาดใหญ่เท่านั้นเพื่อให้อ่านง่ายทุกที่',
+      'ซ่อนเนื้อหาบน Mobile',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'CSS Property ใดที่ทำให้ Flex Items ขึ้นบรรทัดใหม่เมื่อพื้นที่ไม่พอ?',
+    options: ['flex-direction: column', 'flex-wrap: wrap', 'overflow: hidden', 'display: grid'],
+    answer: 1,
+  },
+  {
+    q: 'ใน Figma, อะไรเป็น Analogy ของ Media Queries?',
+    options: [
+      'Constraints (fill, hug, fixed)',
+      'Auto layout spacing',
+      'การแสดง/ซ่อน Layer ตาม Artboard',
+      'Component variants',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="responsive/index" questions={quizResponsiveIndex} />
+
+<ProgressTracker client:visible id="responsive/index" />

@@ -1,0 +1,85 @@
+---
+title: Text & Headings
+description: 'ใช้ heading h1–h6 ย่อหน้า และการเน้นข้อความแบบ inline เพื่อจัดโครงสร้างเนื้อหาข้อความของคุณ'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ทุกดีไซน์มี type scale — ชุดของขนาดข้อความที่บ่งบอกถึงความสำคัญ หัวข้อใหญ่ตัวหนา หัวข้อรองที่เล็กลงมา และ body copy อยู่ด้านล่าง HTML ก็มีแนวคิดแบบเดียวกันเป๊ะ ติดตั้งมาให้ในตัวเลย
+
+**Heading element** — `<h1>` ไปจนถึง `<h6>` — ช่วยให้คุณบอกเบราว์เซอร์ (รวมถึงเทคโนโลยีสิ่งอำนวยความสะดวกและ search engine) ว่าลำดับความสำคัญของข้อความเป็นอย่างไร ลองนึกว่ามันคือ outline ของเอกสาร ไม่ใช่แค่ scale เชิงภาพ
+
+## Heading h1 ถึง h6
+
+`<h1>` คือ heading ที่สำคัญที่สุดในหน้าเว็บ — เป็นชื่อหลักของหน้า ส่วน `<h2>` คือ heading ของ section ใหญ่ และ `<h3>` คือ section ย่อย ไล่ลงไปเรื่อย ๆ จนถึง `<h6>` หน้าเว็บส่วนใหญ่ในทางปฏิบัติจะใช้แค่ `<h1>` ถึง `<h3>` เท่านั้น
+
+heading element มีสไตล์เริ่มต้นจากเบราว์เซอร์ติดมาด้วย (ใหญ่กว่า = สำคัญกว่า) แต่สไตล์เหล่านั้นจะถูก CSS override อยู่ดี สิ่งที่สำคัญจริง ๆ คือ *ความหมายเชิง semantic* — สัญญาณบอกลำดับชั้น
+
+## ย่อหน้า
+
+`<p>` คือย่อหน้า เบราว์เซอร์จะเพิ่ม margin เล็กน้อยด้านบนและด้านล่างของแต่ละย่อหน้าโดยอัตโนมัติ ถ้าต้องการเริ่มย่อหน้าใหม่ ให้เปิด `<p>` element ใหม่ — อย่าใช้ tag `<br>` เพียงเพื่อเพิ่มช่องว่างระหว่างบรรทัด (นั่นเหมือนการใช้ text layer เปล่าใน Figma เพื่อสร้างระยะห่าง แทนที่จะใช้ padding ของ auto-layout)
+
+## การเน้นข้อความแบบ inline
+
+มีสอง element ที่ช่วยให้คุณเน้นคำ *ภายใน* ย่อหน้าได้ โดยไม่ต้องขึ้นบล็อกใหม่:
+
+- `<strong>` — **ตัวหนา** หมายถึงเนื้อหาที่สำคัญหรือวิกฤต
+- `<em>` — *ตัวเอียง* หมายถึงการเน้นย้ำ หรือการเน้นเสียงเล็กน้อยในการอ่าน
+
+สองตัวนี้เป็น **inline element** คือมันอยู่ภายในกระแสของข้อความ แทนที่จะขึ้นบรรทัดใหม่
+
+export const textHtml = `<h1>My Design Process</h1>
+<h2>Research</h2>
+<p>I start every project by talking to <strong>real users</strong>. Their needs drive every decision.</p>
+<h2>Design</h2>
+<p>I move from low-fidelity sketches to <em>high-fidelity</em> prototypes in Figma.</p>
+<h3>Iteration</h3>
+<p>Good design is never done on the first try. I test, learn, and refine.</p>`;
+
+export const textCss = `body { font-family: system-ui, sans-serif; padding: 1rem; max-width: 540px; }
+h1 { font-size: 2rem; color: #7C3AED; margin-bottom: 0.25rem; }
+h2 { font-size: 1.25rem; color: #4B5563; margin-top: 1.5rem; margin-bottom: 0.25rem; }
+h3 { font-size: 1rem; color: #6B7280; }`;
+
+<LivePreview client:visible html={textHtml} css={textCss} height="320px" />
+
+ลองเพิ่ม `<h4>` ใต้ `<h3>` ดู แล้วลองห่อคำสักคำด้วย `<strong>` หรือ `<em>` สังเกตว่าทั้งสองอันไม่ทำให้ขึ้นบรรทัดใหม่ — มันยังคงอยู่ในประโยคเดิม
+
+<Tip title="หนึ่ง h1 ต่อหนึ่งหน้า">
+search engine และ screen reader ถือว่า `<h1>` คือชื่อของทั้งหน้าเว็บ ให้ใช้มันเพียงครั้งเดียวเท่านั้น — สำหรับหัวข้อหลัก จากนั้นใช้ `<h2>` สำหรับ section ระดับบนสุด `<h3>` สำหรับ section ย่อย ไล่ตามลำดับไปเรื่อย ๆ การข้ามระดับ (กระโดดจาก `<h1>` ไป `<h3>`) ก็เหมือนการข้ามระดับในลำดับชั้น component ของ Figma — ในทางเทคนิคมันทำงานได้ แต่มันทำลายโครงสร้างที่ทั้งคน (และเครื่องมือ) พึ่งพา
+</Tip>
+
+export const quizText = [
+  {
+    q: 'heading element ใดบ่งบอกถึงหัวข้อที่สำคัญที่สุดในหน้าเว็บ?',
+    options: ['<h6>', '<h3>', '<h1>', '<heading>'],
+    answer: 2,
+  },
+  {
+    q: 'element ที่ถูกต้องสำหรับบล็อกของ body text (ย่อหน้า) คือข้อใด?',
+    options: ['<text>', '<p>', '<body>', '<block>'],
+    answer: 1,
+  },
+  {
+    q: 'element ใดทำให้ข้อความเป็นตัวหนา และบ่งบอกด้วยว่ามันสำคัญ?',
+    options: ['<bold>', '<i>', '<em>', '<strong>'],
+    answer: 3,
+  },
+  {
+    q: 'ทำไมจึงควรหลีกเลี่ยงการข้ามระดับ heading (เช่น กระโดดจาก h1 ไป h3 โดยตรง)?',
+    options: [
+      'เบราว์เซอร์จะแสดง error',
+      'มันทำลายลำดับชั้นของเอกสารที่ screen reader และ search engine พึ่งพา',
+      'CSS ไม่สามารถจัดสไตล์ h3 ได้หากไม่มี h2 อยู่',
+      'heading ต้องมีขนาดเท่ากันเสมอ',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="html/text-headings" questions={quizText} />
+
+<ProgressTracker client:visible id="html/text-headings" />

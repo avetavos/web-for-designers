@@ -1,0 +1,110 @@
+---
+title: Images
+description: 'เพิ่มรูปภาพลงในหน้าเว็บด้วย img เขียน alt text ที่มีความหมาย และเข้าใจว่าทำไม alt จึงสำคัญต่อ accessibility'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+รูปภาพเป็นหนึ่งในสิ่งแรก ๆ ที่ดีไซเนอร์อยากเพิ่มลงในหน้าเว็บ — และ element `<img>` ก็ทำให้มันง่ายมาก เหมือนการวางรูปภาพใน Figma คุณแค่ชี้ไปที่ไฟล์ต้นทาง แล้วมันก็ปรากฏขึ้นมา
+
+แต่รูปภาพใน HTML มีพลังพิเศษอย่างหนึ่งที่เครื่องมือออกแบบไม่มีติดตัวมา นั่นคือ **alt text** คำอธิบายสั้น ๆ นี้คือสิ่งที่เบราว์เซอร์ใช้เมื่อรูปภาพไม่สามารถมองเห็นได้ — โดยผู้ใช้ screen reader หรือเมื่อไฟล์โหลดไม่สำเร็จ การเขียน alt text ที่ดีคือหนึ่งในวิธีที่เร็วที่สุดที่ดีไซเนอร์จะสร้างความแตกต่างที่แท้จริงด้าน accessibility ได้
+
+## img element
+
+`<img>` เป็น element แบบ self-closing — มันไม่มีเนื้อหาข้อความให้ห่อ จึงไม่มี closing tag
+
+```html
+<img src="photo.jpg" alt="A designer sketching wireframes on paper" />
+```
+
+มีสอง attribute ที่จำเป็น:
+
+- `src` — path ไปยังไฟล์รูปภาพ (relative path หรือ URL เต็ม)
+- `alt` — คำอธิบายข้อความสั้น ๆ ว่ารูปภาพแสดงอะไร
+
+## การกำหนดขนาดรูปภาพ
+
+โดยค่าเริ่มต้น รูปภาพจะแสดงผลตามขนาดพิกเซลตามธรรมชาติของมัน ซึ่งมักจะใหญ่เกินไป คุณสามารถจำกัดขนาดได้ด้วย attribute ของ HTML หรือ (ดีกว่า) ด้วย CSS:
+
+```html
+<!-- limit width, height scales automatically -->
+<img src="photo.jpg" alt="..." width="400" />
+```
+
+ใน CSS คุณมักจะตั้ง `max-width: 100%` เพื่อให้รูปภาพไม่ล้นออกนอก container ของมัน — แนวคิดเดียวกับ constraint แบบ "fill" ใน Figma
+
+## เมื่อรูปภาพโหลดไม่สำเร็จหรือมองไม่เห็น
+
+ถ้ารูปภาพโหลดไม่สำเร็จ (path ผิด หรือเชื่อมต่อช้า) เบราว์เซอร์จะแสดง alt text แทน screen reader สำหรับผู้ใช้ที่ตาบอดหรือสายตาเลือนรางจะอ่าน alt text ออกเสียงแทนการบรรยายพิกเซล ส่วน search engine ก็อ่าน alt text เพื่อทำความเข้าใจเนื้อหาของรูปภาพ
+
+export const imagesHtml = `<figure>
+  <img
+    src="https://picsum.photos/seed/designer/560/280"
+    alt="An abstract design composition with geometric shapes"
+    width="560"
+  />
+  <figcaption>Abstract geometric composition — Lorem Picsum</figcaption>
+</figure>`;
+
+export const imagesCss = `body { font-family: system-ui, sans-serif; padding: 1rem; }
+figure { margin: 0; }
+img { max-width: 100%; border-radius: 8px; display: block; }
+figcaption { margin-top: 0.5rem; font-size: 0.85rem; color: #6B7280; }`;
+
+<LivePreview client:visible html={imagesHtml} css={imagesCss} height="320px" />
+
+ลองเปลี่ยนข้อความใน `alt` ดู ตอนนี้ลองจินตนาการถึงผู้ใช้ที่มองไม่เห็นรูปภาพ — alt text ของคุณคือประสบการณ์ทั้งหมดที่พวกเขาได้รับจากรูปนั้น
+
+<Tip title="รูปภาพตกแต่งต้องใช้ alt text ว่าง">
+ถ้ารูปภาพเป็นเพียงการตกแต่งล้วน ๆ — เช่น พื้นผิวพื้นหลัง กราฟิกเส้นคั่น หรือไอคอนที่มี label ข้อความอยู่ข้าง ๆ อยู่แล้ว — ให้ตั้ง `alt=""` (สตริงว่าง ไม่ใช่ละเว้น) นี่เป็นการบอก screen reader ให้ข้ามรูปภาพนั้นไปเลย ซึ่งช่วยไม่ให้ประสบการณ์เสียงรกรุงรัง กฎคือ ถ้าการลบรูปภาพออกแล้วทำให้สูญเสียข้อมูล ให้เขียน alt text เชิงบรรยาย แต่ถ้ามันเป็นแค่การตกแต่ง ให้ใช้ `alt=""`
+</Tip>
+
+export const quizImages = [
+  {
+    q: 'attribute สองตัวใดที่จำเป็นบนทุก <img> element?',
+    options: [
+      'href และ title',
+      'src และ alt',
+      'width และ height',
+      'class และ id',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'จะเกิดอะไรขึ้นเมื่อรูปภาพโหลดไม่สำเร็จและคุณได้เขียน alt text ไว้?',
+    options: [
+      'เบราว์เซอร์แสดงเฉพาะไอคอนรูปภาพที่เสีย',
+      'เบราว์เซอร์ซ่อนพื้นที่นั้นไปทั้งหมด',
+      'เบราว์เซอร์แสดง alt text แทนที่รูปภาพ',
+      'ไม่มีอะไรเกิดขึ้น — alt text ใช้ได้กับ screen reader เท่านั้น',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'รูปภาพเส้นคั่นที่เป็นการตกแต่งล้วน ๆ ไม่มีเนื้อหาที่มีความหมาย ควรใช้ alt text แบบใด?',
+    options: [
+      'alt="decorative"',
+      'ละเว้น attribute alt ไปทั้งหมด',
+      'alt="" (สตริงว่าง)',
+      'alt="image"',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'CSS property ใดป้องกันไม่ให้รูปภาพล้นออกนอก container บนหน้าจอเล็ก?',
+    options: [
+      'width: auto',
+      'max-width: 100%',
+      'overflow: hidden',
+      'display: block',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="html/images" questions={quizImages} />
+
+<ProgressTracker client:visible id="html/images" />

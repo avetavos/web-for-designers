@@ -1,0 +1,102 @@
+---
+title: 'CSS Layout — Flexbox & Grid'
+description: 'Why layout is the heart of UI work, the two tools every designer needs, and your first editable layout example.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Every design decision you make eventually comes down to one question: *where does this element go?* Layout is the answer. It is the invisible system that holds your entire interface together — the same way a grid system in Figma keeps every screen consistent.
+
+The good news for designers: CSS layout is not magic. It maps almost one-to-one to tools you already use in Figma every day.
+
+## The two main tools
+
+| CSS | Figma equivalent | Best for |
+|---|---|---|
+| **Flexbox** | Auto Layout | Arranging items in a single row or column |
+| **CSS Grid** | Layout Grid | Building two-dimensional layouts (rows AND columns at once) |
+
+Think of **Flexbox** as the tool you reach for when you need items in a line — a navigation bar, a row of cards, a centered button. Think of **CSS Grid** as the tool for the overall page scaffold — headers, sidebars, main content areas, footer.
+
+You will use both constantly. Most real UIs use Grid for the big picture structure and Flexbox for the small-scale component layout inside each region.
+
+## See layout in action
+
+Below are three boxes. Right now they are stacked vertically because that is how the browser arranges block elements by default. Try changing `display: block` to `display: flex` in the CSS panel and watch what happens.
+
+export const indexHtml = `<div class="container">
+  <div class="box">Box 1</div>
+  <div class="box">Box 2</div>
+  <div class="box">Box 3</div>
+</div>`;
+
+export const indexCss = `.container {
+  display: block;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f3f4f6;
+  border-radius: 8px;
+}
+.box {
+  background: #7C3AED;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+}`;
+
+<LivePreview client:visible html={indexHtml} css={indexCss} />
+
+Try `display: flex` — the boxes line up in a row. Try `display: grid` with `grid-template-columns: repeat(3, 1fr)` — they sit in a three-column grid. You just used the two most important layout tools in CSS.
+
+<Tip title="You already think in layout">
+In Figma, the first thing you do when designing a screen is set up frames, auto-layout containers, and grids. In CSS, the first thing you do is set `display: flex` or `display: grid` on the parent element. Same mental model, slightly different syntax.
+</Tip>
+
+## What you will learn in this module
+
+| Lesson | What you will be able to do |
+|---|---|
+| Display & Flow | Understand how browsers stack elements by default |
+| Flexbox | Align rows and columns of components precisely |
+| Grid | Build full-page two-dimensional layouts |
+| Positioning | Control elements that break out of normal flow |
+| Spacing Systems | Apply consistent spacing using a design scale |
+
+By the end, every Figma auto-layout frame and every layout grid you have ever built will have a direct CSS translation you can write from memory.
+
+export const quizLayoutIndex = [
+  {
+    q: 'Which CSS layout tool is closest to Figma Auto Layout?',
+    options: ['CSS Grid', 'Flexbox', 'position: absolute', 'float'],
+    answer: 1,
+  },
+  {
+    q: 'What is CSS Grid best suited for compared to Flexbox?',
+    options: [
+      'Centering a single button',
+      'Arranging items in one direction only',
+      'Building two-dimensional page structures with rows and columns',
+      'Adding hover animations',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'What property do you set on a parent element to activate Flexbox?',
+    options: [
+      'flex: 1',
+      'flex-direction: row',
+      'display: flex',
+      'align-items: center',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="layout/index" questions={quizLayoutIndex} />
+
+<ProgressTracker client:visible id="layout/index" />

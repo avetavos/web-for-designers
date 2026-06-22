@@ -1,0 +1,165 @@
+---
+title: Flexbox — One-Dimensional Layout
+description: 'CSS Flexbox is Figma Auto Layout. Learn flex-direction, justify-content, align-items, gap, and flex-wrap.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+If you have used **Auto Layout** in Figma, you already understand Flexbox. They work on exactly the same idea: a parent container controls how its children are arranged along one axis. You set rules on the parent, and the children obey.
+
+The only difference is the syntax. Let us map what you already know to what CSS calls it.
+
+## The Figma → CSS translation
+
+| Figma Auto Layout setting | CSS Flexbox property |
+|---|---|
+| Direction: Horizontal | `flex-direction: row` (default) |
+| Direction: Vertical | `flex-direction: column` |
+| Alignment: Left/Top | `justify-content: flex-start` |
+| Alignment: Center | `justify-content: center` |
+| Alignment: Right/Bottom | `justify-content: flex-end` |
+| Alignment: Space between | `justify-content: space-between` |
+| Cross-axis alignment: Center | `align-items: center` |
+| Gap (spacing between items) | `gap: 1rem` |
+| Wrap items | `flex-wrap: wrap` |
+
+## The essential properties
+
+**`display: flex`** — This activates Flexbox on the parent. Nothing else changes until you add this one line.
+
+**`flex-direction`** — Which way do the children flow?
+- `row` — left to right (the default)
+- `column` — top to bottom
+
+**`justify-content`** — How are children distributed along the *main axis* (the direction they flow)?
+- `flex-start` / `flex-end` / `center` / `space-between` / `space-around` / `space-evenly`
+
+**`align-items`** — How are children aligned on the *cross axis* (perpendicular to the flow)?
+- `flex-start` / `flex-end` / `center` / `stretch`
+
+**`gap`** — Consistent spacing between items. No more margin hacks. This is the same as the gap value in Figma Auto Layout.
+
+**`flex-wrap`** — Should items wrap to the next line when there is not enough space?
+- `nowrap` (default, items shrink to fit) / `wrap` (items wrap to a new row)
+
+## Edit a row of cards
+
+Below is a navigation bar with three links. Try changing the properties in the CSS panel to see how Flexbox responds.
+
+export const flexboxHtml = `<nav class="nav">
+  <span class="logo">MyBrand</span>
+  <div class="links">
+    <a class="link" href="#">Home</a>
+    <a class="link" href="#">Work</a>
+    <a class="link" href="#">About</a>
+    <a class="link" href="#">Contact</a>
+  </div>
+</nav>
+<div class="cards">
+  <div class="card">Card 1</div>
+  <div class="card">Card 2</div>
+  <div class="card">Card 3</div>
+</div>`;
+
+export const flexboxCss = `.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: #1e1b4b;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.logo {
+  color: white;
+  font-weight: 700;
+  font-family: system-ui, sans-serif;
+}
+.links {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+.link {
+  color: #c4b5fd;
+  text-decoration: none;
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+}
+.cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.card {
+  flex: 1;
+  min-width: 100px;
+  background: #7C3AED;
+  color: white;
+  padding: 2rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+}`;
+
+<LivePreview client:visible html={flexboxHtml} css={flexboxCss} />
+
+Things to try:
+- Change `.cards` `justify-content` to `center` or `space-between`
+- Change `.cards` `flex-direction` to `column`
+- Add `align-items: center` to `.nav` (it already has it — try removing it)
+- Change the `.cards` `gap` to `0.25rem` or `3rem`
+
+<Tip title="justify-content vs align-items — the trick to remembering">
+`justify-content` always works along the direction items are flowing (main axis). `align-items` always works *perpendicular* to that direction (cross axis). In Figma terms: if your auto-layout is horizontal, `justify-content` is horizontal alignment and `align-items` is vertical alignment. Flip the direction and both flip with it.
+</Tip>
+
+export const quizFlexbox = [
+  {
+    q: 'Which CSS property is the direct equivalent of Figma Auto Layout gap?',
+    options: ['margin', 'padding', 'gap', 'spacing'],
+    answer: 2,
+  },
+  {
+    q: 'You want items in a flex container to be centered vertically. Which property do you use?',
+    options: [
+      'justify-content: center',
+      'align-items: center',
+      'flex-direction: center',
+      'text-align: center',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'What does flex-wrap: wrap do?',
+    options: [
+      'Makes all items the same width',
+      'Prevents items from overflowing by wrapping to the next line',
+      'Wraps text inside each item',
+      'Reverses the flex direction',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'To distribute three items with equal space between them (but not outside), you use:',
+    options: [
+      'justify-content: space-around',
+      'justify-content: space-evenly',
+      'justify-content: space-between',
+      'align-items: space-between',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="layout/flexbox" questions={quizFlexbox} />
+
+<ProgressTracker client:visible id="layout/flexbox" />

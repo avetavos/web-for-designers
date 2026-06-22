@@ -1,0 +1,145 @@
+---
+title: Positioning — Breaking Out of Flow
+description: 'Learn position static, relative, absolute, and sticky — and when to use each one for badges, overlays, and sticky headers.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Flexbox and Grid arrange elements in a predictable flow. But sometimes you need an element that *breaks out* of that flow — a notification badge floating over an icon, a sticky header that stays visible while the page scrolls, a tooltip that hovers above content. That is where CSS **positioning** comes in.
+
+Every element has a `position` property. By default it is `static`, which means it just lives in normal flow. The moment you change it to anything else, you gain superpowers — and a few new responsibilities.
+
+## The four values
+
+**`position: static`** — The default. Elements sit in normal document flow. `top`, `left`, `right`, `bottom`, and `z-index` have no effect.
+
+**`position: relative`** — The element stays in the normal flow, but you can now nudge it with `top`/`left`/`right`/`bottom`. More importantly, it creates a *positioning context* — any `absolute` children will be positioned relative to this element, not the whole page. Think of it as "I want this element to be the origin point for my badge."
+
+**`position: absolute`** — The element is removed from normal flow entirely. It is placed relative to the nearest ancestor that has a non-static position. Other elements in the flow do not see it — they act as if it is not there. Perfect for badges, tooltips, dropdowns, and overlays.
+
+**`position: sticky`** — A hybrid. The element sits in normal flow *until* you scroll past a threshold, then it "sticks" to the viewport edge (defined by `top`, `right`, etc.) until its parent scrolls out of view. Perfect for navigation bars and table headers.
+
+## The `z-index` property
+
+When positioned elements overlap, `z-index` controls which one appears on top. Higher numbers are on top. It only works on elements that have a non-static `position`.
+
+Think of it exactly like the Figma layer order panel — higher in the stack = on top — except in CSS you express it as a number instead of dragging.
+
+## Editable example — badge over a card
+
+export const positioningHtml = `<div class="card">
+  <div class="badge">3</div>
+  <div class="icon">&#128276;</div>
+  <p class="label">Notifications</p>
+</div>
+<div class="sticky-bar">I am sticky — scroll down inside this area to see me stick</div>
+<div class="scroll-content">
+  <p>Content paragraph 1</p>
+  <p>Content paragraph 2</p>
+  <p>Content paragraph 3</p>
+  <p>Content paragraph 4</p>
+  <p>Content paragraph 5</p>
+</div>`;
+
+export const positioningCss = `body { font-family: system-ui, sans-serif; padding: 1rem; }
+.card {
+  position: relative;
+  display: inline-block;
+  padding: 1.5rem 2rem;
+  background: #f3f4f6;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #dc2626;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  z-index: 1;
+}
+.icon { font-size: 2rem; }
+.label { margin: 0.5rem 0 0; font-size: 0.875rem; color: #6b7280; }
+.sticky-bar {
+  position: sticky;
+  top: 0;
+  background: #7C3AED;
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 10;
+}
+.scroll-content p {
+  padding: 1rem;
+  background: #ede9fe;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  color: #4c1d95;
+}`;
+
+<LivePreview client:visible html={positioningHtml} css={positioningCss} />
+
+Things to try:
+- Change `.badge` `top: -8px` and `right: -8px` to different values — move the badge around
+- Change `.badge` `position: absolute` to `position: relative` — watch it fall back into normal flow
+- Remove `position: relative` from `.card` — the badge will now position relative to the whole document
+- Change `.sticky-bar` from `position: sticky` to `position: relative` — it stops sticking when you scroll
+
+<Tip title="relative + absolute is the badge pattern">
+The most common use of positioning in UI work is the badge/overlay pattern: set `position: relative` on the parent card or icon, then `position: absolute` on the badge. This anchors the badge inside its card rather than flying off somewhere on the page. Any time you see a notification dot, an image overlay, or a floating label in a design — this is how it is built.
+</Tip>
+
+export const quizPositioning = [
+  {
+    q: 'Which position value removes an element from the normal document flow?',
+    options: ['static', 'relative', 'absolute', 'sticky'],
+    answer: 2,
+  },
+  {
+    q: 'You want a badge to float over the top-right corner of a card. What should the card have?',
+    options: [
+      'position: absolute',
+      'position: relative',
+      'z-index: 1',
+      'display: flex',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'What does position: sticky do?',
+    options: [
+      'Fixes the element in place permanently regardless of scrolling',
+      'The element stays in normal flow until scrolled to a threshold, then sticks to the viewport',
+      'Sticks the element to the bottom of its parent',
+      'Prevents the element from being moved by JavaScript',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'z-index only works on elements that have:',
+    options: [
+      'display: flex',
+      'a non-static position value',
+      'a defined width and height',
+      'position: absolute only',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="layout/positioning" questions={quizPositioning} />
+
+<ProgressTracker client:visible id="layout/positioning" />

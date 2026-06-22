@@ -1,0 +1,165 @@
+---
+title: 'Flexbox — Layout หนึ่งมิติ'
+description: 'CSS Flexbox คือ Figma Auto Layout เรียนรู้ flex-direction, justify-content, align-items, gap และ flex-wrap'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ถ้าคุณเคยใช้ **Auto Layout** ใน Figma คุณเข้าใจ Flexbox แล้ว พวกมันทำงานบนแนวคิดเดียวกันพอดี: container พ่อแม่ควบคุมวิธีการจัดเรียง children ตามแกนเดียว คุณตั้งกฎบน parent และ children ก็ทำตาม
+
+ความแตกต่างเดียวคือ syntax มาดูการแมปจากสิ่งที่คุณรู้แล้วกับสิ่งที่ CSS เรียกมัน
+
+## การแปล Figma → CSS
+
+| การตั้งค่า Figma Auto Layout | CSS Flexbox property |
+|---|---|
+| Direction: Horizontal | `flex-direction: row` (ค่าเริ่มต้น) |
+| Direction: Vertical | `flex-direction: column` |
+| Alignment: Left/Top | `justify-content: flex-start` |
+| Alignment: Center | `justify-content: center` |
+| Alignment: Right/Bottom | `justify-content: flex-end` |
+| Alignment: Space between | `justify-content: space-between` |
+| Cross-axis alignment: Center | `align-items: center` |
+| Gap (ระยะห่างระหว่างไอเทม) | `gap: 1rem` |
+| Wrap items | `flex-wrap: wrap` |
+
+## Properties ที่สำคัญ
+
+**`display: flex`** — เปิดใช้งาน Flexbox บน parent ไม่มีอะไรเปลี่ยนจนกว่าคุณจะเพิ่มบรรทัดนี้
+
+**`flex-direction`** — children ไหลไปทิศทางไหน?
+- `row` — ซ้ายไปขวา (ค่าเริ่มต้น)
+- `column` — บนลงล่าง
+
+**`justify-content`** — children กระจายตัวอย่างไรตาม *main axis* (ทิศทางที่พวกมันไหล)?
+- `flex-start` / `flex-end` / `center` / `space-between` / `space-around` / `space-evenly`
+
+**`align-items`** — children จัดแนวอย่างไรบน *cross axis* (ตั้งฉากกับการไหล)?
+- `flex-start` / `flex-end` / `center` / `stretch`
+
+**`gap`** — ระยะห่างที่สม่ำเสมอระหว่างไอเทม ไม่ต้องใช้ margin tricks อีกต่อไป นี่คือเดียวกับค่า gap ใน Figma Auto Layout
+
+**`flex-wrap`** — ไอเทมควร wrap ไปบรรทัดถัดไปเมื่อไม่มีพื้นที่เพียงพอหรือไม่?
+- `nowrap` (ค่าเริ่มต้น ไอเทมหดตัวให้พอดี) / `wrap` (ไอเทม wrap ไปแถวใหม่)
+
+## แก้ไข navigation bar
+
+ด้านล่างคือ navigation bar กับลิงก์สามอัน ลองเปลี่ยน properties ในแผง CSS เพื่อดูว่า Flexbox ตอบสนองอย่างไร
+
+export const flexboxHtml = `<nav class="nav">
+  <span class="logo">MyBrand</span>
+  <div class="links">
+    <a class="link" href="#">Home</a>
+    <a class="link" href="#">Work</a>
+    <a class="link" href="#">About</a>
+    <a class="link" href="#">Contact</a>
+  </div>
+</nav>
+<div class="cards">
+  <div class="card">Card 1</div>
+  <div class="card">Card 2</div>
+  <div class="card">Card 3</div>
+</div>`;
+
+export const flexboxCss = `.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: #1e1b4b;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.logo {
+  color: white;
+  font-weight: 700;
+  font-family: system-ui, sans-serif;
+}
+.links {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+.link {
+  color: #c4b5fd;
+  text-decoration: none;
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+}
+.cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.card {
+  flex: 1;
+  min-width: 100px;
+  background: #7C3AED;
+  color: white;
+  padding: 2rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+}`;
+
+<LivePreview client:visible html={flexboxHtml} css={flexboxCss} />
+
+สิ่งที่ลองได้:
+- เปลี่ยน `justify-content` ของ `.cards` เป็น `center` หรือ `space-between`
+- เปลี่ยน `flex-direction` ของ `.cards` เป็น `column`
+- เพิ่ม `align-items: center` ให้ `.nav` (มีอยู่แล้ว — ลองลบออก)
+- เปลี่ยน `gap` ของ `.cards` เป็น `0.25rem` หรือ `3rem`
+
+<Tip title="วิธีจำ justify-content vs align-items">
+`justify-content` ทำงานตามทิศทางที่ไอเทมไหล (main axis) เสมอ `align-items` ทำงาน *ตั้งฉาก* กับทิศทางนั้น (cross axis) ในภาษา Figma: ถ้า auto-layout ของคุณเป็นแนวนอน `justify-content` คือการจัดแนวนอนและ `align-items` คือการจัดแนวตั้ง เปลี่ยนทิศทางและทั้งสองก็เปลี่ยนตาม
+</Tip>
+
+export const quizFlexbox = [
+  {
+    q: 'CSS property ใดที่เทียบเท่ากับ Figma Auto Layout gap โดยตรง?',
+    options: ['margin', 'padding', 'gap', 'spacing'],
+    answer: 2,
+  },
+  {
+    q: 'คุณต้องการให้ไอเทมใน flex container อยู่กึ่งกลางในแนวตั้ง คุณใช้ property ใด?',
+    options: [
+      'justify-content: center',
+      'align-items: center',
+      'flex-direction: center',
+      'text-align: center',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'flex-wrap: wrap ทำอะไร?',
+    options: [
+      'ทำให้ไอเทมทั้งหมดมีความกว้างเท่ากัน',
+      'ป้องกัน overflow โดย wrap ไปบรรทัดถัดไป',
+      'Wrap ข้อความภายในแต่ละไอเทม',
+      'กลับทิศทาง flex',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'การกระจายไอเทมสามอันที่มีพื้นที่เท่ากันระหว่างกัน (แต่ไม่ด้านนอก) ใช้:',
+    options: [
+      'justify-content: space-around',
+      'justify-content: space-evenly',
+      'justify-content: space-between',
+      'align-items: space-between',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="layout/flexbox" questions={quizFlexbox} />
+
+<ProgressTracker client:visible id="layout/flexbox" />

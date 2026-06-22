@@ -1,0 +1,105 @@
+---
+title: 'ตัวแปรและฟังก์ชัน'
+description: 'เรียนรู้การเก็บค่าในกล่องที่มีชื่อ (ตัวแปร) และจัดกลุ่มการกระทำที่ใช้ซ้ำได้เป็นฟังก์ชัน — สองบล็อกพื้นฐานของ JavaScript'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ดีไซเนอร์ทำงานกับสิ่งที่มีชื่อตลอดเวลาอยู่แล้ว ใน Figma คุณอาจสร้าง color token ชื่อ `brand-purple` แล้วนำไปใช้ซ้ำทุก component เปลี่ยน token เดียว ทุกอย่างอัปเดตตาม ตัวแปรใน JavaScript ทำงานแบบเดียวกัน — คุณตั้งชื่อให้ค่า แล้วใช้ชื่อนั้นทุกที่แทนที่จะพิมพ์ค่าซ้ำๆ
+
+## ตัวแปร — กล่องที่มีชื่อ
+
+**ตัวแปร (variable)** คือกล่องที่มีชื่อสำหรับเก็บค่า มีคีย์เวิร์ดสองคำสำหรับสร้างตัวแปร:
+
+- `const` — ค่าถูก**กำหนดครั้งเดียวและไม่มีวันเปลี่ยน** (เหมือน color token ที่ล็อกไว้)
+- `let` — ค่า**สามารถอัปเดตได้ในภายหลัง** (เหมือน text layer ที่คุณยังจะแก้ไข)
+
+```js
+const brandColor = '#7C3AED'; // จะไม่มีวันเปลี่ยน
+let buttonLabel = 'Sign up';  // อาจเปลี่ยนเป็น 'Creating account…'
+```
+
+ใช้ `const` เป็นค่าเริ่มต้น แล้วหยิบ `let` มาใช้เฉพาะเมื่อรู้ว่าค่านั้นจะต้องเปลี่ยน
+
+<Tip title="เปรียบเทียบกับ Figma">
+คิดว่า `const` คือ published component: มันคือแหล่งความจริง (source of truth) และคุณอ้างอิงมันทุกที่ ส่วน `let` เหมือน local override — คุณกำลังบอกว่า "ค่าตรงนี้ยังอยู่ระหว่างปรับ"
+</Tip>
+
+## ฟังก์ชัน — การกระทำที่นำกลับมาใช้ซ้ำได้
+
+**ฟังก์ชัน (function)** คือชุดคำสั่งที่คุณตั้งชื่อให้ เพื่อให้รันชุดคำสั่งนั้นได้ทุกเมื่อที่ต้องการ — เหมือน Figma component ที่ทำงานเมื่อถูก trigger
+
+```js
+function greet() {
+  var message = 'Hello, ' + name + '!';
+  document.querySelector('#output').textContent = message;
+}
+```
+
+การเขียนฟังก์ชันยังไม่ได้รันมัน หากต้องการรันจริง คุณต้อง**เรียกใช้ (call)** มัน โดยพิมพ์ชื่อตามด้วย `()`:
+
+```js
+greet(); // รันคำสั่งทั้งหมดข้างใน greet
+```
+
+คุณเรียกใช้ฟังก์ชันกี่ครั้งก็ได้ นั่นคือหัวใจของมัน — เขียน logic ครั้งเดียว นำไปใช้ซ้ำได้ทุกที่
+
+## ลองเลย — ปุ่มทักทาย
+
+ตัวอย่างด้านล่างเก็บชื่อไว้ในตัวแปร กำหนดฟังก์ชัน `greet` ที่สร้างข้อความโดยใช้ตัวแปรนั้น แล้วเชื่อมต่อฟังก์ชันกับการคลิกปุ่ม กดปุ่มเพื่อดูการทำงานจริง
+
+export const varFuncHtml = `<button id="runBtn">Say hello</button>
+<p id="output">Press the button.</p>`;
+
+export const varFuncCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+button { background: #7C3AED; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+p { margin-top: 1rem; color: #374151; font-size: 1.1rem; }`;
+
+export const varFuncJs = `var name = 'designer';
+function greet() {
+  var message = 'Hello, ' + name + '!';
+  document.querySelector('#output').textContent = message;
+}
+document.querySelector('#runBtn').addEventListener('click', greet);`;
+
+<LivePreview client:visible html={varFuncHtml} css={varFuncCss} js={varFuncJs} />
+
+สังเกตว่าฟังก์ชันใช้ตัวแปร `name` ในการสร้างข้อความ ถ้าคุณเปลี่ยน `name` เป็น `'world'` ทุกครั้งที่เรียก `greet()` ก็จะพูดว่า `'Hello, world!'` โดยอัตโนมัติ — คุณอัปเดตค่าแค่ที่เดียว
+
+<Tip title="รูปแบบการตั้งชื่อ">
+ชื่อตัวแปรและฟังก์ชันใน JavaScript ใช้ **camelCase**: เริ่มด้วยตัวพิมพ์เล็ก แล้วพิมพ์ใหญ่ตัวแรกของแต่ละคำใหม่ — `brandColor`, `buttonLabel`, `getUserName` ห้ามมีช่องว่างในชื่อ
+</Tip>
+
+## สรุป
+
+| แนวคิด | ทำหน้าที่อะไร | เทียบกับ Figma |
+|---|---|---|
+| `const` | เก็บค่าที่จะไม่เปลี่ยน | Published color token |
+| `let` | เก็บค่าที่สามารถอัปเดตได้ | Editable local override |
+| `function` | รวมคำสั่งไว้ภายใต้ชื่อเดียว | Component ที่มี interaction |
+| เรียก `fn()` | รันคำสั่งภายในฟังก์ชัน | Trigger การทำงานของ component |
+
+export const quizVariablesFunctions = [
+  {
+    q: 'ตัวแปรคืออะไร?',
+    options: ['ประเภทของ HTML tag', 'กล่องที่มีชื่อสำหรับเก็บค่า', 'CSS selector', 'การตั้งค่าเบราว์เซอร์'],
+    answer: 1,
+  },
+  {
+    q: 'ควรใช้ `const` แทน `let` เมื่อใด?',
+    options: ['เมื่อค่าจะเปลี่ยนในภายหลัง', 'เมื่อกำลังเขียน CSS', 'เมื่อค่าจะไม่มีวันเปลี่ยน', 'เมื่อต้องการ loop'],
+    answer: 2,
+  },
+  {
+    q: 'การเรียกฟังก์ชันทำอะไร?',
+    options: ['ลบตัวแปร', 'รันคำสั่งที่อยู่ข้างใน', 'เปิดแท็บเบราว์เซอร์ใหม่', 'เปลี่ยน HTML tag'],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="javascript/variables-functions" questions={quizVariablesFunctions} />
+
+<ProgressTracker client:visible id="javascript/variables-functions" />

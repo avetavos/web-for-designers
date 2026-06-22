@@ -1,0 +1,147 @@
+---
+title: Your First Page
+description: Build a real web page from scratch — a heading, a paragraph, and your own styles — using the live editor. Celebrate your first win.
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+You have learned what the web is, what a browser does, and what HTML, CSS, and JavaScript each do. Now it is time to build something real — your first proper web page, written entirely by you.
+
+This is not a throwaway exercise. The page you build here uses exactly the same HTML and CSS you would find on any professional website. The only difference is that real sites have more of it.
+
+## What you are building
+
+A simple personal introduction card: your name as a heading, a short sentence about yourself, and a link. Then you will style it to make it look the way you want.
+
+## The HTML
+
+Start with the structure. An `<h1>` for your name, a `<p>` for a description, and an `<a>` for a link.
+
+```html
+<h1>Maya Chen</h1>
+<p>UI designer based in Bangkok. I love design systems and clean type.</p>
+<a href="https://dribbble.com">See my work</a>
+```
+
+Notice there is no design here yet — just content and meaning. The `<h1>` signals "this is the most important heading." The `<p>` signals "this is a paragraph." The `<a>` signals "this is a link." HTML is communicating *what* things are, not how they look.
+
+## The CSS
+
+Now add the design layer. CSS targets each element by name and applies visual properties to it.
+
+```css
+h1 { color: #7C3AED; font-size: 2rem; }
+p  { color: #374151; }
+a  { color: #7C3AED; }
+```
+
+Every CSS rule follows the pattern: **selector** (which element to style) + **property** (what to change) + **value** (what to change it to). That is the entire CSS syntax.
+
+## Build it yourself
+
+The editor below has a starter version. Make it yours — change the name, the description, the colors, the font size. There is no wrong answer. Every time you save a change in a real project, this is what you are doing.
+
+export const firstPageHtml = `<div class="profile">
+  <h1>Maya Chen</h1>
+  <p class="bio">UI designer based in Bangkok.\\nI love design systems and clean type.</p>
+  <a class="link" href="https://dribbble.com">See my work &rarr;</a>
+</div>`;
+
+export const firstPageCss = `* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, sans-serif;
+  background: #faf5ff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.profile {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 4px 32px rgba(124,58,237,0.10);
+  text-align: center;
+}
+h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #7C3AED;
+  margin-bottom: 0.75rem;
+}
+.bio {
+  color: #6b7280;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  white-space: pre-line;
+}
+.link {
+  display: inline-block;
+  background: #7C3AED;
+  color: white;
+  padding: 0.65rem 1.5rem;
+  border-radius: 99px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+.link:hover { background: #5B21B6; }`;
+
+<LivePreview client:visible html={firstPageHtml} css={firstPageCss} height="300px" />
+
+Try these changes one at a time to build your confidence:
+
+1. Replace `Maya Chen` with your own name.
+2. Change `#7C3AED` (purple) to `#0EA5E9` (blue) in both the HTML and CSS.
+3. Change `border-radius: 20px` to `border-radius: 4px` to make the card square-cornered.
+4. Change `text-align: center` to `text-align: left`.
+
+Each change is isolated and reversible — exactly like working with properties in Figma.
+
+<Tip title="You just built a real web page">
+What you see in the preview is real HTML and CSS — the same languages used by every website on the internet. The gap between "designer" and "someone who can write web code" is much smaller than you thought. You are already on the other side of it.
+</Tip>
+
+export const quizYourFirstPage = [
+  {
+    q: 'What does a CSS rule like `h1 { color: #7C3AED; }` do?',
+    options: [
+      'Creates a new heading element',
+      'Applies a purple color to all h1 headings',
+      'Links a CSS file to the HTML page',
+      'Hides the h1 element',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'In CSS, what are the three parts of every rule?',
+    options: [
+      'Tag, attribute, and value',
+      'Opening tag, content, and closing tag',
+      'Selector, property, and value',
+      'Protocol, domain, and path',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'If you want to make the heading blue instead of purple, which part of the CSS rule do you change?',
+    options: [
+      'The selector (h1)',
+      'The property (color)',
+      'The value (#7C3AED)',
+      'The curly braces',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="how-web-works/your-first-page" questions={quizYourFirstPage} />
+
+<ProgressTracker client:visible id="how-web-works/your-first-page" />

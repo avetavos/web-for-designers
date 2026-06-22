@@ -1,0 +1,145 @@
+---
+title: 'Positioning — ออกนอก Flow'
+description: 'เรียนรู้ position static, relative, absolute และ sticky — และเมื่อไรควรใช้แต่ละอย่างสำหรับ badges, overlays และ sticky headers'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Flexbox และ Grid จัดเรียง elements ใน flow ที่คาดเดาได้ แต่บางครั้งคุณต้องการ element ที่ *ออกนอก* flow นั้น — notification badge ที่ลอยอยู่บนไอคอน, sticky header ที่ยังมองเห็นขณะ scroll หน้า, tooltip ที่ hover อยู่เหนือเนื้อหา นั่นคือที่ที่ CSS **positioning** เข้ามา
+
+ทุก element มี property `position` ตามค่าเริ่มต้นคือ `static` ซึ่งหมายความว่ามันอยู่ใน normal flow เมื่อคุณเปลี่ยนเป็นอย่างอื่น คุณจะได้ความสามารถพิเศษ — และความรับผิดชอบใหม่สองสามอย่าง
+
+## สี่ค่า
+
+**`position: static`** — ค่าเริ่มต้น Elements อยู่ใน document flow ปกติ `top`, `left`, `right`, `bottom` และ `z-index` ไม่มีผล
+
+**`position: relative`** — Element ยังคงอยู่ใน normal flow แต่ตอนนี้คุณสามารถเลื่อนมันด้วย `top`/`left`/`right`/`bottom` สำคัญกว่านั้น มันสร้าง *positioning context* — children ที่เป็น `absolute` จะถูกวางตำแหน่งสัมพันธ์กับ element นี้ ไม่ใช่กับหน้าทั้งหน้า คิดว่า "ฉันต้องการให้ element นี้เป็นจุดเริ่มต้นสำหรับ badge ของฉัน"
+
+**`position: absolute`** — Element ถูกลบออกจาก normal flow อย่างสมบูรณ์ มันถูกวางสัมพันธ์กับ ancestor ที่ใกล้ที่สุดที่มี position ที่ไม่ใช่ static Elements อื่นใน flow ไม่เห็นมัน — พวกมันทำงานเหมือนมันไม่มีอยู่ เหมาะสำหรับ badges, tooltips, dropdowns และ overlays
+
+**`position: sticky`** — เป็นแบบผสม Element อยู่ใน normal flow *จนกว่า* คุณจะ scroll เกิน threshold แล้วมัน "ติด" ที่ขอบ viewport (กำหนดโดย `top`, `right` เป็นต้น) จนกว่า parent ของมันจะ scroll ออกไป เหมาะสำหรับ navigation bars และ table headers
+
+## property `z-index`
+
+เมื่อ positioned elements ทับซ้อนกัน `z-index` ควบคุมว่าอันไหนจะปรากฏอยู่ด้านบน ตัวเลขที่สูงกว่าอยู่ด้านบน มันทำงานเฉพาะบน elements ที่มี `position` ที่ไม่ใช่ static
+
+คิดเหมือนแผง layer order ใน Figma พอดี — สูงกว่าใน stack = อยู่ด้านบน — ยกเว้นใน CSS คุณแสดงเป็นตัวเลขแทนการลาก
+
+## ตัวอย่างที่แก้ไขได้ — badge บน card
+
+export const positioningHtml = `<div class="card">
+  <div class="badge">3</div>
+  <div class="icon">&#128276;</div>
+  <p class="label">Notifications</p>
+</div>
+<div class="sticky-bar">I am sticky — scroll down inside this area to see me stick</div>
+<div class="scroll-content">
+  <p>Content paragraph 1</p>
+  <p>Content paragraph 2</p>
+  <p>Content paragraph 3</p>
+  <p>Content paragraph 4</p>
+  <p>Content paragraph 5</p>
+</div>`;
+
+export const positioningCss = `body { font-family: system-ui, sans-serif; padding: 1rem; }
+.card {
+  position: relative;
+  display: inline-block;
+  padding: 1.5rem 2rem;
+  background: #f3f4f6;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #dc2626;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  z-index: 1;
+}
+.icon { font-size: 2rem; }
+.label { margin: 0.5rem 0 0; font-size: 0.875rem; color: #6b7280; }
+.sticky-bar {
+  position: sticky;
+  top: 0;
+  background: #7C3AED;
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 10;
+}
+.scroll-content p {
+  padding: 1rem;
+  background: #ede9fe;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  color: #4c1d95;
+}`;
+
+<LivePreview client:visible html={positioningHtml} css={positioningCss} />
+
+สิ่งที่ลองได้:
+- เปลี่ยน `top: -8px` และ `right: -8px` ของ `.badge` เป็นค่าอื่น — ย้าย badge ไปมา
+- เปลี่ยน `position: absolute` ของ `.badge` เป็น `position: relative` — ดูมันกลับสู่ normal flow
+- ลบ `position: relative` ออกจาก `.card` — badge จะวางตำแหน่งสัมพันธ์กับทั้งเอกสาร
+- เปลี่ยน `.sticky-bar` จาก `position: sticky` เป็น `position: relative` — มันหยุดติดเมื่อ scroll
+
+<Tip title="relative + absolute คือ badge pattern">
+การใช้ positioning ที่พบบ่อยที่สุดใน UI คือ badge/overlay pattern: ตั้ง `position: relative` บน parent card หรือไอคอน แล้ว `position: absolute` บน badge นี่ยึด badge ไว้ภายใน card แทนที่จะลอยไปที่ใดที่หนึ่งบนหน้า เมื่อใดก็ตามที่คุณเห็น notification dot, image overlay หรือ floating label ในงานออกแบบ — นี่คือวิธีที่สร้างขึ้น
+</Tip>
+
+export const quizPositioning = [
+  {
+    q: 'ค่า position ใดที่ลบ element ออกจาก document flow ปกติ?',
+    options: ['static', 'relative', 'absolute', 'sticky'],
+    answer: 2,
+  },
+  {
+    q: 'คุณต้องการ badge ลอยอยู่มุมบนขวาของ card card ควรมี?',
+    options: [
+      'position: absolute',
+      'position: relative',
+      'z-index: 1',
+      'display: flex',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'position: sticky ทำอะไร?',
+    options: [
+      'ยึด element ในที่อย่างถาวรโดยไม่คำนึงถึงการ scroll',
+      'Element อยู่ใน normal flow จนกว่าจะ scroll ถึง threshold แล้วติดที่ viewport',
+      'ติด element ที่ด้านล่างของ parent',
+      'ป้องกันไม่ให้ element ถูกย้ายโดย JavaScript',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'z-index ทำงานเฉพาะบน elements ที่มี:',
+    options: [
+      'display: flex',
+      'ค่า position ที่ไม่ใช่ static',
+      'ความกว้างและความสูงที่กำหนด',
+      'position: absolute เท่านั้น',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="layout/positioning" questions={quizPositioning} />
+
+<ProgressTracker client:visible id="layout/positioning" />

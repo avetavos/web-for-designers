@@ -1,0 +1,116 @@
+---
+title: Lists
+description: 'สร้างลิสต์แบบมีลำดับและไม่มีลำดับ ซ้อนลิสต์เข้าด้วยกัน และใช้ลิสต์เป็นรากฐานของ navigation'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ลิสต์ปรากฏอยู่ทุกที่ในงานออกแบบ UI — เมนู navigation รายการ feature แบบ bullet ขั้นตอนแบบทีละสเต็ป รายการส่วนผสม ผลการค้นหา HTML มีลิสต์ให้คุณสองชนิดสำหรับเนื้อหา และอีกหนึ่งชนิดสำหรับคู่คำอธิบาย ทั้งหมดสร้างขึ้นจากโครงสร้างที่เรียบง่ายและซ้อนกันได้
+
+## ลิสต์แบบไม่มีลำดับ (Unordered list)
+
+**ลิสต์แบบไม่มีลำดับ** (`<ul>`) คือกลุ่มของรายการที่ลำดับไม่สำคัญ เบราว์เซอร์จะแสดงเป็น bullet point โดยค่าเริ่มต้น ใช้มันกับรายการ feature ส่วนผสม ลิงก์ nav — อะไรก็ตามที่การสลับลำดับรายการไม่เปลี่ยนความหมาย
+
+```html
+<ul>
+  <li>Sketch</li>
+  <li>Figma</li>
+  <li>Framer</li>
+</ul>
+```
+
+## ลิสต์แบบมีลำดับ (Ordered list)
+
+**ลิสต์แบบมีลำดับ** (`<ol>`) คือลำดับที่ *ลำดับมีความสำคัญ* เบราว์เซอร์จะใส่หมายเลขให้รายการโดยอัตโนมัติ ใช้มันกับขั้นตอนในกระบวนการ การจัดอันดับ สูตรอาหาร หรือคำแนะนำ
+
+```html
+<ol>
+  <li>Open a new Figma file</li>
+  <li>Set up your frame</li>
+  <li>Add a grid</li>
+</ol>
+```
+
+ทั้งสองชนิดใช้ `<li>` — **list item** — สำหรับแต่ละรายการ และ `<li>` จะต้องเป็น direct child ของ `<ul>` หรือ `<ol>` เสมอ
+
+## การซ้อนลิสต์
+
+คุณสามารถวางลิสต์ไว้ภายใน `<li>` เพื่อสร้างรายการย่อย — เหมือน sub-layer ใน Figma:
+
+```html
+<ul>
+  <li>Design tools
+    <ul>
+      <li>Figma</li>
+      <li>Sketch</li>
+    </ul>
+  </li>
+  <li>Prototyping tools</li>
+</ul>
+```
+
+## Navigation ในรูปแบบลิสต์
+
+หนึ่งในแพตเทิร์น HTML ที่พบบ่อยที่สุดที่คุณจะเจอคือเมนู navigation ที่สร้างจากลิสต์แบบไม่มีลำดับ ลิสต์สื่อสารว่า "นี่คือรายการที่เกี่ยวข้องกันและมีความสำคัญเท่ากัน" จากนั้น CSS จะลบ bullet ออกและจัดเรียงพวกมันในแนวนอน
+
+export const listsHtml = `<nav>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Work</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+<hr />
+<h3>My design process</h3>
+<ol>
+  <li>Discover — user research and problem framing</li>
+  <li>Define — synthesize insights into a design brief</li>
+  <li>Develop — ideate, prototype, and test</li>
+  <li>Deliver — handoff to engineering</li>
+</ol>`;
+
+export const listsCss = `body { font-family: system-ui, sans-serif; padding: 1rem; }
+nav ul { list-style: none; padding: 0; display: flex; gap: 1.5rem; }
+nav a { color: #7C3AED; text-decoration: none; font-weight: 600; }
+nav a:hover { text-decoration: underline; }
+h3 { margin-top: 1.5rem; }
+ol { padding-left: 1.5rem; line-height: 1.9; }`;
+
+<LivePreview client:visible html={listsHtml} css={listsCss} height="280px" />
+
+ลองเพิ่มรายการที่ห้าลงในลิสต์แบบมีลำดับดู สังเกตว่าเบราว์เซอร์ใส่หมายเลขให้ใหม่โดยอัตโนมัติ — คุณไม่ต้องไปแตะตัวเลขเองเลย
+
+<Tip title="Navigation ควรเป็นลิสต์">
+การใช้ `<ul>` สำหรับ navigation ไม่ใช่แค่ธรรมเนียมปฏิบัติ — มันสื่อสารโครงสร้าง screen reader จะประกาศว่า "list, 4 items" ก่อนอ่านลิงก์ ซึ่งช่วยให้ผู้ใช้เข้าใจว่ามีตัวเลือก navigation กี่ตัว และข้ามมันไปได้อย่างรวดเร็ว ขณะที่แถวของ `<a>` tag เดี่ยว ๆ ไม่ให้สัญญาณแบบนั้นเลย การห่อลิงก์ nav ไว้ใน `<ul>` คือนิสัยเล็ก ๆ ที่สร้างความแตกต่างได้มาก
+</Tip>
+
+export const quizLists = [
+  {
+    q: 'ควรใช้ list element ใดสำหรับชุดของขั้นตอนที่ต้องทำตามลำดับ?',
+    options: ['<ul>', '<ol>', '<dl>', '<li>'],
+    answer: 1,
+  },
+  {
+    q: 'element ที่ถูกต้องสำหรับแต่ละรายการภายในลิสต์คือข้อใด?',
+    options: ['<item>', '<bullet>', '<li>', '<entry>'],
+    answer: 2,
+  },
+  {
+    q: 'ทำไมจึงเป็นแนวทางที่ดีในการสร้างเมนู navigation โดยใช้ <ul> ที่มี <li> เป็นรายการ?',
+    options: [
+      'มันเป็นข้อกำหนดของ HTML specification',
+      'screen reader ประกาศจำนวนรายการในลิสต์ ช่วยให้ผู้ใช้เข้าใจขอบเขตของ navigation',
+      'มันทำให้ลิงก์เรียงเป็นแถวแนวนอนโดยอัตโนมัติ',
+      'มันป้องกันไม่ให้ลิงก์ถูกเข้าชมมากกว่าหนึ่งครั้ง',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="html/lists" questions={quizLists} />
+
+<ProgressTracker client:visible id="html/lists" />

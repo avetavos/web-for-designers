@@ -1,0 +1,123 @@
+---
+title: 'From Figma to Code'
+description: 'Read a design and translate its regions into semantic HTML and CSS using Figma Dev Mode to inspect sizes, colors, and spacing.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Open any design you have made in Figma. What you see is a collection of nested frames, text layers, and shapes. Every one of those has a direct equivalent in HTML and CSS. The translation is more mechanical than creative — once you know the mapping, it becomes fast.
+
+## Reading a design layer by layer
+
+Take a simple profile card: a photo, a name, a short bio, and a "View Work" button. In Figma it might look like this in the layers panel:
+
+```
+Card (Frame, white fill, rounded corners, shadow)
+  ├── Avatar (Rectangle or Image, circle clip)
+  ├── Name (Text, bold, 20px)
+  ├── Bio (Text, regular, 14px, grey)
+  └── View Work (Frame, purple fill, white text)
+```
+
+Translating this to HTML is straightforward:
+- **Card frame** → `<div class="card">`
+- **Avatar** → `<img src="..." alt="...">`
+- **Name text** → `<h3>`
+- **Bio text** → `<p>`
+- **Button frame** → `<a class="btn" href="#">`
+
+## Using Figma Dev Mode
+
+Switch to Dev Mode (the `</>` icon at the top right of Figma). Click on the card frame. You will see:
+- **Width/height** — maps to CSS `width`/`height` or just let content determine height
+- **Fill** — maps to `background-color`
+- **Corner radius** — maps to `border-radius`
+- **Effect (shadow)** — maps to `box-shadow`
+- **Padding** — maps to CSS `padding`
+- **Gap (auto-layout)** — maps to CSS `gap` in a flex container
+
+Click the Name text layer. You will see `font-size`, `font-weight`, `line-height`, `color`. Copy those values directly into your CSS. Dev Mode eliminates guesswork.
+
+## The card in code
+
+Here is the card design translated to HTML and CSS. Click inside and experiment — try changing the name, the bio text, or the button color.
+
+export const cardHtml = `<div class="card">
+  <img
+    class="avatar"
+    src="https://i.pravatar.cc/80?img=47"
+    alt="Profile photo of Alex Chen"
+  />
+  <h3 class="name">Alex Chen</h3>
+  <p class="bio">Product designer crafting clean, accessible interfaces for fintech and healthtech.</p>
+  <a class="btn" href="#">View Work</a>
+</div>`;
+
+export const cardCss = `body { font-family: system-ui, sans-serif; padding: 2rem; background: #f5f5f5; }
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  max-width: 320px;
+}
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.name { margin: 0; font-size: 1.125rem; font-weight: 700; color: #111; }
+.bio { margin: 0; font-size: 0.875rem; color: #666; line-height: 1.5; }
+.btn {
+  display: inline-block;
+  background: #7C3AED;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}`;
+
+<LivePreview client:visible html={cardHtml} css={cardCss} />
+
+Try editing the card: change `border-radius: 12px` to `border-radius: 0` to see a sharp-cornered version. Change `#7C3AED` to `#059669` for a green button. These are exactly the values you would find in Figma Dev Mode.
+
+<Tip title="Dev Mode is your spec sheet">
+Always open Dev Mode before writing a single line of CSS. Click every layer you need to style and read the exact values. You are not estimating — you are copying a specification. This is how professional handoffs work.
+</Tip>
+
+export const quizFigmaToCode = [
+  {
+    q: 'What does Figma Dev Mode help you do?',
+    options: [
+      'Export PNG files',
+      'Inspect precise spacing and CSS values',
+      'Create new components',
+      'Write JavaScript',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which HTML element best represents a card container?',
+    options: ['<section>', '<div>', '<span>', '<footer>'],
+    answer: 1,
+  },
+  {
+    q: 'A Figma "padding" value maps to which CSS property?',
+    options: ['margin', 'gap', 'padding', 'border'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="workflow/figma-to-code" questions={quizFigmaToCode} />
+
+<ProgressTracker client:visible id="workflow/figma-to-code" />

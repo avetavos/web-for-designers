@@ -1,0 +1,154 @@
+---
+title: 'Type & Spacing Scales'
+description: 'The 4/8px spacing system and type scale expressed as CSS tokens — the code version of your Figma grid and text styles.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+When you nudge an element in Figma, the default nudge is 8px. That is not an accident. The 8px grid is the most common spacing system in professional design — and it has a direct code equivalent that keeps your layouts consistent.
+
+## The spacing scale
+
+A spacing scale is a fixed set of values built on a base unit. The most common base is **4px** (with 8px as the "standard step"). Here is how it maps:
+
+| Token name | Value | Figma equivalent |
+|---|---|---|
+| `--space-1` | `4px` | Nudge × 0.5 |
+| `--space-2` | `8px` | 1 nudge |
+| `--space-3` | `12px` | 1.5 nudges |
+| `--space-4` | `16px` | 2 nudges |
+| `--space-6` | `24px` | 3 nudges |
+| `--space-8` | `32px` | 4 nudges |
+| `--space-12` | `48px` | 6 nudges |
+| `--space-16` | `64px` | 8 nudges |
+
+Everything in your layout — padding, margin, gap between elements — should use one of these values. Values that are "off-scale" (like 13px or 22px) are usually design mistakes worth correcting.
+
+## The type scale
+
+A type scale is a consistent set of font sizes built on a ratio. Common ratios are **1.25** (Major Third) and **1.5** (Perfect Fifth). Starting from a base of 16px:
+
+| Token name | Value (ratio 1.25) | Use |
+|---|---|---|
+| `--text-xs` | `12px` | Labels, captions |
+| `--text-sm` | `14px` | Secondary body, metadata |
+| `--text-base` | `16px` | Body text |
+| `--text-lg` | `20px` | Lead text, card headings |
+| `--text-xl` | `24px` | Section headings |
+| `--text-2xl` | `32px` | Page headings |
+| `--text-3xl` | `40px` | Hero headlines |
+
+In Figma, these map to your **Text Styles**. If your text styles are named `body/sm`, `body/base`, `heading/lg`, they should translate directly to `--text-sm`, `--text-base`, `--text-lg`.
+
+## Scales in action
+
+The section below uses only token-based spacing and type sizes. Change `--text-base` or `--space-4` in the CSS and watch the scale ripple through.
+
+export const scalesHtml = `<article class="article">
+  <p class="label">Case Study</p>
+  <h1 class="heading-hero">Designing for scale</h1>
+  <p class="lead">A consistent type scale and spacing system are the foundation of every readable, well-structured interface.</p>
+  <h2 class="heading-section">Why consistency matters</h2>
+  <p class="body">When every spacing decision comes from the same set of tokens, layouts feel harmonious — not because of any single value, but because all the values belong to the same system.</p>
+  <p class="caption">Last updated: June 2026</p>
+</article>`;
+
+export const scalesCss = `:root {
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.5rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --color-text: #111827;
+  --color-text-muted: #6B7280;
+  --color-accent: #7C3AED;
+}
+body { font-family: system-ui, sans-serif; background: #f9f9f9; padding: var(--space-8); }
+.article { max-width: 600px; }
+.label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 var(--space-2);
+}
+.heading-hero {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 0 0 var(--space-4);
+  line-height: 1.2;
+}
+.lead {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-8);
+  line-height: 1.6;
+}
+.heading-section {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 var(--space-4);
+}
+.body {
+  font-size: var(--text-base);
+  color: var(--color-text);
+  line-height: 1.7;
+  margin: 0 0 var(--space-6);
+}
+.caption {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin: 0;
+}`;
+
+<LivePreview client:visible html={scalesHtml} css={scalesCss} />
+
+<Tip title="Off-scale values are a signal">
+If a spacing value is not on the scale, ask why. It usually means the design needs a small adjustment — a 13px gap was probably meant to be 12px or 16px. Catching these during design review is much cheaper than fixing them after a developer implements them.
+</Tip>
+
+export const quizScales = [
+  {
+    q: 'Why do designers often use 8px as a base spacing unit?',
+    options: [
+      'It is a browser default',
+      'Most screens divide evenly into 8px columns',
+      'It looks modern',
+      'CSS requires it',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'A type scale defines...',
+    options: [
+      'Only heading colors',
+      'A consistent set of font sizes with a fixed ratio',
+      'The number of fonts on a page',
+      'Line heights only',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which CSS property would you use a spacing token for?',
+    options: ['color', 'font-family', 'padding', 'opacity'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="workflow/scales" questions={quizScales} />
+
+<ProgressTracker client:visible id="workflow/scales" />

@@ -1,0 +1,149 @@
+---
+title: Forms
+description: 'สร้างฟอร์ม HTML ที่เข้าถึงได้ด้วย input, label, button และ input type ที่พบบ่อย'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ฟอร์มคือช่องทางที่ผู้ใช้สื่อสารกลับมายังเว็บไซต์ — ฟอร์มสมัครสมาชิก ฟอร์มติดต่อ ช่องค้นหา หรือ flow การ checkout ในฐานะดีไซเนอร์ คุณคงใช้เวลาออกแบบมันมาเยอะแล้ว ตอนนี้คุณจะได้เรียน HTML ที่ทำให้มันเกิดขึ้นจริง
+
+ทุก input ที่โต้ตอบได้บนเว็บถูกสร้างขึ้นจาก element ชุดเล็ก ๆ ชุดหนึ่ง: `<form>`, `<label>`, `<input>`, `<textarea>`, `<select>` และ `<button>` แต่ละตัวมีหน้าที่เฉพาะของมัน และการจับคู่พวกมันให้ถูกต้องคือสิ่งที่ทำให้ฟอร์มทั้งใช้งานได้และเข้าถึงได้
+
+## form element
+
+`<form>` คือตัวห่อที่จัดกลุ่ม input ทั้งหมดเข้าด้วยกัน บนเว็บไซต์จริงมันจะมี attribute `action` (ส่งข้อมูลไปที่ไหน) และ `method` (ส่งอย่างไร — `get` หรือ `post`) สำหรับการเรียนรู้ คุณจะละมันไว้ก่อนก็ได้
+
+```html
+<form>
+  <!-- inputs go here -->
+</form>
+```
+
+## label และ input
+
+`<input>` คือกล่องข้อความจริง ๆ (หรือ checkbox หรือ radio button) มันเป็น element แบบ self-closing ที่ไม่มีเนื้อหาข้อความ
+
+`<label>` คือข้อความที่อธิบาย input — "ชื่อของคุณ", "อีเมล" และอื่น ๆ
+
+**กฎสำคัญ:** ทุก `<input>` ต้องมี `<label>` ที่จับคู่กัน คุณเชื่อมพวกมันด้วย attribute `for` และ `id` ที่ตรงกัน:
+
+```html
+<label for="email">Email address</label>
+<input type="email" id="email" name="email" />
+```
+
+attribute `for` บน label ต้องตรงกับ attribute `id` บน input เป๊ะ ๆ เมื่อพวกมันเชื่อมกันแล้ว:
+- การคลิกข้อความ label จะโฟกัสไปที่ input (usability ดีขึ้น — เป้าคลิกใหญ่ขึ้น)
+- screen reader จะอ่าน label เมื่อ input ถูกโฟกัส (จำเป็นต่อ accessibility)
+
+## input type
+
+attribute `type` บน `<input>` เปลี่ยนพฤติกรรมการทำงานของมัน:
+
+| type | หน้าที่ของมัน |
+|---|---|
+| `text` | ข้อความบรรทัดเดียวธรรมดา (ค่าเริ่มต้น) |
+| `email` | อีเมล — คีย์บอร์ดบนมือถือแสดงปุ่ม `@`; เบราว์เซอร์ตรวจสอบรูปแบบ |
+| `password` | ซ่อนตัวอักษรขณะที่ผู้ใช้พิมพ์ |
+| `number` | input ตัวเลขพร้อมลูกศรขึ้น/ลง |
+| `checkbox` | กล่องติ๊ก — จริงหรือเท็จ |
+| `radio` | เลือกหนึ่งตัวจากกลุ่ม |
+| `submit` | ปุ่ม submit (ใช้ `<button>` แทนดีกว่า — ยืดหยุ่นกว่า) |
+
+## textarea และ button
+
+`<textarea>` คือ input ข้อความหลายบรรทัด — สำหรับข้อความหรือคอมเมนต์ที่ยาวขึ้น มันต้องมี closing tag
+
+`<button>` จะ submit ฟอร์มโดยค่าเริ่มต้นเมื่อวางอยู่ภายใน `<form>` ให้เพิ่ม `type="button"` หากคุณต้องการให้มันทำอย่างอื่น (ผ่าน JavaScript) โดยไม่ submit
+
+export const formsHtml = `<form>
+  <div class="field">
+    <label for="name">Full name</label>
+    <input type="text" id="name" name="name" placeholder="Jane Smith" />
+  </div>
+
+  <div class="field">
+    <label for="email">Email address</label>
+    <input type="email" id="email" name="email" placeholder="jane@example.com" />
+  </div>
+
+  <div class="field">
+    <label for="message">Your message</label>
+    <textarea id="message" name="message" rows="4" placeholder="Tell me about your project..."></textarea>
+  </div>
+
+  <button type="submit">Send message</button>
+</form>`;
+
+export const formsCss = `body { font-family: system-ui, sans-serif; padding: 1rem; max-width: 480px; }
+.field { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 1rem; }
+label { font-size: 0.875rem; font-weight: 600; color: #374151; }
+input, textarea {
+  border: 1.5px solid #D1D5DB;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+input:focus, textarea:focus { border-color: #7C3AED; box-shadow: 0 0 0 3px #ede9fe; }
+button {
+  background: #7C3AED;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+button:hover { background: #6D28D9; }`;
+
+<LivePreview client:visible html={formsHtml} css={formsCss} height="380px" />
+
+ลองคลิกที่ข้อความ label "Full name" ดู — สังเกตว่าเคอร์เซอร์กระโดดเข้าไปใน input นั่นคือการทำงานของการเชื่อม `for`/`id` ลองเปลี่ยนข้อความบนปุ่มหรือเพิ่ม field ใหม่ดู
+
+<Tip title="อย่าข้าม label เด็ดขาด">
+placeholder (`placeholder="Jane Smith"`) ไม่ใช่ label มันหายไปเมื่อผู้ใช้เริ่มพิมพ์ ทำให้พวกเขาไม่เหลืออะไรเตือนว่า field นี้มีไว้ทำอะไร ให้ใส่ `<label>` ที่มองเห็นได้ไว้เหนือหรือข้าง input ทุกตัวเสมอ นี่คือหนึ่งในความล้มเหลวด้าน accessibility ของฟอร์มที่พบบ่อยที่สุดบนเว็บไซต์จริง — และเป็นหนึ่งในเรื่องที่แก้ง่ายที่สุด ผู้ใช้ของคุณและผู้ตรวจสอบ accessibility จะขอบคุณคุณ
+</Tip>
+
+export const quizForms = [
+  {
+    q: 'คุณจะเชื่อม <label> เข้ากับ <input> element ของมันได้อย่างไร?',
+    options: [
+      'วาง input ไว้ทันทีหลัง label ใน HTML',
+      'ใช้ for= บน label และ id= บน input ที่ตรงกัน',
+      'ห่อทั้งสองไว้ใน <fieldset>',
+      'ตั้ง class เดียวกันบนทั้งสอง element',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'input type ใดแสดง field แบบปิดบังตัวอักษรสไตล์รหัสผ่าน?',
+    options: ['type="hidden"', 'type="secure"', 'type="password"', 'type="mask"'],
+    answer: 2,
+  },
+  {
+    q: 'ทำไม placeholder จึงใช้แทน label ที่มองเห็นได้ไม่ได้?',
+    options: [
+      'placeholder ไม่รองรับในเบราว์เซอร์สมัยใหม่',
+      'placeholder หายไปเมื่อผู้ใช้พิมพ์ ทำให้คำอธิบายของ field หายไปด้วย',
+      'screen reader จะเพิกเฉยต่อข้อความ placeholder เสมอ',
+      'placeholder ต้องใช้ JavaScript จึงจะทำงานได้',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'element ใดใช้สำหรับ input ข้อความหลายบรรทัด?',
+    options: ['<input type="multiline">', '<textarea>', '<input type="text" rows="4">', '<textbox>'],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="html/forms" questions={quizForms} />
+
+<ProgressTracker client:visible id="html/forms" />

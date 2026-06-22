@@ -1,0 +1,108 @@
+---
+title: Semantic Structure
+description: 'จับคู่ region ของดีไซน์กับ semantic HTML element — header, nav, main, section, article และ footer'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+คุณคงเคยใช้ `<div>` เพื่อจัดกลุ่มสิ่งต่าง ๆ — มันเป็น container ที่เป็นกลาง ไม่มีความหมายในตัวเอง HTML ยังมีชุดของ container ที่ *มี* ความหมายให้คุณด้วย พวกมันเรียกว่า **semantic element** และจับคู่ได้แทบจะสมบูรณ์แบบกับ region ที่คุณกำหนดไว้อยู่แล้วในดีไซน์ Figma ของคุณ
+
+"Semantic" แปลว่า "มีความหมาย" นั่นแหละ เมื่อคุณใช้ `<header>` แทน `<div class="header">` ทั้งเบราว์เซอร์ screen reader และ search engine ต่างเข้าใจว่า region นั้น *คืออะไร* — ไม่ใช่แค่ว่ามันหน้าตาเป็นอย่างไร
+
+## region หลัก ๆ
+
+| HTML element | ความหมาย | สิ่งที่เทียบเท่าใน Figma |
+|---|---|---|
+| `<header>` | เนื้อหาเกริ่นนำของหน้าหรือ section — มักเป็นโลโก้ ชื่อเว็บไซต์ และ nav ด้านบน | frame ระดับบนสุดที่มี branding |
+| `<nav>` | บล็อกของลิงก์ navigation | frame ของ navigation component |
+| `<main>` | เนื้อหาหลักที่ไม่ซ้ำใครของหน้า (ใช้ครั้งเดียว) | frame ของพื้นที่เนื้อหาหลัก |
+| `<section>` | กลุ่มเนื้อหาตามธีม โดยทั่วไปมี heading ของตัวเอง | frame ของ section บน canvas |
+| `<article>` | เนื้อหาชิ้นหนึ่งที่อ่านได้อย่างมีความหมายในตัวเอง — บล็อกโพสต์ การ์ด ข่าว | การ์ดหรือ component ของโพสต์ |
+| `<aside>` | เนื้อหาที่เกี่ยวข้องทางอ้อมกับเนื้อหาหลัก — sidebar หรือ callout | frame ของ sidebar |
+| `<footer>` | เนื้อหาปิดท้าย — ลิขสิทธิ์ ลิงก์รอง ข้อมูลติดต่อ | frame ด้านล่าง |
+
+## ทำไมมันถึงสำคัญ
+
+1. **Screen reader** ใช้ landmark เหล่านี้เพื่อให้ผู้ใช้กระโดดตรงไปยังเนื้อหา `<main>` ได้เลย โดยข้าม header และ nav ในทุกหน้า นั่นคือการปรับปรุง usability ครั้งใหญ่สำหรับผู้ใช้ที่ตาบอด
+2. **Search engine** เข้าใจว่าเนื้อหาใน `<article>` คือข้อความหลักของหน้า และให้น้ำหนักกับมันตามนั้น
+3. **ทีมของคุณเอง** สามารถอ่าน HTML แล้วเข้าใจ layout ของหน้าได้ในพริบตา โดยไม่ต้องไปถอดรหัสจากชื่อ class
+
+export const semanticHtml = `<header>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Work</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <section>
+    <h1>Selected Work</h1>
+    <article>
+      <h2>Fintech Dashboard</h2>
+      <p>A data-heavy interface redesigned for clarity.</p>
+    </article>
+    <article>
+      <h2>E-commerce Checkout</h2>
+      <p>Reducing drop-off with a streamlined flow.</p>
+    </article>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2024 Studio Name</p>
+</footer>`;
+
+export const semanticCss = `* { box-sizing: border-box; }
+body { font-family: system-ui, sans-serif; margin: 0; font-size: 0.9rem; }
+header { background: #7C3AED; color: white; padding: 0.75rem 1rem; }
+nav a { color: white; text-decoration: none; margin-right: 1rem; font-weight: 600; }
+main { padding: 1rem; }
+section h1 { font-size: 1.25rem; color: #7C3AED; }
+article { border: 1px solid #E5E7EB; border-radius: 8px; padding: 0.75rem; margin-bottom: 0.75rem; }
+article h2 { font-size: 1rem; margin: 0 0 0.25rem; }
+article p { margin: 0; color: #6B7280; }
+footer { background: #F3F4F6; padding: 0.75rem 1rem; text-align: center; color: #9CA3AF; font-size: 0.8rem; }`;
+
+<LivePreview client:visible html={semanticHtml} css={semanticCss} height="380px" />
+
+ดูสิว่าแต่ละ region จับคู่กับ element ที่มีชื่อได้ชัดเจนแค่ไหน ลองเปลี่ยน `<section>` เป็น `<div>` ดู — หน้าเว็บจะดูเหมือนเดิมเป๊ะ แต่ความหมายหายไปแล้ว ความแตกต่างที่มองไม่เห็นนี่แหละคือหัวใจของ semantics
+
+<Tip title="คิดเป็น landmark ไม่ใช่แค่กล่อง">
+เวลาคุณออกแบบหน้าใน Figma คุณก็แบ่งมันออกเป็น region ที่มีชื่ออยู่แล้ว เช่น header, hero, feature section, testimonials, footer เมื่อคุณส่งดีไซน์นั้นต่อให้นักพัฒนา — หรือเขียน HTML เอง — เป้าหมายคือแปล region เหล่านั้นให้เป็น semantic element โดยตรง ไม่ใช่กอง `<div>` ทั่ว ๆ ไป แต่เป็น container ที่มีชื่อและมีจุดประสงค์ ที่ตรงกับสิ่งที่แต่ละ region *เป็น* จริง ๆ
+</Tip>
+
+export const quizSemantic = [
+  {
+    q: 'element ใดควรห่อเนื้อหาหลักที่ไม่ซ้ำใครของหน้าเว็บ?',
+    options: ['<section>', '<div>', '<main>', '<article>'],
+    answer: 2,
+  },
+  {
+    q: 'ประโยชน์หลักของการใช้ <nav> แทน <div class="nav"> คืออะไร?',
+    options: [
+      'มันเพิ่ม bullet point ให้ลิงก์โดยอัตโนมัติ',
+      'มันบอกเบราว์เซอร์ screen reader และ search engine ว่านี่คือ region ของ navigation',
+      'มันทำให้ลิงก์เปิดในแท็บใหม่',
+      'มันทำให้ไม่จำเป็นต้องใช้ CSS',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'element ใดห่อบล็อกโพสต์หรือข่าวได้ดีที่สุด — เนื้อหาที่อ่านได้อย่างมีความหมายในตัวเอง?',
+    options: ['<section>', '<aside>', '<article>', '<header>'],
+    answer: 2,
+  },
+  {
+    q: 'หนึ่งหน้าควรมี <main> element กี่ตัว?',
+    options: ['เท่าที่จำเป็น', 'สองตัว — หนึ่งสำหรับ desktop หนึ่งสำหรับ mobile', 'หนึ่งตัวเท่านั้น', 'ไม่มีเลย — ใช้ <section> แทน'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="html/semantic-structure" questions={quizSemantic} />
+
+<ProgressTracker client:visible id="html/semantic-structure" />

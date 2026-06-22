@@ -1,0 +1,107 @@
+---
+title: 'Handoff & ขั้นตอนต่อไป'
+description: 'ทำงานร่วมกับนักพัฒนาและแหล่งเรียนรู้ต่อไป'
+---
+
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+{/* No LivePreview: this is a conceptual lesson about collaboration process — no runnable snippet applies. */}
+
+คุณได้เรียนรู้วิธีที่ดีไซน์กลายเป็นโค้ดแล้ว ตอนนี้มาพูดถึงช่วงเวลาที่เชื่องาน ของคุณกับงานของนักพัฒนา: **handoff** handoff ที่ดีไม่ได้แค่แชร์ไฟล์ — มันสื่อสารสเปคที่สมบูรณ์ที่นักพัฒนาสามารถ implement ได้โดยไม่ต้องถามคำถามเพิ่มเติม
+
+## อะไรทำให้ดีไซน์ "พร้อมสำหรับนักพัฒนา"
+
+ก่อน handoff ดีไซน์ ตรวจสอบแต่ละข้อเหล่านี้:
+
+**Layers และ components ที่มีชื่อ**
+ทุก layer ควรมีชื่อที่มีความหมาย — ไม่ใช่ `Frame 47` หรือ `Rectangle 12` ชื่อ layer กลายเป็นคำศัพท์ที่นักพัฒนาใช้เมื่อเขียนโค้ด `Card`, `Navigation`, `Hero/CTA Button` บอกนักพัฒนาว่ากำลัง build อะไรอยู่
+
+**Styles ที่ใช้ token**
+สี ระยะห่าง และ type ควรมาจาก design token library (Figma Variables หรือ Styles) ไม่ใช่ local overrides แบบครั้งเดียว ดีไซน์ที่ใช้ token แปลเป็น CSS custom properties โดยตรง — ลดข้อผิดพลาดในการ implement
+
+**Component variants ที่ documented ครบ**
+ถ้าปุ่มมี Default, Hover, Focused, Disabled และ Loading states ทั้งห้าต้องอยู่ในไฟล์ดีไซน์ นักพัฒนาจะ implement ทุก state — และถ้าคุณไม่ได้กำหนด นักพัฒนาจะสร้างเอง มักไม่สอดคล้องกัน
+
+**Auto-layout constraints**
+ใช้ auto-layout สำหรับทุก component ที่จะขยายหรือหดตามเนื้อหา ตั้ง constraints (fixed/fill/hug) อย่างชัดเจน สิ่งนี้สื่อสารว่า component ควรตอบสนองอย่างไร ไม่ใช่แค่หน้าตาที่ขนาดหนึ่ง
+
+**Spacing จาก grid**
+ค่า spacing ทั้งหมดควรอยู่ใน scale (ทวีคูณของ 4 หรือ 8) ค่านอก scale สื่อถึงความคลุมเครือและบังคับให้นักพัฒนาตัดสินใจว่าจะปัดขึ้นหรือลง
+
+## Figma Dev Mode ในฐานะสะพาน handoff
+
+เมื่อคุณ toggle frame เป็น "Ready for development" ใน Figma นักพัฒนาจะสลับไป Dev Mode เพื่อตรวจสอบ:
+- ค่าพิกเซลที่แน่นอนสำหรับ padding, gap และ margins
+- Font properties: family, size, weight, line-height, letter-spacing
+- ค่าสีและชื่อ token ของมัน
+- Border-radius, shadow และ opacity
+- Asset exports (icons, รูปภาพในรูปแบบและสเกลที่ถูกต้อง)
+
+ทดลองใช้ Dev Mode เองก่อน handoff — ถ้ามีสิ่งผิดปกติหรือขาดหายไป นักพัฒนาจะเห็นปัญหาเดียวกัน
+
+## สิ่งที่ต้องสื่อสารด้วยคำพูด (หรือใน comments)
+
+Dev Mode จัดการ static spec ส่วนเหล่านี้ต้องการการอธิบายจากมนุษย์:
+
+- **Interaction states:** hover animation ทำงานอย่างไร? อะไร trigger tooltip?
+- **Edge cases:** การ์ดมีหน้าตาอย่างไรเมื่อมีหัวข้อ 200 ตัวอักษร? เมื่อไม่มีรูปภาพ?
+- **Error states:** ฟอร์มมีหน้าตาอย่างไรเมื่อ validation ล้มเหลว?
+- **Responsive behavior:** อะไรเปลี่ยนระหว่าง 375px mobile และ 1440px desktop? อะไร reflow อะไรซ่อน?
+- **Motion:** duration, easing, trigger — animation specs ควรอยู่ในไฟล์ดีไซน์เป็น comments หรือ motion page แยก
+
+เพิ่มสิ่งเหล่านี้เป็น Figma comments บน frames ที่เกี่ยวข้อง หรือเก็บเอกสาร spec สั้นๆ ควบคู่กับไฟล์
+
+## แหล่งเรียนรู้ต่อไป
+
+คุณได้สร้างรากฐานที่แข็งแกร่ง นี่คือที่ที่จะไปต่อ:
+
+| แหล่งเรียนรู้ | สิ่งที่จะพบ |
+|---|---|
+| **MDN Web Docs** (developer.mozilla.org) | Reference ที่เชื่อถือได้สำหรับทุก HTML element และ CSS property บันทึกไว้ |
+| **web.dev** (web.dev/learn) | หลักสูตรฟรีเกี่ยวกับ HTML, CSS, accessibility และ performance จากทีม Chrome |
+| **Figma Learn** (help.figma.com/learn) | Tutorials ของ Figma เอง — เข้มแข็งเรื่อง variables, dev mode และ component best practices |
+| **CSS-Tricks** (css-tricks.com) | บทความเชิงปฏิบัติลึกเกี่ยวกับ CSS layout, animations และ design system patterns |
+| **Kevin Powell บน YouTube** | การสอน CSS ภาษาง่ายที่ดีที่สุดบนอินเทอร์เน็ต เริ่มด้วย series flexbox และ CSS variables ของเขา |
+
+<Tip title="ความคลุมเครือในดีไซน์คือ bug">
+ทุก state ที่คุณไม่ได้กำหนด นักพัฒนาจะสร้างเอง ทุกสีที่ไม่ใช่ token นักพัฒนาจะ hardcode ทุก component ที่ไม่มีชื่อ นักพัฒนาจะตั้งชื่อต่างจากที่คุณคาดหวัง ยิ่ง handoff ของคุณสมบูรณ์มากเท่าไร ดีไซน์ก็ยิ่ง implement ได้ตรงใจมากขึ้น และ revision cycles ก็น้อยลง
+</Tip>
+
+export const quizHandoff = [
+  {
+    q: 'สิ่งที่สำคัญที่สุดที่ควรรวมใน developer handoff คืออะไร?',
+    options: [
+      'ภาพประกอบตกแต่ง',
+      'Components ที่มีชื่อ tokens และ specs สำหรับทุก interactive state',
+      'PDF ของดีไซน์',
+      'ไฟล์ native ของ design tool',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Figma feature ใดที่ออกแบบมาสำหรับการตรวจสอบ developer handoff โดยเฉพาะ?',
+    options: [
+      'Figma Prototype',
+      'Figma Community',
+      'Figma Dev Mode',
+      'Figma Plugins',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'Edge cases และ error states...',
+    options: [
+      'Optional — นักพัฒนาสามารถตัดสินใจเอง',
+      'สำคัญมากที่ต้องกำหนดในดีไซน์ก่อน handoff',
+      'ต้องการเฉพาะสำหรับ mobile apps',
+      'เพิ่มโดย QA หลังการพัฒนา',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="workflow/handoff-next" questions={quizHandoff} />
+
+<ProgressTracker client:visible id="workflow/handoff-next" />

@@ -1,0 +1,107 @@
+---
+title: 'รวมทุกอย่างเข้าด้วยกัน'
+description: 'รวม querySelector, addEventListener และ classList.toggle เพื่อสร้าง menu toggle จริง — pattern เดียวกับที่ใช้บนเว็บไซต์มืออาชีพ'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ในฐานะ designer คุณคงเคยมองดู hamburger menu แล้วคิดว่า: "การคลิกปุ่มเดียวทำให้รายการลิงก์ปรากฏขึ้นมาได้อย่างไร?" คำตอบนั้นง่ายกว่าที่คิด — และคุณก็รู้ทุกชิ้นส่วนแล้ว บทเรียนนี้คือการนำทุกอย่างมาประกอบกันให้ได้ผลลัพธ์จริง
+
+## Pattern: สามเครื่องมือ, ผลลัพธ์เดียว
+
+ทุก UI component ที่มีการโต้ตอบบนเว็บใช้ workflow ในลักษณะนี้:
+
+1. **ค้นหา element** — `querySelector`
+2. **รอรับ action** — `addEventListener`
+3. **เปลี่ยน class** — `classList.toggle`
+
+แค่นั้นเอง ไม่ว่าจะเป็น tab switcher, modal dialog, accordion หรือ theme toggle — ทั้งหมดเดินตามจังหวะเดียวกัน เมื่อคุณเข้าใจ pattern นี้แล้ว คุณนำไปใช้ได้ทุกที่
+
+## สร้าง Menu Toggle
+
+เราจะสร้าง nav menu ที่เปิดและปิดได้เมื่อคลิกปุ่ม นี่คือหัวใจสำคัญ: **JavaScript ทำหน้าที่แค่ toggle class เท่านั้น ส่วน CSS เป็นตัวจัดการการแสดงและซ่อน** นี่คือวิธีสร้าง interaction แบบมืออาชีพและสะอาด — เก็บ visual logic ไว้ใน CSS และ behavioral logic ไว้ใน JS
+
+export const interactionsHtml = `<button id="menuBtn" aria-expanded="false">Menu</button>
+<nav id="menu" class="menu">
+  <a href="#">Home</a>
+  <a href="#">Work</a>
+  <a href="#">About</a>
+  <a href="#">Contact</a>
+</nav>`;
+
+export const interactionsCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+button { background: #7C3AED; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+.menu { display: none; margin-top: 0.75rem; flex-direction: column; gap: 0.5rem; }
+.menu.open { display: flex; }
+.menu a { color: #7C3AED; text-decoration: none; font-size: 1rem; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb; }
+.menu a:hover { color: #5b21b6; }`;
+
+export const interactionsJs = `var menuBtn = document.querySelector('#menuBtn');
+var menu = document.querySelector('#menu');
+
+menuBtn.addEventListener('click', function() {
+  menu.classList.toggle('open');
+  if (menu.classList.contains('open')) {
+    menuBtn.textContent = 'Close';
+  } else {
+    menuBtn.textContent = 'Menu';
+  }
+});`;
+
+<LivePreview client:visible html={interactionsHtml} css={interactionsCss} js={interactionsJs} />
+
+## อ่านโค้ดทีละส่วน
+
+นี่คือสิ่งที่แต่ละส่วนทำ:
+
+**บรรทัดที่ 1–2** ดึงการอ้างอิงไปยังปุ่มและ nav โดยใช้ `querySelector` ลองคิดว่านี่คือการตั้งชื่อให้ element เพื่อให้ JavaScript เรียกใช้ได้
+
+**บรรทัดที่ 4** ตั้ง click listener บนปุ่ม ทุกครั้งที่มีคนคลิก function ก็จะทำงาน
+
+**บรรทัดที่ 5** เรียก `classList.toggle('open')` ถ้า menu ยังไม่มี class `open` ก็จะเพิ่มให้ ถ้ามีอยู่แล้วก็จะลบออก เพียงบรรทัดเดียว — จบ
+
+**บรรทัดที่ 6–10** ตรวจสอบว่าตอนนี้ menu เปิดหรือปิดอยู่ จากนั้นอัปเดต label ของปุ่มให้แสดงข้อความที่ถูกต้องเสมอ นี่คือ good practice: UI ของคุณควรสะท้อนสถานะปัจจุบันของมัน
+
+ในส่วน CSS นั้น `.menu` เริ่มต้นด้วย `display: none` เมื่อ class `open` ถูกเพิ่มเข้ามา `.menu.open` จะทำงานด้วย `display: flex` — และ nav ก็ปรากฏขึ้น เมื่อ class ถูกลบออก nav ก็หายไปอีกครั้ง JavaScript ไม่แตะ `display` โดยตรงเลย นั่นคือหน้าที่ของ CSS
+
+<Tip title="การแยกหน้าที่ (Separation of concerns)">
+การเก็บ visual logic ไว้ใน CSS และ behavioral logic ไว้ใน JavaScript ทำให้โค้ดดูแลรักษาได้ง่ายขึ้น ถ้า designer ต้องการเปลี่ยนวิธีที่ menu แสดงผล พวกเขาแก้ไข CSS — โดยไม่ต้องแตะ JavaScript แม้แต่บรรทัดเดียว
+</Tip>
+
+## คุณเพิ่งสร้างสิ่งที่มือโปรสร้าง
+
+นี่ไม่ใช่การพูดให้ฟังดูดี เปิด source code ของเว็บไซต์ production เกือบทุกแห่งแล้วคุณจะพบ pattern นี้: ปุ่มหนึ่งปุ่ม, การ toggle class, และ CSS จัดการส่วนที่เหลือ Framework อย่าง React และ Vue ห่อหุ้มไว้ในระดับนามธรรม แต่แนวคิดพื้นฐานก็เหมือนกันทุกประการ
+
+นี่คือ pattern เดียวกับที่เว็บไซต์จริงทุกแห่งใช้ — และตอนนี้คุณก็รู้วิธีสร้างมันแล้ว
+
+สามเครื่องมือที่คุณรวมกันในบทเรียนนี้ — `querySelector`, `addEventListener`, `classList.toggle` — คือรากฐานของ frontend interactivity ทุกอย่างที่เหลือสร้างขึ้นมาจากสิ่งเหล่านี้
+
+export const quizInteractions = [
+  {
+    q: 'ใน pattern menu toggle เทคนิคใดที่ซ่อนหรือแสดง menu?',
+    options: ['การเปลี่ยน id ของ element', 'การ toggle CSS class ที่ควบคุม display', 'การลบและสร้าง element ใหม่', 'การโหลดหน้าซ้ำ'],
+    answer: 1,
+  },
+  {
+    q: 'ทำไมจึงควรให้ CSS จัดการ show/hide แทนการตั้ง `style.display` โดยตรงใน JS?',
+    options: ['CSS ช้ากว่า JS', 'CSS จัดการ visual logic และเปลี่ยนได้โดยไม่แตะ JavaScript', 'JS อ่าน CSS ไม่ได้', 'เบราว์เซอร์ไม่สนใจ inline styles'],
+    answer: 1,
+  },
+  {
+    q: '`classList.contains(\'open\')` คืนค่าอะไร?',
+    options: ['string ของ class', 'true ถ้า element มี class นั้น, false ถ้าไม่มี', 'จำนวน class บน element', 'element นั้นเอง'],
+    answer: 1,
+  },
+  {
+    q: 'คุณใช้เครื่องมือ JavaScript สามอย่างใดในบทเรียนนี้?',
+    options: ['fetch, JSON, localStorage', 'querySelector, addEventListener, classList.toggle', 'setInterval, clearTimeout, Promise', 'innerHTML, style, dataset'],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="javascript/interactions" questions={quizInteractions} />
+
+<ProgressTracker client:visible id="javascript/interactions" />

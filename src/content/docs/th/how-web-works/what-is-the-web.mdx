@@ -1,0 +1,100 @@
+---
+title: เว็บคืออะไร?
+description: ทำความเข้าใจ browser, หน้าเว็บ, server, URL และสิ่งที่เกิดขึ้นจริงเมื่อคุณเปิดเว็บไซต์ — อธิบายด้วยภาษาง่ายๆ สำหรับ designer
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ทุกวันคุณเปิดหน้าเว็บเป็นสิบๆ หน้า — portfolio site, แรงบันดาลใจด้านดีไซน์, documentation, social feed แต่จริงๆ แล้วเกิดอะไรขึ้นหลังการคลิกนั้น? การเข้าใจเรื่องนี้จะทำให้คุณเป็น designer ที่ดีขึ้น เพราะคุณจะรู้ *ว่าทำไม* เว็บถึงถูกสร้างมาแบบนั้น
+
+## Browser
+
+**Browser** (Chrome, Safari, Firefox, Edge) คือโปรแกรมที่มีหน้าที่เดียวคืออ่านไฟล์และวาดมันบนหน้าจอ มันอ่านไฟล์ข้อความชนิดพิเศษ — ไฟล์ HTML — แล้วแปลงเป็นหน้าเว็บที่คุณมองเห็น
+
+ลองนึกถึง browser เหมือน PDF reader PDF reader รับไฟล์ `.pdf` แล้ว render เป็น document ที่จัดรูปแบบแล้ว Browser รับไฟล์ `.html` แล้ว render เป็นหน้าเว็บ Browser คือ renderer ที่ทรงพลังมากเท่านั้นเอง
+
+## Server
+
+แล้วไฟล์ HTML เหล่านั้นอยู่ที่ไหน? บน **server** — คอมพิวเตอร์ที่เปิดตลอดเวลา เชื่อมต่ออินเทอร์เน็ตตลอดเวลา และมีหน้าที่เดียวคือส่งไฟล์ออกไปเมื่อมีการร้องขอ
+
+เมื่อคุณพิมพ์ที่อยู่เว็บแล้วกด Enter browser ของคุณจะส่งคำร้องขอ: *"ขอไฟล์สำหรับที่อยู่นี้ด้วย"* Server หาไฟล์ที่ถูกต้องแล้วส่งกลับมา Browser รับมันแล้ว render หน้า ทั้งหมดนี้ใช้เวลาน้อยกว่าหนึ่งวินาที
+
+ลองนึก server เหมือน design asset library บน cloud ไฟล์ Figma ของคุณลิงก์ไปยังไฟล์ component ที่แชร์กันซึ่ง host ไว้ที่ศูนย์กลาง เมื่อคุณเปิดไฟล์ Figma จะ fetch asset เหล่านั้น Server ทำงานแบบเดียวกัน — มันคือที่เก็บไฟล์กลางที่ browser ของคุณสามารถ fetch ได้
+
+## URL — ที่อยู่ของไฟล์
+
+**URL** (Uniform Resource Locator) คือที่อยู่ มันบอก browser ของคุณว่าจะหาไฟล์ได้ที่ไหนกันแน่
+
+```
+https://example.com/about/team.html
+  ↑         ↑          ↑
+protocol  domain      path ของไฟล์
+```
+
+- **Protocol** (`https://`) — "ภาษา" ที่ browser และ server ใช้คุยกัน ตัว `s` หมายถึงการเชื่อมต่อที่เข้ารหัสแล้ว (ปลอดภัย)
+- **Domain** (`example.com`) — ชื่อของ server เหมือนที่อยู่บ้าน
+- **Path** (`/about/team.html`) — ไฟล์เฉพาะบน server นั้น เหมือนหมายเลขห้อง
+
+## Link — วิธีที่หน้าเว็บเชื่อมกัน
+
+**Link** (`<a>` ใน HTML) คือ element ที่เมื่อคลิกแล้วจะบอก browser ให้ไป fetch URL อื่น นั่นคือทั้งหมดของเว็บ: ไฟล์ที่ชี้ไปยังไฟล์อื่น คำว่า "web" ใน World Wide Web หมายถึงเครือข่ายของลิงก์ที่เชื่อมต่อกันนี้
+
+export const linkHtml = `<p>This is a paragraph with a <a href="https://www.example.com">link to another page</a>.</p>
+<p>Links are what connects all web pages together.</p>`;
+
+export const linkCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; line-height: 1.6; }
+a { color: #7C3AED; }
+a:hover { color: #5B21B6; text-decoration: none; }`;
+
+<LivePreview client:visible html={linkHtml} css={linkCss} />
+
+ลอง hover ลิงก์ใน preview สังเกตว่า cursor เปลี่ยนไป นั่นคือ browser บอกคุณว่า "การคลิกที่นี่จะพาคุณไปที่อื่น" พฤติกรรมนี้ built-in อยู่ใน element `<a>` — คุณไม่ต้องเขียนโค้ดเองเลย
+
+<Tip title="เว็บก็แค่ไฟล์">
+โดยพื้นฐานแล้ว เว็บไม่ใช่อะไรมากกว่าไฟล์บนคอมพิวเตอร์ที่เชื่อมต่อกันด้วยที่อยู่ ไม่มีอะไรลึกลับ เมื่อคุณเข้าใจเรื่องนี้ แนวคิดอย่าง "host เว็บไซต์" ก็จะชัดเจนขึ้นเอง — มันก็แค่การนำไฟล์ของคุณไปวางบน server เพื่อให้ browser ของคนอื่นสามารถ fetch ได้
+</Tip>
+
+export const quizWhatIsTheWeb = [
+  {
+    q: 'หน้าที่หลักของ browser คืออะไร?',
+    options: [
+      'เขียนไฟล์ HTML ให้คุณ',
+      'อ่านไฟล์โค้ดและ render เป็นหน้าเว็บที่มองเห็นได้',
+      'เก็บไฟล์เว็บไซต์ของคุณ',
+      'ออกแบบ layout อัตโนมัติ',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Server ทำหน้าที่อะไร?',
+    options: [
+      'มัน style หน้าด้วย CSS',
+      'มันคือคอมพิวเตอร์ที่เก็บไฟล์และส่งให้ browser เมื่อมีการร้องขอ',
+      'มันคือชื่ออื่นของ browser',
+      'มันรัน JavaScript animations',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ใน URL https://example.com/about/team.html ส่วน /about/team.html แทนความหมายว่าอะไร?',
+    options: [
+      'Protocol',
+      'ชื่อ domain',
+      'Path ไปยังไฟล์เฉพาะบน server',
+      'เวอร์ชัน browser',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'HTML element ใดที่ใช้สร้างลิงก์ที่คลิกได้?',
+    options: ['<link>', '<url>', '<a>', '<button>'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="how-web-works/what-is-the-web" questions={quizWhatIsTheWeb} />
+
+<ProgressTracker client:visible id="how-web-works/what-is-the-web" />

@@ -1,0 +1,188 @@
+---
+title: Responsive Images
+description: 'Make images scale with the layout using max-width, and learn why image file size matters as much as visual size.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Images are the single most common cause of broken responsive layouts. A 1200-px-wide photo dropped into a 375-px-wide phone will overflow the screen and cause horizontal scrolling. Fixing this is one line of CSS — but understanding *why* it works (and how to go further) makes you a much better designer-developer.
+
+## The one CSS rule every image needs
+
+```css
+img {
+  max-width: 100%;
+  height: auto;
+}
+```
+
+- `max-width: 100%` — the image can never be wider than its container. If the container shrinks, the image shrinks with it.
+- `height: auto` — the browser recalculates the height automatically to keep the image's aspect ratio. Without this, images would stretch vertically.
+
+This is so fundamental that most CSS resets and frameworks (like Tailwind) include it by default.
+
+## See it in action
+
+The preview shows two images (represented by coloured boxes for illustration). The first has no max-width constraint; the second has `max-width: 100%`. **Narrow the preview pane** to see what happens.
+
+export const responsiveImagesHtml = `<div class="demo">
+  <p class="label">Without max-width: 100%</p>
+  <div class="container">
+    <div class="img img--broken">300px wide image</div>
+  </div>
+
+  <p class="label">With max-width: 100%</p>
+  <div class="container">
+    <div class="img img--fixed">300px wide image</div>
+  </div>
+</div>`;
+
+export const responsiveImagesCss = `body {
+  font-family: system-ui, sans-serif;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.container {
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 0.5rem;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* Broken: fixed width, will overflow narrow containers */
+.img--broken {
+  width: 300px;
+  height: 80px;
+  background: linear-gradient(90deg, #dc2626, #f97316);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Fixed: scales down with the container */
+.img--fixed {
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+  min-height: 80px;
+  background: linear-gradient(90deg, #16a34a, #0891b2);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+}`;
+
+<LivePreview client:visible html={responsiveImagesHtml} css={responsiveImagesCss} height="280px" />
+
+When the pane is narrow, the red box overflows its container — that is what a fixed-size image does on mobile. The green box respects the container boundary and shrinks gracefully.
+
+## File size matters as much as visual size
+
+`max-width: 100%` makes the image *look* smaller on small screens. It does not make the file smaller. A 3-MB photograph is still 3 MB even when it displays at 375 px wide — it just arrives slowly over a mobile data connection.
+
+### `srcset` — serve the right size file
+
+The `srcset` attribute lets you provide multiple versions of an image. The browser picks the best one for the device:
+
+```html
+<img
+  src="hero-800.jpg"
+  srcset="hero-400.jpg 400w, hero-800.jpg 800w, hero-1600.jpg 1600w"
+  sizes="(max-width: 480px) 100vw, 800px"
+  alt="Hero image description"
+/>
+```
+
+- `400w`, `800w`, `1600w` — the actual pixel width of each file.
+- `sizes` — tells the browser how wide the image will be displayed at different breakpoints, so it can pick the right source before downloading.
+
+You do not need to implement `srcset` by hand in most projects — tools like Next.js `<Image>`, Astro's `<Image>`, or Cloudinary handle it automatically. The important thing to understand is the concept: **export images at multiple sizes, and let the browser choose**.
+
+### `<picture>` — art direction
+
+When you want to show a *different* crop or composition on mobile versus desktop (not just a smaller version of the same image), use the `<picture>` element:
+
+```html
+<picture>
+  <source media="(max-width: 480px)" srcset="hero-portrait.jpg" />
+  <img src="hero-landscape.jpg" alt="Hero image" />
+</picture>
+```
+
+This is the direct code equivalent of having different image crops in your Figma mobile and desktop artboards.
+
+<Tip title="Export image guidelines for designers handing off to developers">
+When handing off to a developer, always export images at 1x, 2x, and (for full-width heroes) 3x resolution. Name them clearly: `hero@1x.jpg`, `hero@2x.jpg`, `hero@3x.jpg`. Keep file sizes under 200 KB for content images and under 500 KB for hero images. Use WebP format — it is roughly 30% smaller than JPEG at the same quality. These habits directly affect how fast your designs load on real devices.
+</Tip>
+
+export const quizResponsiveImages = [
+  {
+    q: 'What does `max-width: 100%` on an image do?',
+    options: [
+      'Makes the image always fill the full page width',
+      'Prevents the image from being wider than its container',
+      'Hides the image on small screens',
+      'Sets the image file size to a maximum of 100 KB',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Why is `height: auto` added alongside `max-width: 100%`?',
+    options: [
+      'To make the image taller on wide screens',
+      'To keep the original aspect ratio when the width changes',
+      'To speed up image loading',
+      'height: auto is required by the HTML spec',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'What is the difference between using srcset and just using max-width: 100%?',
+    options: [
+      'There is no difference; they do the same thing',
+      'srcset changes the visual size; max-width changes the file size',
+      'max-width changes the visual display size; srcset lets the browser download a smaller file on small screens',
+      'srcset only works on mobile devices',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'When would you use the `<picture>` element instead of just `srcset`?',
+    options: [
+      'When you want to show a different crop or composition on mobile vs desktop',
+      'When you need the image to load faster',
+      'When the image is a PNG file',
+      'When the image is inside a flex container',
+    ],
+    answer: 0,
+  },
+];
+
+<Quiz client:visible id="responsive/responsive-images" questions={quizResponsiveImages} />
+
+<ProgressTracker client:visible id="responsive/responsive-images" />

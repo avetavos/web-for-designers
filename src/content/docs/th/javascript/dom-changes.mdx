@@ -1,0 +1,104 @@
+---
+title: 'การเปลี่ยน DOM'
+description: 'เปลี่ยนข้อความด้วย textContent และสลับสถานะภาพด้วย classList.toggle — สองสิ่งที่น่าพอใจที่สุดที่ทำได้ด้วย JavaScript ในฐานะ designer'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ในฐานะ designer คุณคิดเป็น layer และ state อยู่แล้ว — ปุ่มในสถานะปกติ สถานะ hover สถานะ active JavaScript ช่วยให้คุณสลับระหว่างสถานะเหล่านั้นได้แบบ live ในเบราว์เซอร์ ส่วนที่เชื่อมระหว่างโค้ดกับสิ่งที่ผู้ใช้มองเห็นเรียกว่า **DOM**
+
+## DOM คืออะไร?
+
+DOM (Document Object Model) คือโมเดลของหน้าเว็บที่อยู่ใน memory ซึ่ง JavaScript อ่านและแก้ไขได้ ลองนึกภาพว่ามันคือ layer tree ใน Figma: ทุก element บนหน้าเว็บมี node ที่สอดคล้องกันใน tree และ JavaScript สามารถอ่านหรือแก้ไข node ใดก็ได้แบบ real time
+
+เมื่อ JavaScript เปลี่ยน DOM เบราว์เซอร์จะสะท้อนการเปลี่ยนแปลงนั้นบนหน้าจอทันที — ไม่จำเป็นต้อง reload หน้าเว็บ
+
+## เทคนิคสองอย่างที่ควรรู้ตั้งแต่เนิ่นๆ
+
+### 1. เปลี่ยนข้อความด้วย `.textContent`
+
+ทุก element มี property `.textContent` ที่เก็บข้อความที่มองเห็นอยู่ภายใน การกำหนดค่า string ใหม่จะแทนที่ข้อความนั้นทันที:
+
+```js
+var heading = document.querySelector('h1');
+heading.textContent = 'Hello, world!';
+```
+
+### 2. Toggle CSS class ด้วย `.classList.toggle`
+
+Element ยังมี object `.classList` ที่ให้คุณเพิ่ม ลบ หรือ toggle CSS class ได้ `.classList.toggle('class-name')` ทำงานเหมือนสวิตช์ไฟ:
+
+- ถ้า class **ไม่มีอยู่** มันจะเพิ่มเข้าไป
+- ถ้า class **มีอยู่แล้ว** มันจะลบออก
+
+สิ่งนี้ตรงกับการสลับ variant state ใน Figma โดยตรง — element แค่สลับระหว่างสองสไตล์ภาพที่กำหนดไว้ใน CSS ของคุณ
+
+```js
+var card = document.querySelector('.card');
+card.classList.toggle('highlighted');
+```
+
+## ลองทดสอบดูสด
+
+demo ด้านล่างมี card และปุ่ม แต่ละครั้งที่คลิกจะ toggle CSS class `highlighted` บน card และอัปเดต label ของปุ่มให้ตรงกับสถานะปัจจุบัน
+
+export const domHtml = `<div id="card" class="card">
+  <h3>My Design Card</h3>
+  <p>Click the button to highlight this card.</p>
+</div>
+<button id="toggleBtn">Highlight</button>`;
+
+export const domCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+.card { border: 2px solid #d1d5db; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; transition: all 0.2s; }
+.card.highlighted { border-color: #7C3AED; background: #f5f3ff; }
+button { background: #7C3AED; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }`;
+
+export const domJs = `var card = document.querySelector('#card');
+var btn = document.querySelector('#toggleBtn');
+btn.addEventListener('click', function() {
+  card.classList.toggle('highlighted');
+  if (card.classList.contains('highlighted')) {
+    btn.textContent = 'Remove highlight';
+  } else {
+    btn.textContent = 'Highlight';
+  }
+});`;
+
+<LivePreview client:visible html={domHtml} css={domCss} js={domJs} />
+
+## โค้ดทำงานอย่างไร
+
+1. `document.querySelector('#card')` ค้นหา card element ด้วย `id` และเก็บ reference ไว้ในตัวแปร `card`
+2. `document.querySelector('#toggleBtn')` ทำแบบเดียวกันสำหรับปุ่ม
+3. `btn.addEventListener('click', function() { ... })` บอกเบราว์เซอร์ให้รัน function ทุกครั้งที่มีการคลิกปุ่ม
+4. ภายใน function, `card.classList.toggle('highlighted')` จะ flip class เปิดหรือปิด
+5. `card.classList.contains('highlighted')` ตรวจสอบสถานะปัจจุบันเพื่อให้ label ของปุ่มซิงค์กันผ่าน `.textContent`
+
+<Tip title="CSS ทำงานด้านภาพ">
+JavaScript แค่เพิ่มหรือลบชื่อ class เท่านั้น — ไม่เคยตั้งค่าสีหรือ spacing โดยตรง ความแตกต่างทางภาพทั้งหมดอยู่ใน CSS ของคุณ (`.card` กับ `.card.highlighted`) การแยกส่วนนี้ทำให้ style อยู่ในที่เดียวและ logic อยู่อีกที่หนึ่ง เหมือนกับความสัมพันธ์ระหว่าง component กับ variant ของมันในเครื่องมือออกแบบ
+</Tip>
+
+export const quizDomChanges = [
+  {
+    q: '`.classList.toggle(\'active\')` ทำอะไร?',
+    options: ['เพิ่ม class "active" เสมอ', 'ลบ class "active" เสมอ', 'เพิ่ม class ถ้าไม่มี ลบออกถ้ามีอยู่แล้ว', 'เปลี่ยนชื่อ element'],
+    answer: 2,
+  },
+  {
+    q: 'การตั้งค่า `.textContent` บน element ทำอะไร?',
+    options: ['เปลี่ยน CSS class ของ element', 'แทนที่ข้อความที่มองเห็นภายใน element', 'ลบ element ออกจากหน้า', 'เปลี่ยน HTML tag ของ element'],
+    answer: 1,
+  },
+  {
+    q: 'DOM คืออะไร?',
+    options: ['CSS file', 'โมเดลของหน้าเว็บที่อยู่ใน memory ซึ่ง JavaScript อ่านและเปลี่ยนแปลงได้', 'ประเภทของ HTML tag', 'browser extension'],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="javascript/dom-changes" questions={quizDomChanges} />
+
+<ProgressTracker client:visible id="javascript/dom-changes" />

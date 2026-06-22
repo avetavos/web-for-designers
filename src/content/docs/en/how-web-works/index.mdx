@@ -1,0 +1,86 @@
+---
+title: 'How the Web Works'
+description: 'A friendly introduction to browsers, servers, and the three languages that build every web page — for designers with zero coding background.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+You have been using the web your whole life — opening links, browsing designs on Behance, checking references on MDN. But have you ever wondered what actually happens the moment you click a link? This module answers that question in plain terms, with no programming experience required.
+
+By the end of this module you will understand what browsers, servers, HTML, CSS, and JavaScript each do — and you will have written your very first styled web card by hand.
+
+## What you will learn in this module
+
+| Lesson | What you will understand |
+|---|---|
+| How the Web Works | Browsers, servers, URLs, and the journey of a web page |
+| HTML, CSS & JS Roles | The three languages and exactly what each one does |
+| Your First Page | Build and edit a real page from scratch |
+
+There is nothing to install and nothing to memorise before you start. Every lesson has a live editor so you can see changes happen in real time — just like toggling properties in Figma's inspect panel, but for code.
+
+## Try it now — your first card
+
+The editor below is a complete, working web snippet. Click inside, change the text, and watch the preview update. You are already writing real code.
+
+export const indexHtml = `<div class="card">
+  <h2>Hi, I'm a designer.</h2>
+  <p>And I just wrote my first web card.</p>
+</div>`;
+
+export const indexCss = `body {
+  font-family: system-ui, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  background: #f5f3ff;
+}
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 24px rgba(124,58,237,0.10);
+  max-width: 360px;
+}
+h2 { color: #7C3AED; margin: 0 0 0.5rem; }
+p  { color: #374151; margin: 0; }`;
+
+<LivePreview client:visible html={indexHtml} css={indexCss} />
+
+Try changing `Hi, I'm a designer.` to your own name. Try changing `#7C3AED` to `#E11D48` and see the heading turn red.
+
+<Tip title="Code is just text with rules">
+Every web page is a plain text file. There is no magic compiler, no special hardware. A browser reads the text, follows the rules, and draws the result on screen. If you can type in Figma's text panel, you can write code.
+</Tip>
+
+export const quizHowWebWorksIndex = [
+  {
+    q: 'What is the job of a web browser?',
+    options: [
+      'To store your files on the internet',
+      'To read code files and draw them as a visual page',
+      'To write HTML automatically',
+      'To host websites on a server',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which three languages build every web page?',
+    options: [
+      'Python, Ruby, and PHP',
+      'Figma, Sketch, and XD',
+      'HTML, CSS, and JavaScript',
+      'Markdown, YAML, and JSON',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="how-web-works/index" questions={quizHowWebWorksIndex} />
+
+<ProgressTracker client:visible id="how-web-works/index" />

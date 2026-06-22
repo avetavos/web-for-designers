@@ -1,0 +1,119 @@
+---
+title: 'Changing the DOM'
+description: 'Change text with textContent and swap visual states with classList.toggle — the two most satisfying things you can do with JavaScript as a designer.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+As a designer you already think in layers and states — a button in its default state, its hover state, its active state. JavaScript lets you flip between those states live in the browser. The bridge between your code and what the user sees is called the **DOM**.
+
+## What is the DOM?
+
+The DOM (Document Object Model) is the browser's live, in-memory model of your page. Think of it like Figma's layer tree: every element on the page has a corresponding node in the tree, and JavaScript can read or modify any of them in real time.
+
+When JavaScript changes the DOM, the browser immediately reflects that change on screen — no page reload required.
+
+## Two techniques worth knowing right away
+
+### 1. Change text with `.textContent`
+
+Every element has a `.textContent` property that holds the visible text inside it. Assigning a new string replaces that text instantly:
+
+```js
+var heading = document.querySelector('h1');
+heading.textContent = 'Hello, world!';
+```
+
+### 2. Toggle a CSS class with `.classList.toggle`
+
+Elements also have a `.classList` object that lets you add, remove, or toggle CSS classes. `.classList.toggle('class-name')` works like a light switch:
+
+- If the class is **absent**, it adds it.
+- If the class is **present**, it removes it.
+
+This maps directly to toggling a variant state in Figma — the element just switches between two visual styles defined in your CSS.
+
+```js
+var card = document.querySelector('.card');
+card.classList.toggle('highlighted');
+```
+
+## Try it live
+
+The demo below has a card and a button. Each click toggles a `highlighted` CSS class on the card and updates the button's label to match the current state.
+
+export const exampleHtml = `<div id="card" class="card">
+  <h3>My Design Card</h3>
+  <p>Click the button to highlight this card.</p>
+</div>
+<button id="toggleBtn">Highlight</button>`;
+
+export const exampleCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+.card { border: 2px solid #d1d5db; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; transition: all 0.2s; }
+.card.highlighted { border-color: #7C3AED; background: #f5f3ff; }
+button { background: #7C3AED; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }`;
+
+export const exampleJs = `var card = document.querySelector('#card');
+var btn = document.querySelector('#toggleBtn');
+btn.addEventListener('click', function() {
+  card.classList.toggle('highlighted');
+  if (card.classList.contains('highlighted')) {
+    btn.textContent = 'Remove highlight';
+  } else {
+    btn.textContent = 'Highlight';
+  }
+});`;
+
+<LivePreview client:visible html={exampleHtml} css={exampleCss} js={exampleJs} />
+
+## How the code works
+
+1. `document.querySelector('#card')` finds the card element by its `id` and stores a reference in the `card` variable.
+2. `document.querySelector('#toggleBtn')` does the same for the button.
+3. `btn.addEventListener('click', function() { ... })` tells the browser to run the function every time the button is clicked.
+4. Inside the function, `card.classList.toggle('highlighted')` flips the class on or off.
+5. `card.classList.contains('highlighted')` checks the current state so the button label can stay in sync via `.textContent`.
+
+<Tip title="CSS does the visual work">
+JavaScript only adds or removes a class name — it never sets colors or spacing directly. All the visual difference lives in your CSS (`.card` vs `.card.highlighted`). This separation keeps your styling in one place and your logic in another, exactly like the relationship between a component and its variants in a design tool.
+</Tip>
+
+export const quizDomChanges = [
+  {
+    q: 'What does `.classList.toggle(\'active\')` do?',
+    options: [
+      'Always adds the class "active"',
+      'Always removes the class "active"',
+      'Adds the class if absent, removes it if present',
+      'Renames the element',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'What does setting `.textContent` on an element do?',
+    options: [
+      "Changes the element's CSS class",
+      'Replaces the visible text inside the element',
+      'Deletes the element from the page',
+      "Changes the element's HTML tag",
+    ],
+    answer: 1,
+  },
+  {
+    q: 'What is the DOM?',
+    options: [
+      'A CSS file',
+      'The live, in-memory model of the page that JavaScript can read and change',
+      'A type of HTML tag',
+      'A browser extension',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="javascript/dom-changes" questions={quizDomChanges} />
+
+<ProgressTracker client:visible id="javascript/dom-changes" />

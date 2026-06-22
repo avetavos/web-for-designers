@@ -1,0 +1,153 @@
+---
+title: 'Design Tokens'
+description: 'CSS custom properties คือเวอร์ชันโค้ดของ Figma Variables'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ใน Figma เมื่อคุณกำหนด color style ชื่อ `brand/primary` และนำไปใช้กับ element สามสิบอัน คุณสามารถเปลี่ยนสีนั้นครั้งเดียวแล้ว element ทั้งหมดจะอัปเดต นั่นคือพลังของแหล่งความจริงเดียว CSS custom properties — หรือที่เรียกว่า **design tokens** หรือ **CSS variables** — ให้พลังงานเดียวกันนั้นแก่คุณในโค้ด
+
+## Figma variables → CSS custom properties
+
+| แนวคิด Figma | CSS equivalent |
+|---|---|
+| Color Style `brand/primary` | `--color-primary: #7C3AED;` |
+| Color Style `text/muted` | `--color-text-muted: #6B7280;` |
+| Spacing variable `space/4` | `--space-4: 1rem;` |
+| Radius variable `radius/card` | `--radius-card: 12px;` |
+
+คุณกำหนด tokens ทั้งหมดครั้งเดียวที่ด้านบนของ CSS บน selector พิเศษ `:root` `:root` หมายถึง "ทั้งเอกสาร" — ดังนั้นค่าเหล่านี้จะพร้อมใช้งานทุกที่
+
+```css
+:root {
+  --color-primary: #7C3AED;
+  --color-text: #111827;
+  --color-text-muted: #6B7280;
+  --color-surface: #FFFFFF;
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --radius-card: 12px;
+}
+```
+
+ในการใช้ token ให้เขียน `var(--token-name)` แทนที่จะเขียนค่าโดยตรง:
+
+```css
+.card {
+  background: var(--color-surface);
+  padding: var(--space-6);
+  border-radius: var(--radius-card);
+}
+```
+
+## ทำไมสิ่งนี้จึงสำคัญ
+
+เมื่อสีแบรนด์ของคุณเปลี่ยนจากม่วงเป็นน้ำเงิน คุณเปลี่ยน **หนึ่งบรรทัด** — `--color-primary` — แล้วปุ่ม ลิงก์ และ highlight ทุกอันในทุกเพจจะอัปเดตโดยอัตโนมัติ หากไม่มี tokens คุณจะต้องค้นหาและแทนที่ `#7C3AED` ที่ hardcode ไว้ทุกไฟล์ CSS
+
+นี่คือสาเหตุที่ design systems มีอยู่: กำหนดการตัดสินใจครั้งเดียว ปฏิบัติตามทุกที่
+
+## Tokens ในการทำงาน
+
+การ์ดด้านล่างสร้างขึ้นจาก tokens ทั้งหมด ลองเปลี่ยน `--color-primary` ในแผง CSS — สังเกตว่าปุ่มและแท็กทั้งคู่อัปเดตพร้อมกัน
+
+export const tokensHtml = `<div class="card">
+  <span class="tag">Product Design</span>
+  <h3 class="card-title">Design Systems</h3>
+  <p class="card-body">Building a single source of truth for color, spacing, and type.</p>
+  <a class="btn-primary" href="#">Read more</a>
+</div>`;
+
+export const tokensCss = `:root {
+  --color-primary: #7C3AED;
+  --color-primary-text: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #111827;
+  --color-text-muted: #6B7280;
+  --color-tag-bg: #EDE9FE;
+  --color-tag-text: #5B21B6;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --radius-sm: 4px;
+  --radius-card: 12px;
+}
+body { font-family: system-ui, sans-serif; padding: var(--space-6); background: #f5f5f5; }
+.card {
+  background: var(--color-surface);
+  padding: var(--space-6);
+  border-radius: var(--radius-card);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.tag {
+  display: inline-block;
+  background: var(--color-tag-bg);
+  color: var(--color-tag-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem var(--space-2);
+  border-radius: var(--radius-sm);
+}
+.card-title { margin: 0; font-size: 1.125rem; color: var(--color-text); }
+.card-body { margin: 0; font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.6; }
+.btn-primary {
+  display: inline-block;
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+}`;
+
+<LivePreview client:visible html={tokensHtml} css={tokensCss} />
+
+<Tip title="ถ้าใช้สีมากกว่าหนึ่งครั้ง มันควรเป็น token">
+ค่าที่ hardcode เช่น `#7C3AED` กระจัดกระจายทั่ว CSS คือ design debt เมื่อสีแบรนด์เปลี่ยน คุณจะพลาดอย่างน้อยหนึ่งที่ Tokens ไม่ใช่ภาระ — นี่คือวิธีที่คุณดูแล design system ในโค้ดโดยไม่ทำให้ทุกอย่างพัง
+</Tip>
+
+export const quizDesignTokens = [
+  {
+    q: 'โดยปกติ CSS custom properties (tokens) ถูกกำหนดที่ไหน?',
+    options: [
+      'ภายใน rule ของปุ่ม',
+      'บน selector :root',
+      'ใน HTML head',
+      'ภายใน media query',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'วิธีใช้ CSS custom property ชื่อ --color-brand คือข้อใด?',
+    options: [
+      'color: --color-brand',
+      'color: var(--color-brand)',
+      'color: token(--color-brand)',
+      'color: $color-brand',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ประโยชน์หลักของการใช้ design tokens คืออะไร?',
+    options: [
+      'ทำให้เพจโหลดเร็วขึ้น',
+      'ให้คุณเปลี่ยนค่าในที่เดียวและอัปเดตทุกที่',
+      'เพิ่ม animation อัตโนมัติ',
+      'แทนที่ HTML',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="workflow/design-tokens" questions={quizDesignTokens} />
+
+<ProgressTracker client:visible id="workflow/design-tokens" />

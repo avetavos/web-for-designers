@@ -1,0 +1,102 @@
+---
+title: Display & Normal Flow
+description: 'เบราว์เซอร์เรียง elements ตามค่าเริ่มต้นอย่างไร และ display: block, inline, inline-block หมายความว่าอะไร'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ก่อนที่คุณจะควบคุม layout ได้ คุณต้องเข้าใจว่าเกิดอะไรขึ้นเมื่อคุณ *ไม่ทำอะไรเลย* เบราว์เซอร์มีระบบในตัวสำหรับวาง elements บนหน้า เรียกว่า **normal flow** และมันไม่ใช่เรื่องสุ่ม มันตามกฎง่ายๆ สองข้อตาม `display` type ค่าเริ่มต้นของ element
+
+## Block vs inline
+
+ทุก HTML element เป็นแบบ **block** หรือ **inline** โดยค่าเริ่มต้น
+
+**Block elements** ทำงานเหมือนชั้นวางแนวนอนที่ซ้อนกัน แต่ละอันใช้ความกว้างเต็มที่ และอันใหม่จะเริ่มในบรรทัดใหม่เสมอ ไม่ว่าเนื้อหาจะสั้นแค่ไหน คิดว่าเหมือน Figma frames ที่มีความกว้าง "Fill container" และความสูง "Hug contents" เรียงในแนวตั้งใน auto-layout
+
+ตัวอย่าง: `<div>`, `<p>`, `<h1>`–`<h6>`, `<section>`, `<article>`
+
+**Inline elements** ไหลตามข้อความ พวกมันนั่งเคียงข้างกันและใช้เฉพาะความกว้างที่เนื้อหาต้องการ พวกมันไม่ขึ้นบรรทัดใหม่ คิดว่าเหมือนข้อความหรือไอคอนแต่ละตัวในบรรทัดข้อความ
+
+ตัวอย่าง: `<span>`, `<a>`, `<strong>`, `<em>`, `<img>`
+
+## The display property
+
+คุณสามารถแทนที่พฤติกรรมค่าเริ่มต้นของ element ใดก็ได้ด้วย property `display`:
+
+| ค่า | สิ่งที่ทำ |
+|---|---|
+| `block` | ชั้นวางเต็มความกว้าง ขึ้นบรรทัดใหม่ |
+| `inline` | ไหลตามข้อความ ไม่สามารถควบคุมความกว้าง/ความสูงได้ |
+| `inline-block` | ไหลตามข้อความ แต่ *สามารถ* ตั้งความกว้างและความสูงได้ |
+| `flex` | เปิดใช้งาน Flexbox กับ children |
+| `grid` | เปิดใช้งาน Grid กับ children |
+| `none` | ซ่อน element อย่างสมบูรณ์ (ไม่ใช่แค่มองไม่เห็น — ถูกลบออกจาก layout) |
+
+ตัวอย่างที่แก้ไขได้ด้านล่างมีทั้ง block และ inline elements ลองเปลี่ยน `.label` จาก `display: inline` เป็น `display: inline-block` และเพิ่ม `width: 100px` — สังเกตว่าตอนนี้คุณสามารถควบคุมขนาดได้ แล้วลอง `display: block` เพื่อดูมันกระโดดไปบรรทัดของตัวเอง
+
+export const flowHtml = `<p>This is a <span class="label">block</span> paragraph. It fills the full width.</p>
+<p>This is another <span class="label">inline</span> paragraph. Notice they stack.</p>
+<span class="label">I am inline.</span>
+<span class="label">So am I.</span>
+<span class="label">We sit side by side.</span>`;
+
+export const flowCss = `body { font-family: system-ui, sans-serif; padding: 1rem; line-height: 1.6; }
+p { background: #f3f4f6; padding: 0.5rem; border-radius: 4px; margin-bottom: 0.5rem; }
+.label {
+  display: inline;
+  background: #7C3AED;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}`;
+
+<LivePreview client:visible html={flowHtml} css={flowCss} />
+
+<Tip title="inline-block คือตรงกลาง">
+`inline-block` มีประโยชน์มากสำหรับ navigation links, tags และ badge components พวกมันไหลเป็นธรรมชาติในข้อความเหมือน inline elements แต่คุณสามารถให้ padding, width และ height ที่แน่นอนได้เหมือน block elements คุณจะใช้มันตลอดสำหรับ UI chips และ labels
+</Tip>
+
+## ทำไมสิ่งนี้จึงสำคัญสำหรับ layout
+
+เมื่อคุณใช้ Flexbox หรือ Grid คุณกำลัง *แทนที่* กฎ normal-flow สำหรับ children ของ element นั้น property `display` คือสวิตช์เปิด/ปิด การเข้าใจว่า normal flow มีหน้าตาอย่างไรทำให้เห็นชัดทันทีว่าทำไมการเพิ่ม `display: flex` ให้กับ container ถึงเปลี่ยนทุกอย่าง — คุณกำลังเลือกออกจากกฎการซ้อนค่าเริ่มต้น
+
+export const quizDisplayFlow = [
+  {
+    q: 'block element ทำอะไรตามค่าเริ่มต้น?',
+    options: [
+      'นั่งข้างๆ elements อื่นในบรรทัดเดียวกัน',
+      'ใช้ความกว้างเต็มที่และขึ้นบรรทัดใหม่',
+      'กลายเป็นมองไม่เห็น',
+      'ลอยไปด้านขวาของหน้า',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ค่า display ใดที่ให้ element ไหลตามข้อความและรับความกว้างที่กำหนดได้?',
+    options: ['block', 'inline', 'inline-block', 'none'],
+    answer: 2,
+  },
+  {
+    q: '`display: none` ทำอะไร?',
+    options: [
+      'ทำให้ element โปร่งใส',
+      'ลบ element ออกจาก layout อย่างสมบูรณ์',
+      'ย้ายมันออกไปนอกหน้าจอทางซ้าย',
+      'แปลงเป็น block element',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'ข้อใดคือ inline element ตามค่าเริ่มต้น?',
+    options: ['<div>', '<p>', '<section>', '<span>'],
+    answer: 3,
+  },
+];
+
+<Quiz client:visible id="layout/display-and-flow" questions={quizDisplayFlow} />
+
+<ProgressTracker client:visible id="layout/display-and-flow" />

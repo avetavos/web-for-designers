@@ -1,0 +1,125 @@
+---
+title: 'HTML, CSS & JS — What Each One Does'
+description: 'Understand the three languages of the web and exactly what role each one plays, anchored in designer analogies from Figma and visual design.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Every web page is built with exactly three languages. They have been around since the early days of the web, and they are still the foundation of every site you visit today — from a simple blog to a complex web app. Each language has one clear job.
+
+## HTML — the structure
+
+**HTML** (HyperText Markup Language) defines *what is on the page*. Text, headings, images, buttons, links — all of that is HTML. It has no colors, no fonts, no layout. It is purely content and meaning.
+
+If you were designing in Figma, HTML is the wireframe layer — the frames, placeholders, and text blocks that define what exists before any visual treatment is applied.
+
+## CSS — the design
+
+**CSS** (Cascading Style Sheets) defines *how everything looks*. Colors, typography, spacing, layout, shadows, rounded corners — all of that is CSS. CSS reads the HTML elements and applies visual styles to them.
+
+In Figma terms, CSS is everything in the Design panel on the right: fill, stroke, border radius, spacing, font size, color. It is the entire visual layer.
+
+## JavaScript — the behaviour
+
+**JavaScript** is a programming language that makes things *interactive and dynamic*. Clicking a button and having a menu appear, typing in a search box and seeing results filter, dragging a card to a new position — that is all JavaScript.
+
+In Figma terms, JavaScript is closest to **Prototype interactions**: the connections and triggers that make things respond to user actions.
+
+## Seeing the difference
+
+The editor below starts with HTML and CSS together. Delete all the CSS (select everything in the CSS tab and press Delete) and watch what happens. The content is still there — the structure survives — but all the visual design disappears. That is the separation of HTML and CSS in action.
+
+export const rolesHtml = `<article class="card">
+  <span class="tag">UI Design</span>
+  <h2>The three layers of every web page</h2>
+  <p>HTML is the structure. CSS is the design. JavaScript is the behaviour.</p>
+  <a class="btn" href="#">Read more</a>
+</article>`;
+
+export const rolesCss = `body {
+  font-family: system-ui, sans-serif;
+  background: #f5f3ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 380px;
+  box-shadow: 0 8px 32px rgba(124,58,237,0.12);
+}
+.tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7C3AED;
+  background: #ede9fe;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+}
+h2 { color: #1f2937; margin: 0.75rem 0 0.5rem; font-size: 1.25rem; }
+p  { color: #6b7280; line-height: 1.6; margin: 0 0 1.25rem; }
+.btn {
+  display: inline-block;
+  background: #7C3AED;
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.btn:hover { background: #5B21B6; }`;
+
+<LivePreview client:visible html={rolesHtml} css={rolesCss} height="280px" />
+
+Click the **CSS** tab and clear the contents to see the bare HTML. Then paste it back to restore the design. This is what browsers do automatically — they layer CSS on top of HTML every time the page loads.
+
+<Tip title="You can always tell which language does what">
+When you look at a web page and ask "where does that come from?" — if it is a piece of content (a word, an image, a button label), it comes from HTML. If it is a visual property (color, size, spacing), it comes from CSS. If it responds to a click or changes without reloading the page, it is JavaScript.
+</Tip>
+
+export const quizHtmlCssJsRoles = [
+  {
+    q: 'Which language defines the content and structure of a web page?',
+    options: ['CSS', 'JavaScript', 'HTML', 'Python'],
+    answer: 2,
+  },
+  {
+    q: 'In Figma terms, CSS is most similar to which part of the tool?',
+    options: [
+      'The layers panel showing frame nesting',
+      'The design panel with fill, stroke, radius, and spacing',
+      'The prototype panel with connections between frames',
+      'The export settings dialog',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'If you remove all the CSS from a page, what happens?',
+    options: [
+      'The page becomes blank — all content disappears',
+      'The page crashes and shows an error',
+      'The content remains but all visual styling is gone',
+      'JavaScript stops working too',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'Which language handles interactive behaviour like opening a menu on click?',
+    options: ['HTML', 'CSS', 'JavaScript', 'XML'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="how-web-works/html-css-js-roles" questions={quizHtmlCssJsRoles} />
+
+<ProgressTracker client:visible id="how-web-works/html-css-js-roles" />

@@ -1,0 +1,102 @@
+---
+title: 'Selecting Elements'
+description: 'Use document.querySelector to reach into the page and grab any element — like selecting a layer in Figma — then read or change its content.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Think of a webpage like a Figma file. Every heading, button, image, and paragraph is a layer sitting inside the canvas. Before you can style or animate anything in Figma, you first have to click that layer to select it. JavaScript works exactly the same way — before you can change something on the page, you have to **select it**.
+
+## What is `document`?
+
+`document` is JavaScript's name for the entire page. It represents the whole HTML file that the browser has loaded. Any time you want to reach into the page and interact with it, you start from `document`.
+
+## Grabbing an element with `querySelector`
+
+`document.querySelector()` is the main tool for selecting elements. You pass it a **CSS selector** — the same kind you already write in your stylesheets — and it returns the **first matching element** it finds.
+
+```js
+document.querySelector('.card')   // selects the first element with class "card"
+document.querySelector('#title')  // selects the element with id "title"
+document.querySelector('button')  // selects the first <button> tag
+```
+
+If you know how to write a CSS selector, you already know how to select elements in JavaScript. The syntax is identical.
+
+## Reading and changing text
+
+Once you have a reference to an element, you can read or change its text content using the `.textContent` property.
+
+```js
+var heading = document.querySelector('h1');
+
+// Read the current text
+var currentText = heading.textContent;
+
+// Change the text
+heading.textContent = 'New heading text';
+```
+
+Assigning a new value to `.textContent` immediately updates what the visitor sees — no page reload required.
+
+export const exampleHtml = `<h2 id="headline">Original Headline</h2>
+<button id="changeBtn">Change the headline</button>`;
+
+export const exampleCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+h2 { color: #7C3AED; }
+button { background: #7C3AED; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 1rem; margin-top: 1rem; display: block; }`;
+
+export const exampleJs = `var btn = document.querySelector('#changeBtn');
+var headline = document.querySelector('#headline');
+btn.addEventListener('click', function() {
+  headline.textContent = 'You selected and changed me!';
+});`;
+
+<LivePreview client:visible html={exampleHtml} css={exampleCss} js={exampleJs} />
+
+The example above selects the `#changeBtn` button and the `#headline` heading. When the button is clicked, the script updates the heading's text. Everything relies on `querySelector` doing the selecting first.
+
+<Tip title="querySelector returns the first match">
+If multiple elements share the same class, `document.querySelector('.card')` only returns the **first one**. To work with all matching elements at once, use `document.querySelectorAll('.card')` — which returns a list you can loop over.
+</Tip>
+
+## Selector quick reference
+
+| What you want to select | Selector syntax |
+|---|---|
+| An element with a class | `.className` |
+| An element with an id | `#idName` |
+| A tag type | `button`, `h2`, `p` |
+| A nested element | `.card h2` |
+
+Any valid CSS selector works inside `querySelector`. If you can target it in a stylesheet, you can grab it in JavaScript.
+
+export const quizSelectingElements = [
+  {
+    q: "What does `document.querySelector('#title')` select?",
+    options: [
+      'All elements with class "title"',
+      'The element with id "title"',
+      'The first tag named "title"',
+      'The entire document'
+    ],
+    answer: 1
+  },
+  {
+    q: 'Which selector finds an element by class name?',
+    options: ['#myClass', '.myClass', 'myClass', '@myClass'],
+    answer: 1
+  },
+  {
+    q: 'What property lets you read or change the text inside an element?',
+    options: ['element.value', 'element.innerHTML', 'element.textContent', 'element.label'],
+    answer: 2
+  }
+];
+
+<Quiz client:visible id="javascript/selecting-elements" questions={quizSelectingElements} />
+
+<ProgressTracker client:visible id="javascript/selecting-elements" />

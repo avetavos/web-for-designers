@@ -1,0 +1,187 @@
+---
+title: 'CSS Grid — Layout สองมิติ'
+description: 'CSS Grid คือ Figma layout grid ที่มีชีวิต เรียนรู้ grid-template-columns, fr units, repeat(), gap และ grid-template-areas'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Flexbox จัดการทีละทิศทาง CSS Grid จัดการ *ทั้งสอง* อย่างพร้อมกัน — แถวและคอลัมน์พร้อมกัน ถ้าคุณเคยตั้ง **layout grid** ใน Figma เพื่อให้คอลัมน์สอดคล้องกันในทุกหน้าจอ CSS Grid คือสิ่งที่ทำให้สิ่งนั้นเป็นจริงในเบราว์เซอร์
+
+ความแตกต่างสำคัญจาก Flexbox: กับ Grid *parent* จะกำหนดโครงสร้างสองมิติทั้งหมด children เพียงแค่เข้าไปในตำแหน่ง
+
+## Properties ที่สำคัญ
+
+**`display: grid`** — เปิดใช้งาน Grid บน parent container
+
+**`grid-template-columns`** — กำหนดโครงสร้างคอลัมน์ นี่คือ Grid property ที่สำคัญที่สุด
+
+```css
+grid-template-columns: 200px 1fr 1fr;   /* คงที่ + สองคอลัมน์ยืดหยุ่น */
+grid-template-columns: repeat(3, 1fr);  /* สามคอลัมน์เท่ากัน */
+grid-template-columns: repeat(4, 1fr);  /* สี่คอลัมน์เท่ากัน — เหมือน 4-col Figma grid */
+```
+
+**`fr` — หน่วย fractional** — `fr` หมายถึง "ส่วนหนึ่งของพื้นที่ที่มี" หนึ่ง `1fr` ได้หนึ่งส่วน สองคอลัมน์ที่ `1fr 2fr` หมายความว่าอันที่สองกว้างเป็นสองเท่าของอันแรก นี่คือแนวคิดเดียวกับการ sizing แบบสัดส่วน "fill container" ของ Figma
+
+**`gap`** — พื้นที่ระหว่างแถวและคอลัมน์ คุณสามารถตั้งทั้งคู่พร้อมกัน (`gap: 1rem`) หรือแยกกัน (`row-gap: 1rem; column-gap: 2rem`)
+
+**`grid-template-areas`** — ตั้งชื่อให้กับส่วนต่างๆ ของ grid แล้วกำหนด elements ให้กับชื่อเหล่านั้น นี่เป็นมิตรกับนักออกแบบมาก — คุณกำลัง *วาด* layout ตามตัวอักษร
+
+```css
+grid-template-areas:
+  "header header"
+  "sidebar main"
+  "footer footer";
+```
+
+แล้วบน child แต่ละอัน: `grid-area: header;` / `grid-area: sidebar;` เป็นต้น
+
+## แก้ไข dashboard layout
+
+ด้านล่างคือ dashboard grid แบบคลาสสิก ลองเปลี่ยนจำนวนคอลัมน์, ค่า `fr` หรือ `gap`
+
+export const gridHtml = `<div class="dashboard">
+  <header class="area-header">Header</header>
+  <aside class="area-sidebar">Sidebar</aside>
+  <main class="area-main">Main Content</main>
+  <footer class="area-footer">Footer</footer>
+</div>`;
+
+export const gridCss = `.dashboard {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header  header"
+    "sidebar main"
+    "footer  footer";
+  gap: 0.75rem;
+  min-height: 300px;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+  color: white;
+}
+.area-header {
+  grid-area: header;
+  background: #1e1b4b;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+.area-sidebar {
+  grid-area: sidebar;
+  background: #5b21b6;
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.area-main {
+  grid-area: main;
+  background: #7C3AED;
+  padding: 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.area-footer {
+  grid-area: footer;
+  background: #1e1b4b;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}`;
+
+<LivePreview client:visible html={gridHtml} css={gridCss} />
+
+สิ่งที่ลองได้:
+- เปลี่ยน `grid-template-columns: 200px 1fr` เป็น `1fr 3fr` — sidebar กลายเป็นแบบสัดส่วน
+- เปลี่ยน `gap` เป็น `2rem` แล้วดูพื้นที่หายใจเพิ่มขึ้น
+- เปลี่ยน `grid-template-columns` เป็น `300px 1fr` เพื่อขยาย sidebar
+- จัดเรียง `grid-template-areas` ใหม่เพื่อย้าย sidebar ไปด้านขวา
+
+## Photo gallery ด้วย repeat()
+
+นี่คือกรณีการใช้งานที่พบบ่อยกว่า — image gallery แบบ responsive ด้วย `repeat()`:
+
+export const galleryHtml = `<div class="gallery">
+  <div class="photo">Photo 1</div>
+  <div class="photo">Photo 2</div>
+  <div class="photo">Photo 3</div>
+  <div class="photo">Photo 4</div>
+  <div class="photo">Photo 5</div>
+  <div class="photo">Photo 6</div>
+</div>`;
+
+export const galleryCss = `.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+  background: #f3f4f6;
+  border-radius: 8px;
+}
+.photo {
+  background: #7C3AED;
+  color: white;
+  padding: 2.5rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+}`;
+
+<LivePreview client:visible html={galleryHtml} css={galleryCss} />
+
+ลองเปลี่ยน `repeat(3, 1fr)` เป็น `repeat(2, 1fr)` หรือ `repeat(4, 1fr)`
+
+<Tip title="Grid areas คือ wireframe ของคุณ">
+`grid-template-areas` เป็นหนึ่งในฟีเจอร์ที่เป็นมิตรกับนักออกแบบมากที่สุดใน CSS ทั้งหมด คุณกำลังสเก็ตช์ layout ด้วยตัวอักษร ASCII คิดว่าแต่ละ string ที่อยู่ในเครื่องหมายคือหนึ่งแถว และแต่ละคำคือหนึ่งเซลล์ ใช้ `.` (จุด) สำหรับเซลล์ว่าง มันอ่านเหมือน wireframe พอดี
+</Tip>
+
+export const quizGrid = [
+  {
+    q: '`grid-template-columns: repeat(4, 1fr)` สร้างอะไร?',
+    options: [
+      'สี่แถวที่มีความสูงเท่ากัน',
+      'สี่คอลัมน์ที่มีความกว้างเท่ากัน',
+      'gap ของ grid สี่พิกเซล',
+      'สี่ไอเทมที่ซ้ำเนื้อหาเดิม',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'หน่วย `fr` หมายถึงอะไร?',
+    options: [
+      'พิกเซลคงที่ตามขนาดฟอนต์',
+      'ส่วนหนึ่งของพื้นที่ที่เหลือ',
+      'ความกว้างของ frame พ่อแม่',
+      'โหมด free-resize',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'property ใดที่กำหนด grid child ให้กับ named area ที่กำหนดไว้ใน grid-template-areas?',
+    options: ['grid-column', 'grid-row', 'grid-area', 'grid-placement'],
+    answer: 2,
+  },
+  {
+    q: 'ข้อได้เปรียบหลักของ CSS Grid เหนือ Flexbox คืออะไร?',
+    options: [
+      'Grid โหลดเร็วกว่าในเบราว์เซอร์',
+      'Grid สามารถควบคุม layout สองมิติ (แถวและคอลัมน์) พร้อมกัน',
+      'Grid รองรับในเบราว์เซอร์เก่า',
+      'Grid ทำงานได้โดยไม่ต้องมี display: grid',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="layout/grid" questions={quizGrid} />
+
+<ProgressTracker client:visible id="layout/grid" />

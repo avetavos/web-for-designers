@@ -1,0 +1,202 @@
+---
+title: Typography
+description: 'CSS typography properties — font family, size, weight, line height, letter spacing, and text alignment — mapped to what you already know from Figma.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Typography is where designers feel most at home in CSS. Every property in this lesson maps directly to something in Figma's **Text** inspector panel — you already know what each one does conceptually. You are just learning the CSS name for it.
+
+Think of CSS typography properties as your **text styles system in code**. Instead of clicking through a panel, you write the same decisions as rules that the browser applies consistently across every page.
+
+## Font family
+
+```css
+font-family: 'Inter', system-ui, sans-serif;
+```
+
+This is the typeface. CSS lets you list multiple fonts separated by commas — a **font stack**. The browser tries the first font, and if it is not available it falls back to the next, then the next. Always end with a generic family like `sans-serif` as a last resort.
+
+To use a Google Font, you link it in the `<head>` of your HTML:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+```
+
+Then in CSS: `font-family: 'Inter', sans-serif;`
+
+## Font size
+
+```css
+font-size: 1rem;
+```
+
+Use `rem` units for font sizes. `1rem` equals the browser's base font size (usually 16px). Rem scales with the user's accessibility settings — if someone has increased their browser font size, your text grows with it. A common type scale:
+
+| Step | rem | Typical use |
+|---|---|---|
+| xs | 0.75rem | Labels, captions |
+| sm | 0.875rem | Secondary text |
+| base | 1rem | Body text |
+| lg | 1.25rem | Lead paragraph |
+| xl | 1.5rem | Section heading |
+| 2xl | 2rem | Page heading |
+| 3xl | 3rem | Display / hero |
+
+## Font weight
+
+```css
+font-weight: 400;
+```
+
+This is the exact same control as the **weight dropdown** in Figma. Values run from 100 to 900 in steps of 100:
+
+- **100** — Thin
+- **300** — Light
+- **400** — Regular
+- **500** — Medium
+- **600** — Semibold
+- **700** — Bold
+- **800** — Extrabold
+- **900** — Black
+
+Not every font includes every weight — make sure the weights you reference are actually loaded.
+
+## Line height
+
+```css
+line-height: 1.5;
+```
+
+This is **leading** in typographic terms, and it maps to Figma's **Line Height** field. Use a unitless number: `1.5` means the line height is 1.5 times the font size. This is preferred over pixel values because it scales with the font size automatically.
+
+- **Body text**: 1.5–1.6 — relaxed and readable
+- **Headings**: 1.1–1.2 — tight and impactful
+- **Single-line UI labels**: 1 — exact fit
+
+## Letter spacing
+
+```css
+letter-spacing: 0.05em;
+```
+
+Figma calls this **Tracking**. Positive values spread letters apart; negative values tighten them. Using `em` units means the spacing scales proportionally with the font size. A small positive value (0.05em–0.1em) works well for uppercase labels. Lowercase body text usually benefits from `0` or slightly negative values.
+
+## Text alignment
+
+```css
+text-align: left;
+```
+
+Same as the alignment buttons in Figma's text panel. Values: `left`, `center`, `right`, `justify`. Use `justify` with care — it can create uneven gaps in short line lengths.
+
+## Text transform and color
+
+```css
+text-transform: uppercase;
+color: #111827;
+```
+
+`text-transform` is useful for labels and buttons — `uppercase` or `capitalize` without changing the underlying content. `color` sets the text color and accepts hex, `rgb()`, `hsl()`, or named values.
+
+## Putting it all together — a type scale in code
+
+Just like you define text styles in Figma and apply them consistently, in CSS you set rules for each level of your hierarchy and use them throughout the page. The LivePreview below shows a small article layout. Edit the CSS to explore how changing `font-size`, `font-weight`, and `line-height` transforms the feel of the type.
+
+export const typographyHtml = `<article class="prose">
+  <p class="label">Design System</p>
+  <h1 class="display">Type is the voice of design</h1>
+  <p class="lead">Good typography is invisible — it lets the reader focus entirely on the message, not the mechanics.</p>
+  <p class="body">Every typeface has a personality. Choosing the right font family is like casting the right actor for a role. But the family is only the beginning — size, weight, line height, and spacing together determine whether text feels calm or urgent, friendly or authoritative.</p>
+</article>`;
+
+export const typographyCss = `body {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background-color: #fafaf9;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  margin: 0;
+}
+
+.prose {
+  max-width: 640px;
+  width: 100%;
+}
+
+.label {
+  font-family: system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7c3aed;
+  margin: 0 0 1rem;
+}
+
+.display {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #111827;
+  margin: 0 0 1.25rem;
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #374151;
+  margin: 0 0 1.25rem;
+}
+
+.body {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #4b5563;
+  margin: 0;
+}`;
+
+<LivePreview client:visible html={typographyHtml} css={typographyCss} />
+
+<Tip title="Your Figma text panel, translated to CSS">
+Think of each CSS typography property as a field in Figma's text inspector: `font-family` is the typeface dropdown, `font-size` is the size field, `font-weight` is the weight dropdown, `line-height` is line height, `letter-spacing` is tracking, and `text-align` is the alignment buttons. You already know what all of these do — you are just learning the CSS name for each.
+</Tip>
+
+export const quizCssTypography = [
+  {
+    q: 'Which CSS property is equivalent to "tracking" in Figma?',
+    options: ['line-height', 'letter-spacing', 'font-weight', 'text-transform'],
+    answer: 1,
+  },
+  {
+    q: 'What value of font-weight gives bold text?',
+    options: ['100', '400', '700', '1000'],
+    answer: 2,
+  },
+  {
+    q: 'What does line-height: 1.5 mean?',
+    options: [
+      'The line height is fixed at 1.5 pixels',
+      'The line height is 1.5 times the font size',
+      'There are 1.5 lines per paragraph',
+      'The font size is multiplied by 1.5 everywhere',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which CSS property sets the typeface (e.g. Inter, Georgia)?',
+    options: ['font-size', 'font-style', 'font-family', 'text-align'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="css/typography" questions={quizCssTypography} />
+
+<ProgressTracker client:visible id="css/typography" />

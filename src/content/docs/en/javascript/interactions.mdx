@@ -1,0 +1,125 @@
+---
+title: 'Putting It Together'
+description: 'Combine querySelector, addEventListener, and classList.toggle to build a real menu toggle — the same pattern used on professional websites.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+As a designer, you've probably looked at a hamburger menu and thought: "How does clicking one button make a list of links appear?" The answer is simpler than you'd expect — and you already know all the pieces. This lesson is about snapping them together into something real.
+
+## The Pattern: Three Tools, One Result
+
+Every interactive UI component on the web uses some version of this workflow:
+
+1. **Find an element** — `querySelector`
+2. **Listen for an action** — `addEventListener`
+3. **Change a class** — `classList.toggle`
+
+That's it. A tab switcher, a modal dialog, an accordion, a theme toggle — all of them follow this same rhythm. Once you understand it here, you can apply it anywhere.
+
+## Building a Menu Toggle
+
+We're going to build a nav menu that opens and closes when a button is clicked. Here's the key insight: **JavaScript only toggles a class. CSS does the actual showing and hiding.** This is the clean, professional way to build interactions — keep visual logic in CSS, and behavioral logic in JS.
+
+export const interactionsHtml = `<button id="menuBtn" aria-expanded="false">Menu</button>
+<nav id="menu" class="menu">
+  <a href="#">Home</a>
+  <a href="#">Work</a>
+  <a href="#">About</a>
+  <a href="#">Contact</a>
+</nav>`;
+
+export const interactionsCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+button { background: #7C3AED; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+.menu { display: none; margin-top: 0.75rem; flex-direction: column; gap: 0.5rem; }
+.menu.open { display: flex; }
+.menu a { color: #7C3AED; text-decoration: none; font-size: 1rem; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb; }
+.menu a:hover { color: #5b21b6; }`;
+
+export const interactionsJs = `var menuBtn = document.querySelector('#menuBtn');
+var menu = document.querySelector('#menu');
+
+menuBtn.addEventListener('click', function() {
+  menu.classList.toggle('open');
+  if (menu.classList.contains('open')) {
+    menuBtn.textContent = 'Close';
+  } else {
+    menuBtn.textContent = 'Menu';
+  }
+});`;
+
+<LivePreview client:visible html={interactionsHtml} css={interactionsCss} js={interactionsJs} />
+
+## Walking Through the Code
+
+Here's what each part does:
+
+**Lines 1–2** grab references to the button and the nav using `querySelector`. Think of these as giving the elements names so JavaScript can talk to them.
+
+**Line 4** sets up a click listener on the button. Every time someone clicks it, the function runs.
+
+**Line 5** calls `classList.toggle('open')`. If the menu doesn't have the `open` class, it adds it. If it does have it, it removes it. One line — done.
+
+**Lines 6–10** check whether the menu is now open or closed, then update the button label so it always says the right thing. This is good practice: your UI should reflect its current state.
+
+Over in the CSS, `.menu` starts with `display: none`. When the `open` class is added, `.menu.open` kicks in with `display: flex` — and the nav appears. When the class is removed, the nav disappears again. JavaScript never touches `display` directly; that's CSS's job.
+
+<Tip title="Separation of concerns">
+Keeping visual logic in CSS and behavioral logic in JavaScript makes your code easier to maintain. If a designer wants to change how the menu animates in, they edit CSS — not a single line of JavaScript needs to change.
+</Tip>
+
+## You Just Built What the Pros Build
+
+That's not a simplification. Open the source code of almost any production website and you'll find this exact pattern: a button, a class toggle, and CSS handling the rest. Frameworks like React and Vue abstract over it, but the underlying idea is identical.
+
+The three tools you combined here — `querySelector`, `addEventListener`, `classList.toggle` — are the foundation of frontend interactivity. Everything else is built on top of them.
+
+export const quizInteractions = [
+  {
+    q: "In the menu toggle pattern, which technique shows or hides the menu?",
+    options: [
+      "Changing the element's id",
+      "Toggling a CSS class that controls display",
+      "Deleting and recreating the element",
+      "Reloading the page"
+    ],
+    answer: 1
+  },
+  {
+    q: "Why is it useful to let CSS handle show/hide rather than setting style.display directly in JS?",
+    options: [
+      "CSS is slower than JS",
+      "CSS handles the visual logic and can be changed without touching JavaScript",
+      "JS cannot read CSS",
+      "Browsers ignore inline styles"
+    ],
+    answer: 1
+  },
+  {
+    q: "What does classList.contains('open') return?",
+    options: [
+      "The class string",
+      "true if the element has the class, false if not",
+      "The number of classes on the element",
+      "The element itself"
+    ],
+    answer: 1
+  },
+  {
+    q: "Which three JavaScript tools did you combine in this lesson?",
+    options: [
+      "fetch, JSON, localStorage",
+      "querySelector, addEventListener, classList.toggle",
+      "setInterval, clearTimeout, Promise",
+      "innerHTML, style, dataset"
+    ],
+    answer: 1
+  }
+];
+
+<Quiz client:visible id="javascript/interactions" questions={quizInteractions} />
+
+<ProgressTracker client:visible id="javascript/interactions" />

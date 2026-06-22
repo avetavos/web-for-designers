@@ -1,0 +1,107 @@
+---
+title: Responsive Design
+description: 'Learn why one design must work on every screen size, and get hands-on with your first fluid layout.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+In Figma you create separate artboards — one for desktop (1440 px), one for tablet (768 px), one for mobile (375 px). That is exactly how responsive design works on the web, except the browser handles the switching for you automatically.
+
+A responsive website is a single set of HTML and CSS that **reflows** to fit any screen. The same page that fills a 27-inch monitor also fits neatly inside a 5-inch phone — no pinching, no horizontal scrolling, no cut-off text.
+
+## Why does it matter?
+
+More than half of all web traffic now comes from mobile phones. If your design only looks right at 1440 px, you are breaking the experience for the majority of your users. Responsive design is not optional — it is a baseline expectation.
+
+## The three core tools
+
+You will learn these in the next lessons. Here is a quick map before we dive in:
+
+| Tool | What it does | Figma analogy |
+|---|---|---|
+| **Relative units** (`%`, `rem`, `vw`) | Sizes that scale with their context | Constraints (fill, hug, fixed) |
+| **Media queries** (`@media`) | Apply different CSS at different widths | Showing/hiding layers per artboard |
+| **Mobile-first** approach | Start from small, add complexity upward | Designing mobile artboard first |
+
+## Your first fluid layout
+
+The preview pane below is your screen. Make your **browser window narrower** (or view this page on a phone) and watch the coloured boxes reflow — they start side-by-side on a wide screen and stack vertically on a narrow one. That single behaviour, driven by just a few lines of CSS, is the essence of responsive design.
+
+export const indexHtml = `<div class="row">
+  <div class="box box--a">Header / Hero</div>
+  <div class="box box--b">Sidebar</div>
+  <div class="box box--c">Main content</div>
+</div>`;
+
+export const indexCss = `body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 0.75rem;
+  background: #f8fafc;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.box {
+  flex: 1 1 200px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  padding: 1rem;
+}
+
+.box--a { background: #7C3AED; }
+.box--b { background: #2563EB; }
+.box--c { background: #0891b2; }`;
+
+<LivePreview client:visible html={indexHtml} css={indexCss} />
+
+Notice `flex: 1 1 200px` — that line says "each box can grow and shrink, but never collapse below 200 px". When the pane is too narrow to fit two 200 px boxes side-by-side, they wrap to the next line automatically. No media query needed for this basic behaviour.
+
+<Tip title="Figma constraints vs CSS flex">
+In Figma, "Fill container" is the closest concept to `flex: 1` — the item stretches to use available space. "Hug contents" maps to `flex: 0 0 auto` — the item is only as wide as its content. Understanding this mapping makes translating your Figma designs into CSS feel natural.
+</Tip>
+
+export const quizResponsiveIndex = [
+  {
+    q: 'What is the main goal of responsive design?',
+    options: [
+      'Making a separate website for each device',
+      'A single layout that adapts to any screen size',
+      'Using only large fonts so content is readable everywhere',
+      'Hiding content on mobile',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which CSS property lets flex items wrap to the next line when there is not enough space?',
+    options: ['flex-direction: column', 'flex-wrap: wrap', 'overflow: hidden', 'display: grid'],
+    answer: 1,
+  },
+  {
+    q: 'In the three core tools table, what is the Figma analogy for media queries?',
+    options: [
+      'Constraints (fill, hug, fixed)',
+      'Auto layout spacing',
+      'Showing/hiding layers per artboard',
+      'Component variants',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="responsive/index" questions={quizResponsiveIndex} />
+
+<ProgressTracker client:visible id="responsive/index" />

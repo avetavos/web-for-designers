@@ -1,0 +1,151 @@
+---
+title: Selectors
+description: 'Learn how CSS selectors target elements, classes, and ids — and how they map to Figma shared styles and components.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+CSS needs a way to know *what* it should style before it can style anything. That targeting mechanism is called a **selector**. You write a selector before the curly braces, and the browser applies whatever is inside those braces to every matching element on the page.
+
+There are three fundamental selectors every designer should know. Each one maps to a concept you already use in Figma.
+
+## Element selector
+
+```css
+p { color: gray; }
+```
+
+An **element selector** uses the tag name with no prefix. It matches *every* element of that type on the page. Writing `h2 { }` is like going into Figma and changing the style for every text layer that uses the same text style — one rule, instant global effect.
+
+Use element selectors for baseline defaults: body font, heading sizes, link colors.
+
+## Class selector
+
+```css
+.card { background: white; border-radius: 12px; }
+```
+
+A **class selector** starts with a dot (`.`). It matches any element that has a matching `class` attribute in the HTML. One class can be applied to as many elements as you like — a `<div class="card">`, a `<section class="card">`, a `<article class="card">` — they all get the same styles.
+
+This is the closest CSS equivalent to a **Figma component or shared style**: define the appearance once, stamp it everywhere. You can also stack classes on one element:
+
+```html
+<div class="card featured">…</div>
+```
+
+That element will inherit styles from both `.card` and `.featured`, letting you layer variations — just like component variants.
+
+## ID selector
+
+```css
+#hero { background: #7C3AED; color: white; }
+```
+
+An **ID selector** starts with `#`. It matches the *one* element whose `id` attribute matches. IDs must be unique on a page — only one element should ever carry a given id. Think of it as a named, one-of-a-kind layer in your Figma canvas. Use IDs when something is genuinely unique: the main hero section, the site navigation, the footer.
+
+## Designer analogy at a glance
+
+| CSS selector | Figma equivalent |
+|---|---|
+| `p { }` | Style all text layers of the same type |
+| `.card { }` | A component / shared style applied to multiple instances |
+| `#hero { }` | A uniquely named frame — there is only one |
+
+export const selectorsHtml = `<h2>My Portfolio</h2>
+
+<div class="card">
+  <h3>Brand Identity</h3>
+  <p>Logo, color palette, and typography system.</p>
+</div>
+
+<div class="card featured" id="hero">
+  <h3>Featured Project</h3>
+  <p>End-to-end product redesign — research to handoff.</p>
+</div>
+
+<div class="card">
+  <h3>Icon Set</h3>
+  <p>120 custom icons designed on a 24 px grid.</p>
+</div>`;
+
+export const selectorsCss = `body {
+  font-family: system-ui, sans-serif;
+  background: #f5f3ff;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Element selector — targets every h2 */
+h2 {
+  color: #4c1d95;
+  margin-bottom: 0.5rem;
+}
+
+/* Class selector — targets every .card */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* ID selector — targets only #hero */
+#hero {
+  background: #7C3AED;
+  color: white;
+}
+
+#hero h3,
+#hero p {
+  color: white;
+}`;
+
+<LivePreview client:visible html={selectorsHtml} css={selectorsCss} />
+
+Try adding a second element with `id="hero"` and notice that CSS still styles it — but IDs should be unique as a convention. Then add a new class like `secondary` to one card and write a `.secondary { }` rule to give it a different border color.
+
+<Tip title="Classes are your best friend">
+Classes are your most-used selector. Think of them like component variants in Figma — define the style once, apply it to as many elements as you want. IDs are useful, but save them for things that genuinely appear only once on a page.
+</Tip>
+
+export const quizCssSelectors = [
+  {
+    q: 'What symbol starts a class selector?',
+    options: ['#', '.', '@', '&'],
+    answer: 1,
+  },
+  {
+    q: 'What is the key difference between a class and an id?',
+    options: [
+      'Classes use a dot; ids use a hash — and ids should be unique on the page while classes can repeat.',
+      'Classes are for colors; ids are for layout.',
+      'Ids can be reused freely; classes can only be applied once.',
+      'There is no difference — they work exactly the same way.',
+    ],
+    answer: 0,
+  },
+  {
+    q: 'Which selector targets ALL paragraph elements on the page?',
+    options: ['.p { }', '#p { }', 'p { }', '*p { }'],
+    answer: 2,
+  },
+  {
+    q: 'In Figma terms, a CSS class is most similar to which concept?',
+    options: [
+      'A single unique frame with a custom name',
+      'A component or shared style applied to multiple instances',
+      'A boolean property on one specific layer',
+      'A prototype connection between two screens',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="css/selectors" questions={quizCssSelectors} />
+
+<ProgressTracker client:visible id="css/selectors" />

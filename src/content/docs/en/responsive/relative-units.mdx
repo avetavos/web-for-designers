@@ -1,0 +1,123 @@
+---
+title: Relative Units
+description: 'Understand %, rem, em, vw and vh — the units that make layouts adapt instead of breaking.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+When you set a frame to **1440 px wide** in Figma, that number is fixed — it never changes. Do the same in CSS and you get a layout that looks perfect on a 1440-px monitor and broken on everything else. The solution is **relative units**: values that are always calculated from something else, so they naturally scale.
+
+## The four units you need to know
+
+### `%` — percentage of the parent
+
+`width: 50%` means "half the width of my parent element". If the parent is 800 px wide, this element is 400 px. If the parent resizes to 400 px, this element becomes 200 px. Always relative, always adapting.
+
+### `rem` — relative to the root font size
+
+`rem` stands for "root em". By default, browsers set the root font size to 16 px, so `1rem = 16px`. The power is that if a user changes their browser's text size preference (for accessibility), `rem` values scale with it. Fixed `px` values do not.
+
+- `1.5rem` = 24 px (at the default 16 px root)
+- `0.875rem` = 14 px
+
+Use `rem` for font sizes, spacing, padding, and margins.
+
+### `em` — relative to the current element's font size
+
+`em` multiplies against the **element's own** `font-size`. This makes it useful for padding that should scale proportionally with text size (for example, a button that feels the same size regardless of the text inside it). But it can stack unexpectedly when nested, so most designers prefer `rem` for general spacing.
+
+### `vw` / `vh` — percentage of the viewport
+
+`1vw = 1%` of the viewport width. `1vh = 1%` of the viewport height. These are relative to the browser window itself, not to any parent element. A full-screen hero section that always fills the screen? `height: 100vh`. A fluid heading that grows with the page? `font-size: 5vw`.
+
+## Fixed vs relative — side by side
+
+The preview below shows two boxes. The first uses fixed `px`; the second uses `%` and `rem`. **Resize the preview pane** (make your browser narrower or view on a phone) to see how they behave differently.
+
+export const relativeUnitsHtml = `<div class="demo">
+  <div class="box box--fixed">
+    Fixed: 280px wide,\\n16px font
+  </div>
+  <div class="box box--fluid">
+    Fluid: 80% wide,\\n1rem font
+  </div>
+</div>`;
+
+export const relativeUnitsCss = `body {
+  font-family: system-ui, sans-serif;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.box {
+  padding: 1rem;
+  border-radius: 8px;
+  color: #fff;
+  white-space: pre-line;
+}
+
+.box--fixed {
+  width: 280px;
+  font-size: 16px;
+  background: #dc2626;
+}
+
+.box--fluid {
+  width: 80%;
+  font-size: 1rem;
+  background: #16a34a;
+}`;
+
+<LivePreview client:visible html={relativeUnitsHtml} css={relativeUnitsCss} />
+
+Notice that the red box always stays 280 px — on a narrow screen it overflows or gets clipped. The green box shrinks gracefully because `80%` is always relative to whatever space is available.
+
+<Tip title="Start with rem for everything except layout widths">
+A practical rule: use `rem` for font sizes and spacing (padding, margin, gap), and `%` for widths that should fill their parent. Reserve `vw`/`vh` for full-viewport sections like heroes or modals. Avoid `px` for anything that scales with text or screen size.
+</Tip>
+
+export const quizRelativeUnits = [
+  {
+    q: 'What does `width: 50%` mean in CSS?',
+    options: [
+      '50 pixels wide',
+      'Half the width of the viewport',
+      'Half the width of the parent element',
+      'Half the width of the browser window',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'What is the default value of 1rem in most browsers?',
+    options: ['10px', '12px', '14px', '16px'],
+    answer: 3,
+  },
+  {
+    q: 'Which unit is relative to the browser viewport, not to any parent element?',
+    options: ['%', 'rem', 'em', 'vw'],
+    answer: 3,
+  },
+  {
+    q: 'Why is using rem for font sizes better for accessibility than px?',
+    options: [
+      'rem values load faster',
+      'rem values scale when users change their browser text size preference',
+      'rem values are always larger than px values',
+      'rem is a newer standard supported only in modern browsers',
+    ],
+    answer: 1,
+  },
+];
+
+<Quiz client:visible id="responsive/relative-units" questions={quizRelativeUnits} />
+
+<ProgressTracker client:visible id="responsive/relative-units" />

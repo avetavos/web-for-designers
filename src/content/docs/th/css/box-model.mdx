@@ -1,0 +1,208 @@
+---
+title: Box Model
+description: 'Content, padding, border, margin — สี่ชั้นของทุก element ใน CSS และเหตุผลที่ box-sizing: border-box เปลี่ยนทุกอย่าง'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ถ้ามี mental model อย่างเดียวที่คุณต้องจำก่อนจะเขียน CSS อีกบรรทัด นั่นคือ: **ทุก HTML element คือกล่องสี่เหลี่ยม** ไม่ใช่แค่บางครั้ง — แต่ทุกครั้ง ไม่ว่าจะเป็น heading, button, รูปภาพ หรือ `<div>` ที่มองไม่เห็น — ทั้งหมดคือกล่อง และทุกกล่องสร้างจากสี่ชั้นเหมือนกัน เรียงจากในออกนอก
+
+คุณรู้จักชั้นเหล่านี้แล้วจาก Figma CSS แค่ตั้งชื่อให้มันเท่านั้นเอง
+
+## สี่ชั้นของ Box Model
+
+### 1. Content
+
+พื้นที่ชั้นในสุด ที่นี่คือที่อยู่ของข้อความ รูปภาพ หรือ element ลูก คุณควบคุมขนาดด้วย `width` และ `height`
+
+```css
+.card {
+  width: 320px;
+  height: 200px;
+}
+```
+
+### 2. Padding
+
+ช่องว่าง**ภายใน**กล่อง ระหว่าง content กับ border นึกถึง inner spacing ใน Figma auto-layout frame — ดัน content ออกจากขอบโดยไม่เลื่อน element เอง
+
+```css
+.card {
+  padding: 2rem;          /* ทั้งสี่ด้าน */
+  padding: 1rem 2rem;     /* บน/ล่าง 1rem, ซ้าย/ขวา 2rem */
+  padding-top: 1rem;      /* ด้านเดียว */
+}
+```
+
+### 3. Border
+
+เส้นที่วาดรอบ element — เหมือน Stroke ใน Figma กำหนดความหนา สไตล์ และสี:
+
+```css
+.card {
+  border: 2px solid #7C3AED;   /* ความหนา สไตล์ สี */
+  border-radius: 12px;          /* มุมโค้งมน */
+}
+```
+
+### 4. Margin
+
+ช่องว่าง**ภายนอก**กล่อง ผลัก element เพื่อนบ้านออกไป ส่วนนี้ไม่ใช่พื้นที่แสดงผลของ element — มันคือช่องว่างล่องหนระหว่างกล่อง นึกถึง gap ระหว่าง frame ใน Figma
+
+```css
+.card {
+  margin: 2rem;           /* ทุกด้าน */
+  margin: 1rem 0;         /* บน/ล่าง 1rem, ซ้าย/ขวา 0 */
+  margin-bottom: 1.5rem;  /* ด้านเดียว */
+}
+```
+
+## ลำดับค่า Shorthand
+
+เมื่อให้ค่าสองตัว — `padding: 1rem 2rem` — ลำดับคือ **บน/ล่างก่อน ซ้าย/ขวาตาม** สี่ค่าใช้เข็มนาฬิกา: **บน, ขวา, ล่าง, ซ้าย**
+
+```css
+padding: 1rem 2rem 1rem 2rem;   /* top right bottom left */
+```
+
+## กับดัก `box-sizing`
+
+นี่คือจุดที่มือใหม่มักประหลาดใจ โดย default ค่า `width` ใน CSS วัดเฉพาะ **content area** ถ้าตั้ง `width: 300px` แล้วเพิ่ม `padding: 20px` และ `border: 2px solid` ความกว้างจริงที่แสดงในหน้าจะเป็น 344px — ไม่ใช่ 300px
+
+นี่คือตรงข้ามกับวิธีที่ design tool ทำงาน ใน Figma ขอบ frame รวม stroke และ inner spacing อยู่แล้ว property `box-sizing: border-box` ทำให้ CSS ทำงานแบบเดียวกัน: `width` วัดจากขอบ border ถึงขอบ border — padding และ border **รวมอยู่แล้ว** ไม่บวกเพิ่ม
+
+```css
+/* เพิ่มใน global styles ของทุก project */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+```
+
+ด้วย `border-box` element ที่มี `width: 300px` จะกว้าง 300px เสมอ ไม่ว่า padding หรือ border จะมากแค่ไหน padding และ border กิน content area แทนการขยายกล่องออกนอก คาดเดาได้ เหมือน Figma
+
+## `display`: block, inline, และ inline-block
+
+Box model ทำงานเต็มที่เมื่อ element แสดงเป็น **block** property `display` ควบคุมสิ่งนี้:
+
+| ค่า | พฤติกรรม |
+|---|---|
+| `block` | กินความกว้างทั้งหมด เรียงกันแนวตั้ง Default ของ `<div>`, `<p>`, `<h1>`–`<h6>` |
+| `inline` | อยู่ในกระแสของข้อความ ไม่รองรับ width/height Default ของ `<span>`, `<a>`, `<strong>` |
+| `inline-block` | อยู่ในกระแสข้อความแต่รองรับ `width`, `height`, padding และ margin เหมาะสำหรับ button และ badge |
+
+นี่คือเหตุผลที่ `<div>` เรียงต่อจาก element ก่อนหน้าในแนวตั้ง แต่ `<span>` ไม่เป็นแบบนั้น — หนึ่งคือ block อีกอันคือ inline
+
+export const boxModelHtml = `<div class="wrapper">
+  <p class="label">Outer wrapper (margin area)</p>
+  <div class="box">
+    <p class="label">Content + Padding + Border</p>
+    <div class="content">
+      Content area
+    </div>
+  </div>
+</div>`;
+
+export const boxModelCss = `body {
+  font-family: system-ui, sans-serif;
+  background-color: #f5f3ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* The outer wrapper shows the margin zone */
+.wrapper {
+  background-color: #ede9fe;
+  padding: 2rem;
+  border-radius: 16px;
+}
+
+/* The main box: padding + border are visible */
+.box {
+  background-color: #c4b5fd;
+  padding: 2rem;
+  border: 4px solid #7C3AED;
+  border-radius: 10px;
+  box-sizing: border-box;
+  width: 320px;
+  margin: 0 auto;
+}
+
+/* The innermost content area */
+.content {
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  color: #4c1d95;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: #6d28d9;
+  margin: 0 0 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}`;
+
+<LivePreview client:visible html={boxModelHtml} css={boxModelCss} />
+
+ลองแก้ไข CSS: เพิ่ม `padding` ของ `.box`, เปลี่ยนความหนา `border` หรือปรับ `width` ด้วย `box-sizing: border-box` ที่ตั้งไว้ ขอบนอกของ `.box` จะอยู่ที่ 320px เสมอ — content area จะหดเล็กลงเพื่อรับการเปลี่ยนแปลง
+
+<Tip title="เพิ่ม box-sizing: border-box ในทุก project">
+เพิ่ม `box-sizing: border-box` ใน global styles ของทุก project เสมอ มันทำให้การกำหนดขนาด element คาดเดาได้และตรงกับพฤติกรรม default ของ design tool ส่วนใหญ่ รวมถึง Figma ถ้าไม่มีมัน การเพิ่ม padding ให้ element ที่กำหนดขนาดไว้จะทำให้ layout พังในแบบที่ debug ยาก
+</Tip>
+
+export const quizCssBoxModel = [
+  {
+    q: 'ชั้นไหนของ box model อยู่ด้านนอกสุดของ border?',
+    options: [
+      'Content',
+      'Padding',
+      'Border',
+      'Margin',
+    ],
+    answer: 3,
+  },
+  {
+    q: 'Padding ควบคุมอะไร?',
+    options: [
+      'ช่องว่างภายนอกกล่องที่ผลัก element อื่นออกไป',
+      'ความหนาของเส้นรอบ element',
+      'ช่องว่างภายในกล่องระหว่าง content กับ border',
+      'ความกว้างและความสูงของ content area',
+    ],
+    answer: 2,
+  },
+  {
+    q: '`box-sizing: border-box` เปลี่ยนอะไร?',
+    options: [
+      'ลบ margin และ padding ค่า default ทั้งหมด',
+      'ทำให้ border มองไม่เห็น',
+      'ทำให้ `width` รวม padding และ border ไม่ใช่แค่ content area',
+      'ตั้งค่าสี่ชั้นของ box ให้เท่ากัน',
+    ],
+    answer: 2,
+  },
+  {
+    q: 'concept ใดใน Figma ใกล้เคียงกับ CSS margin มากที่สุด?',
+    options: [
+      'Stroke (เส้นรอบ layer)',
+      'Inner spacing ใน auto-layout frame',
+      'ช่องว่างระหว่าง frame หรือ layer',
+      'Corner radius',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="css/box-model" questions={quizCssBoxModel} />
+
+<ProgressTracker client:visible id="css/box-model" />

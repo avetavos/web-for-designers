@@ -1,0 +1,97 @@
+---
+title: 'การเลือก Elements'
+description: 'ใช้ document.querySelector เพื่อเข้าถึง element ในหน้า — เหมือนการเลือก layer ใน Figma — แล้วอ่านหรือเปลี่ยนเนื้อหา'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+ลองนึกถึงหน้าเว็บเหมือน Figma file ทุก heading, button, รูปภาพ และย่อหน้าล้วนเป็น layer ที่วางอยู่บน canvas ก่อนที่จะ style หรือ animate อะไรใน Figma ได้ คุณต้องคลิกเลือก layer นั้นก่อน JavaScript ทำงานในแบบเดียวกันทุกประการ — ก่อนที่จะเปลี่ยนแปลงสิ่งใดบนหน้า คุณต้อง **เลือกมัน** ก่อน
+
+## `document` คืออะไร?
+
+`document` คือชื่อที่ JavaScript ใช้เรียกหน้าเว็บทั้งหมด มันแทนไฟล์ HTML ทั้งหมดที่ browser โหลดขึ้นมา ทุกครั้งที่ต้องการเข้าถึงหน้าและโต้ตอบกับมัน คุณจะเริ่มต้นจาก `document` เสมอ — เหมือน canvas ใน Figma ที่ทุกอย่างอยู่ข้างใน
+
+## การจับ element ด้วย `querySelector`
+
+`document.querySelector()` คือเครื่องมือหลักสำหรับการเลือก element คุณส่ง **CSS selector** เข้าไป — แบบเดียวกับที่คุณเขียนใน stylesheet อยู่แล้ว — แล้วมันจะคืน **element แรกที่ตรงกัน** ที่หามาได้
+
+```js
+document.querySelector('.card')   // เลือก element แรกที่มี class "card"
+document.querySelector('#title')  // เลือก element ที่มี id "title"
+document.querySelector('button')  // เลือก <button> tag แรก
+```
+
+ถ้าคุณรู้วิธีเขียน CSS selector แล้ว คุณก็รู้วิธีเลือก element ใน JavaScript แล้วด้วย syntax เหมือนกันทุกอย่าง
+
+## การอ่านและเปลี่ยนข้อความ
+
+เมื่อได้ reference ของ element มาแล้ว คุณสามารถอ่านหรือเปลี่ยนข้อความข้างในได้ด้วย property `.textContent`
+
+```js
+var heading = document.querySelector('h1');
+
+// อ่านข้อความปัจจุบัน
+var currentText = heading.textContent;
+
+// เปลี่ยนข้อความ
+heading.textContent = 'New heading text';
+```
+
+การกำหนดค่าใหม่ให้ `.textContent` จะอัปเดตสิ่งที่ผู้เยี่ยมชมเห็นทันที — ไม่ต้อง reload หน้าเลย
+
+export const selectHtml = `<h2 id="headline">Original Headline</h2>
+<button id="changeBtn">Change the headline</button>`;
+
+export const selectCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+h2 { color: #7C3AED; }
+button { background: #7C3AED; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 1rem; margin-top: 1rem; display: block; }`;
+
+export const selectJs = `var btn = document.querySelector('#changeBtn');
+var headline = document.querySelector('#headline');
+btn.addEventListener('click', function() {
+  headline.textContent = 'You selected and changed me!';
+});`;
+
+<LivePreview client:visible html={selectHtml} css={selectCss} js={selectJs} />
+
+ตัวอย่างข้างบนเลือก button `#changeBtn` และ heading `#headline` เมื่อกด button script จะอัปเดตข้อความของ heading ทุกอย่างพึ่งพา `querySelector` ในการเลือกก่อนเสมอ — เหมือนกับการคลิกเลือก layer ใน layers panel ของ Figma แล้วค่อยแก้ข้อความใน properties panel
+
+<Tip title="querySelector คืนแค่ผลลัพธ์แรก">
+ถ้ามีหลาย element ที่ใช้ class เดียวกัน `document.querySelector('.card')` จะคืนแค่ **อันแรก** เท่านั้น ถ้าอยากทำงานกับทุก element ที่ตรงกันพร้อมกัน ให้ใช้ `document.querySelectorAll('.card')` — ซึ่งจะคืน list ที่นำไป loop ต่อได้
+</Tip>
+
+## ตารางอ้างอิง Selector
+
+| สิ่งที่อยากเลือก | Syntax ของ selector |
+|---|---|
+| Element ที่มี class | `.className` |
+| Element ที่มี id | `#idName` |
+| ประเภท tag | `button`, `h2`, `p` |
+| Element ที่ซ้อนอยู่ข้างใน | `.card h2` |
+
+CSS selector ที่ถูกต้องทุกรูปแบบใช้ได้ใน `querySelector` ถ้าเลือกเป้าหมายได้ใน stylesheet ก็จับมันได้ใน JavaScript เช่นกัน
+
+export const quizSelectingElements = [
+  {
+    q: '`document.querySelector(\'#title\')` เลือกอะไร?',
+    options: ['ทุก element ที่มี class "title"', 'Element ที่มี id "title"', 'Tag แรกที่ชื่อ "title"', 'เอกสารทั้งหมด'],
+    answer: 1,
+  },
+  {
+    q: 'selector ใดที่ค้นหา element ด้วยชื่อ class?',
+    options: ['#myClass', '.myClass', 'myClass', '@myClass'],
+    answer: 1,
+  },
+  {
+    q: 'property ใดที่ให้คุณอ่านหรือเปลี่ยนข้อความภายใน element?',
+    options: ['element.value', 'element.innerHTML', 'element.textContent', 'element.label'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="javascript/selecting-elements" questions={quizSelectingElements} />
+
+<ProgressTracker client:visible id="javascript/selecting-elements" />

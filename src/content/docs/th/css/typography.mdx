@@ -1,0 +1,202 @@
+---
+title: Typography
+description: 'CSS typography properties — font family, size, weight, line height, letter spacing, and text alignment — mapped to what you already know from Figma.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+Typography คือจุดที่ดีไซเนอร์รู้สึกสบายใจที่สุดใน CSS ทุก property ในบทเรียนนี้มีคู่ขนานโดยตรงกับสิ่งที่อยู่ใน **Text inspector panel** ของ Figma — คุณรู้แล้วว่าแต่ละอย่างทำอะไร เพียงแค่กำลังเรียนรู้ชื่อ CSS ของมัน
+
+ลองคิดว่า CSS typography properties คือ **ระบบ text styles ของคุณในรูปแบบโค้ด** แทนที่จะคลิกไปในแต่ละ panel คุณเขียนการตัดสินใจเดิมเป็น rule ที่เบราว์เซอร์ apply สม่ำเสมอทุกหน้า
+
+## Font family
+
+```css
+font-family: 'Inter', system-ui, sans-serif;
+```
+
+นี่คือ typeface CSS ให้คุณ list หลาย font คั่นด้วยจุลภาค — เรียกว่า **font stack** เบราว์เซอร์จะลอง font แรก และถ้าไม่มีก็ไปต่อ font ถัดไป ควรลงท้ายด้วย generic family เช่น `sans-serif` เสมอเป็น fallback สุดท้าย
+
+หากต้องการใช้ Google Font ให้ link ใน `<head>` ของ HTML:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+```
+
+จากนั้นใน CSS: `font-family: 'Inter', sans-serif;`
+
+## Font size
+
+```css
+font-size: 1rem;
+```
+
+ใช้หน่วย `rem` สำหรับขนาดตัวอักษร `1rem` เท่ากับขนาด font พื้นฐานของเบราว์เซอร์ (ปกติ 16px) rem ปรับตามการตั้งค่า accessibility ของผู้ใช้ — หากใครเพิ่มขนาด font ของเบราว์เซอร์ ตัวอักษรของคุณก็จะใหญ่ตามไปด้วย Type scale ที่นิยมใช้:
+
+| ระดับ | rem | การใช้งานทั่วไป |
+|---|---|---|
+| xs | 0.75rem | Label, caption |
+| sm | 0.875rem | ข้อความรอง |
+| base | 1rem | ข้อความ body |
+| lg | 1.25rem | Lead paragraph |
+| xl | 1.5rem | Section heading |
+| 2xl | 2rem | Page heading |
+| 3xl | 3rem | Display / hero |
+
+## Font weight
+
+```css
+font-weight: 400;
+```
+
+นี่คือการควบคุมเดียวกับ **weight dropdown** ใน Figma ค่ามีตั้งแต่ 100 ถึง 900:
+
+- **100** — Thin
+- **300** — Light
+- **400** — Regular
+- **500** — Medium
+- **600** — Semibold
+- **700** — Bold
+- **800** — Extrabold
+- **900** — Black
+
+ไม่ใช่ทุก font ที่มีครบทุก weight — ตรวจสอบให้แน่ใจว่า weight ที่ใช้ถูก load มาแล้ว
+
+## Line height
+
+```css
+line-height: 1.5;
+```
+
+นี่คือ **leading** ในศัพท์ typography และตรงกับ **Line Height** ใน Figma ใช้ตัวเลขไม่มีหน่วย: `1.5` หมายถึง line height เป็น 1.5 เท่าของ font size วิธีนี้ดีกว่าการใช้ pixel เพราะ scale ตาม font size โดยอัตโนมัติ
+
+- **Body text**: 1.5–1.6 — อ่านสบาย
+- **Heading**: 1.1–1.2 — กระชับ ดูมีพลัง
+- **UI label บรรทัดเดียว**: 1 — พอดีพอดี
+
+## Letter spacing
+
+```css
+letter-spacing: 0.05em;
+```
+
+Figma เรียกสิ่งนี้ว่า **Tracking** ค่าบวกทำให้ตัวอักษรห่างออก ค่าลบทำให้แน่นขึ้น การใช้หน่วย `em` ทำให้ spacing scale ตาม font size อย่างสัดส่วน ค่าบวกเล็กน้อย (0.05em–0.1em) ใช้ดีกับ uppercase label ส่วน body text ปกติจะใช้ `0` หรือค่าลบเล็กน้อย
+
+## Text alignment
+
+```css
+text-align: left;
+```
+
+เหมือนกับปุ่ม alignment ใน text panel ของ Figma ค่า: `left`, `center`, `right`, `justify` ใช้ `justify` อย่างระวัง — อาจทำให้เกิดช่องว่างไม่สม่ำเสมอเมื่อบรรทัดสั้น
+
+## Text transform และ color
+
+```css
+text-transform: uppercase;
+color: #111827;
+```
+
+`text-transform` มีประโยชน์สำหรับ label และปุ่ม — `uppercase` หรือ `capitalize` โดยไม่ต้องเปลี่ยนเนื้อหาจริง `color` กำหนดสีข้อความ รับค่า hex, `rgb()`, `hsl()` หรือชื่อสี
+
+## นำทุกอย่างมารวมกัน — type scale ในโค้ด
+
+เหมือนกับที่คุณกำหนด text styles ใน Figma แล้ว apply อย่างสม่ำเสมอ ใน CSS คุณตั้ง rule สำหรับแต่ละระดับของ hierarchy แล้วใช้ตลอดทั้งหน้า LivePreview ด้านล่างแสดง layout บทความเล็กๆ แก้ไข CSS เพื่อสำรวจว่าการเปลี่ยน `font-size`, `font-weight` และ `line-height` เปลี่ยน feel ของ typography อย่างไร
+
+export const typographyHtml = `<article class="prose">
+  <p class="label">Design System</p>
+  <h1 class="display">Type is the voice of design</h1>
+  <p class="lead">Good typography is invisible — it lets the reader focus entirely on the message, not the mechanics.</p>
+  <p class="body">Every typeface has a personality. Choosing the right font family is like casting the right actor for a role. But the family is only the beginning — size, weight, line height, and spacing together determine whether text feels calm or urgent, friendly or authoritative.</p>
+</article>`;
+
+export const typographyCss = `body {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background-color: #fafaf9;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  margin: 0;
+}
+
+.prose {
+  max-width: 640px;
+  width: 100%;
+}
+
+.label {
+  font-family: system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7c3aed;
+  margin: 0 0 1rem;
+}
+
+.display {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #111827;
+  margin: 0 0 1.25rem;
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #374151;
+  margin: 0 0 1.25rem;
+}
+
+.body {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #4b5563;
+  margin: 0;
+}`;
+
+<LivePreview client:visible html={typographyHtml} css={typographyCss} />
+
+<Tip title="Text panel ใน Figma แปลเป็น CSS">
+ลองคิดว่า CSS typography property แต่ละตัวคือช่องใน text inspector ของ Figma: `font-family` คือ dropdown ของ typeface, `font-size` คือช่องขนาด, `font-weight` คือ dropdown ของ weight, `line-height` คือ line height, `letter-spacing` คือ tracking และ `text-align` คือปุ่ม alignment คุณรู้แล้วว่าทุกอย่างทำอะไร — กำลังเรียนแค่ชื่อ CSS ของมัน
+</Tip>
+
+export const quizCssTypography = [
+  {
+    q: 'Which CSS property is equivalent to "tracking" in Figma?',
+    options: ['line-height', 'letter-spacing', 'font-weight', 'text-transform'],
+    answer: 1,
+  },
+  {
+    q: 'What value of font-weight gives bold text?',
+    options: ['100', '400', '700', '1000'],
+    answer: 2,
+  },
+  {
+    q: 'What does line-height: 1.5 mean?',
+    options: [
+      'The line height is fixed at 1.5 pixels',
+      'The line height is 1.5 times the font size',
+      'There are 1.5 lines per paragraph',
+      'The font size is multiplied by 1.5 everywhere',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which CSS property sets the typeface (e.g. Inter, Georgia)?',
+    options: ['font-size', 'font-style', 'font-family', 'text-align'],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="css/typography" questions={quizCssTypography} />
+
+<ProgressTracker client:visible id="css/typography" />

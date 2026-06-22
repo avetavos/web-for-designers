@@ -1,0 +1,118 @@
+---
+title: Events
+description: 'Learn how addEventListener works — the JavaScript equivalent of a Figma prototype trigger — so your page reacts to what the user does.'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+If you have ever built a prototype in Figma, you already understand the core idea behind JavaScript events. When you set up a prototype interaction — "when the user taps this hotspot, go to frame X" — you are describing a trigger and a response. JavaScript works exactly the same way: you listen for something to happen, and when it does, you run some code.
+
+## What is an event?
+
+An **event** is a moment something happens in the browser. The user clicks a button — that is an event. They press a key — that is an event. They hover over an image — also an event.
+
+The browser is constantly watching for these moments. Your job as a developer is to tell it: "when *this* event happens on *that* element, run *this* code."
+
+## addEventListener
+
+The method that wires everything together is `addEventListener`. It takes two things:
+
+1. The **name** of the event you want to listen for (e.g. `'click'`)
+2. A **function** to run when that event fires — called a **handler** or **callback**
+
+```js
+var btn = document.querySelector('#myButton');
+
+btn.addEventListener('click', function() {
+  // this code runs every time the button is clicked
+});
+```
+
+Think of `addEventListener` like the prototype panel in Figma. You select the element, choose the trigger ("On click"), and specify what happens next. Here, the trigger is `'click'` and the "what happens next" is the function you pass in.
+
+The function inside `addEventListener` is called a **callback** because the browser calls it back for you at the right moment — you do not call it yourself.
+
+## A button that counts clicks
+
+Here is a complete example. A button keeps track of how many times it has been clicked and updates the page to show the running total.
+
+export const exampleHtml = `<button id="countBtn">Click me!</button>
+<p id="counter">You have clicked 0 times.</p>`;
+
+export const exampleCss = `body { font-family: system-ui, sans-serif; padding: 1.5rem; }
+button { background: #7C3AED; color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+p { margin-top: 1rem; color: #374151; font-size: 1.1rem; }`;
+
+export const exampleJs = `var count = 0;
+var btn = document.querySelector('#countBtn');
+var counter = document.querySelector('#counter');
+btn.addEventListener('click', function() {
+  count = count + 1;
+  counter.textContent = 'You have clicked ' + count + ' times.';
+});`;
+
+<LivePreview client:visible html={exampleHtml} css={exampleCss} js={exampleJs} />
+
+Walk through what is happening:
+
+- `var count = 0` — a variable that starts at zero and grows with each click.
+- `document.querySelector('#countBtn')` — grabs the button from the page.
+- `document.querySelector('#counter')` — grabs the paragraph that shows the total.
+- `addEventListener('click', function() { ... })` — every time the button is clicked, the function inside runs.
+- Inside the function, `count` increases by one, then `counter.textContent` is updated to reflect the new total using string concatenation (`+`).
+
+Notice that `textContent` uses the `+` operator to join the number with the surrounding text. This is intentional: it keeps the code readable and avoids any special syntax inside the string.
+
+<Tip title="Handlers run later, not immediately">
+When you write `addEventListener('click', function() { ... })`, the function does **not** run straight away. It is registered and then waits. The browser only calls it when the user actually clicks. This is what "callback" means — the browser calls it back for you at the right time.
+</Tip>
+
+## The Figma parallel
+
+| Figma | JavaScript |
+|---|---|
+| Select a hotspot | `document.querySelector('#myElement')` |
+| Choose trigger: On Click | `addEventListener('click', ...)` |
+| Choose action: navigate / change variant | The function body — your custom code |
+
+In Figma, every prototype interaction is: *trigger → action*. In JavaScript, every event listener is: *event → callback*. The mental model is identical; only the syntax is new.
+
+export const quizEvents = [
+  {
+    q: 'What is a browser "event"?',
+    options: [
+      'A CSS animation',
+      'A moment something happens, like a click or a key press',
+      'An HTML attribute',
+      'A type of variable'
+    ],
+    answer: 1
+  },
+  {
+    q: 'Which method attaches a function to run when an element is clicked?',
+    options: [
+      'element.onClick()',
+      'element.trigger()',
+      'element.addEventListener("click", fn)',
+      'element.runOnClick(fn)'
+    ],
+    answer: 2
+  },
+  {
+    q: 'In Figma terms, what is most like an event listener?',
+    options: [
+      'A colour style',
+      'A component variant',
+      'A prototype trigger on a hotspot',
+      'An auto-layout rule'
+    ],
+    answer: 2
+  }
+];
+
+<Quiz client:visible id="javascript/events" questions={quizEvents} />
+
+<ProgressTracker client:visible id="javascript/events" />

@@ -1,0 +1,86 @@
+---
+title: 'เว็บทำงานอย่างไร'
+description: 'บทนำแสนอบอุ่นเกี่ยวกับ browser, server, และสามภาษาที่ใช้สร้างทุกหน้าเว็บ — สำหรับ designer ที่ไม่มีพื้นฐานเขียนโค้ดมาก่อน'
+---
+
+import LivePreview from '../../../../components/LivePreview.tsx';
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+คุณใช้เว็บมาตลอดชีวิต — เปิดลิงก์, ดูงานใน Behance, อ่าน reference ใน MDN แต่เคยสงสัยไหมว่าเกิดอะไรขึ้นจริงๆ ในช่วงเวลาที่คลิกลิงก์นั้น? Module นี้จะตอบคำถามนั้นด้วยภาษาง่ายๆ โดยไม่ต้องมีประสบการณ์เขียนโค้ดมาก่อน
+
+เมื่อจบ Module นี้ คุณจะเข้าใจว่า browser, server, HTML, CSS, และ JavaScript แต่ละอย่างทำหน้าที่อะไร — และคุณจะได้เขียน web card แรกของตัวเองด้วยมือ
+
+## สิ่งที่คุณจะได้เรียนใน Module นี้
+
+| บทเรียน | สิ่งที่คุณจะเข้าใจ |
+|---|---|
+| เว็บทำงานอย่างไร | Browser, server, URL และเส้นทางของหน้าเว็บ |
+| บทบาทของ HTML, CSS & JS | สามภาษาและหน้าที่ของแต่ละตัว |
+| หน้าเว็บแรกของคุณ | สร้างและแก้ไขหน้าเว็บจริงตั้งแต่เริ่มต้น |
+
+ไม่ต้องติดตั้งอะไร และไม่ต้องท่องจำอะไรก่อนเริ่ม ทุกบทเรียนมี live editor ให้คุณเห็นการเปลี่ยนแปลงทันที — เหมือนกับการ toggle property ใน Figma's inspect panel แต่เป็นโค้ด
+
+## ลองทำเลย — card แรกของคุณ
+
+Editor ด้านล่างคือ web snippet ที่ทำงานได้จริง คลิกข้างใน เปลี่ยนข้อความ แล้วดู preview อัปเดต คุณกำลังเขียนโค้ดจริงอยู่แล้ว
+
+export const indexHtml = `<div class="card">
+  <h2>Hi, I'm a designer.</h2>
+  <p>And I just wrote my first web card.</p>
+</div>`;
+
+export const indexCss = `body {
+  font-family: system-ui, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  background: #f5f3ff;
+}
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 4px 24px rgba(124,58,237,0.10);
+  max-width: 360px;
+}
+h2 { color: #7C3AED; margin: 0 0 0.5rem; }
+p  { color: #374151; margin: 0; }`;
+
+<LivePreview client:visible html={indexHtml} css={indexCss} />
+
+ลองเปลี่ยน `Hi, I'm a designer.` เป็นชื่อของคุณ ลองเปลี่ยน `#7C3AED` เป็น `#E11D48` แล้วดูว่า heading เปลี่ยนเป็นสีแดง
+
+<Tip title="โค้ดคือแค่ข้อความที่มีกฎ">
+ทุกหน้าเว็บคือไฟล์ข้อความธรรมดา ไม่มีเวทมนตร์ ไม่มีฮาร์ดแวร์พิเศษ Browser อ่านข้อความนั้น ทำตามกฎ แล้ว render ผลลัพธ์บนหน้าจอ ถ้าคุณพิมพ์ข้อความใน text panel ของ Figma ได้ คุณก็เขียนโค้ดได้
+</Tip>
+
+export const quizHowWebWorksIndex = [
+  {
+    q: 'หน้าที่หลักของ web browser คืออะไร?',
+    options: [
+      'เก็บไฟล์ของคุณบนอินเทอร์เน็ต',
+      'อ่านไฟล์โค้ดและ render เป็นหน้าเว็บที่มองเห็นได้',
+      'เขียน HTML ให้อัตโนมัติ',
+      'Host เว็บไซต์บน server',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'สามภาษาที่ใช้สร้างทุกหน้าเว็บคืออะไร?',
+    options: [
+      'Python, Ruby, และ PHP',
+      'Figma, Sketch, และ XD',
+      'HTML, CSS, และ JavaScript',
+      'Markdown, YAML, และ JSON',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="how-web-works/index" questions={quizHowWebWorksIndex} />
+
+<ProgressTracker client:visible id="how-web-works/index" />

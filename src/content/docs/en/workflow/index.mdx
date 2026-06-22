@@ -1,0 +1,86 @@
+---
+title: 'Design-to-Code Workflow — Overview'
+description: 'How a design becomes a real web page, and how designers and developers collaborate to make it happen.'
+---
+
+import Tip from '../../../../components/Tip.astro';
+import Quiz from '../../../../components/Quiz.tsx';
+import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+
+{/* No LivePreview: this is a navigation overview — no runnable snippet applies. */}
+
+You have spent hours in Figma getting the layout perfect — the right spacing, the right type sizes, the right colors. Now what? How does that design actually become a web page that someone can visit in a browser?
+
+The journey has four stages, and understanding each one will change how you design.
+
+## From Figma to browser
+
+**Stage 1 — HTML (structure):** A developer reads your design and writes HTML — the skeleton of the page. Every frame, group, and text layer maps to an HTML element. A heading becomes `<h1>`. A card becomes a `<div>`. A navigation bar becomes `<nav>`. HTML has no color, no font — just structure.
+
+**Stage 2 — CSS (visual design):** CSS is applied on top of the HTML to add all the visual properties you defined: colors, fonts, spacing, border-radius, shadows. Your Figma color styles become CSS custom properties. Your spacing grid becomes margin and padding values. This is where your design lives in code.
+
+**Stage 3 — JavaScript (interactivity):** Animations, dropdowns, form validation, dynamic content — JavaScript adds behavior. As a designer, you define *what* the interaction looks like; a developer writes the code that makes it happen.
+
+**Stage 4 — The browser renders it:** The browser reads all three files and paints the final page. Every pixel you see came from that chain: HTML structure → CSS style → JavaScript behavior.
+
+## Your role in the workflow
+
+As a designer you own the **visual contract** — the authoritative source of truth for how the product looks and behaves. Developers implement that contract; they should not have to guess.
+
+The better your design is specified (named layers, token-based styles, documented states), the fewer surprises there are during implementation. Ambiguity in a design becomes a bug in code.
+
+**Figma Dev Mode** is the bridge. When you finish a design, developers switch to Dev Mode to inspect exact spacing, colors, font properties, and exported assets — without disturbing your design file. Think of it as the handoff layer built into Figma.
+
+## What you will learn in this module
+
+| Lesson | What you will be able to do |
+|---|---|
+| Figma to Code | Map design layers to HTML + CSS using Dev Mode |
+| Design Tokens | Use CSS custom properties as the code version of Figma variables |
+| Scales | Express your 4/8px grid and type scale as reusable tokens |
+| Components | Build reusable HTML+CSS pieces, just like Figma components |
+| Accessibility | Make your designs work for every user |
+| Handoff & Next Steps | Deliver developer-ready designs and know where to keep learning |
+
+By the end of this module you will be able to open a Figma design, translate it into valid HTML and CSS, and hand it off to a developer — or implement it yourself.
+
+<Tip title="You already think like a developer">
+Figma's concepts — frames, components, auto-layout, styles — are direct parallels to HTML's divs, CSS classes, flexbox, and custom properties. You are not starting from zero; you are translating a language you already speak.
+</Tip>
+
+export const quizWorkflowIndex = [
+  {
+    q: 'What does HTML define in a web page?',
+    options: [
+      'The visual style',
+      'The content and structure',
+      'The animations',
+      'The server code',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'Which tool helps developers inspect your Figma designs precisely?',
+    options: [
+      'Figma Prototype',
+      'Figma Dev Mode',
+      'Figma Community',
+      'Figma Plugins',
+    ],
+    answer: 1,
+  },
+  {
+    q: 'In the design-to-code workflow, who typically defines the visual contract?',
+    options: [
+      'The product manager',
+      'The backend developer',
+      'The designer',
+      'The QA tester',
+    ],
+    answer: 2,
+  },
+];
+
+<Quiz client:visible id="workflow/index" questions={quizWorkflowIndex} />
+
+<ProgressTracker client:visible id="workflow/index" />
