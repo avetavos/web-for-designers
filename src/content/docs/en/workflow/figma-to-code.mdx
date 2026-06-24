@@ -7,6 +7,14 @@ import LivePreview from '../../../../components/LivePreview.tsx';
 import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+import Mermaid from '../../../../components/Mermaid.astro';
+
+export const layerTreeDiagram = `flowchart TD
+  Card["Card (Frame, white fill, rounded corners, shadow)"]
+  Card --> Avatar["Avatar (Rectangle or Image, circle clip)"]
+  Card --> Name["Name (Text, bold, 20px)"]
+  Card --> Bio["Bio (Text, regular, 14px, grey)"]
+  Card --> View["View Work (Frame, purple fill, white text)"]`;
 
 Open any design you have made in Figma. What you see is a collection of nested frames, text layers, and shapes. Every one of those has a direct equivalent in HTML and CSS. The translation is more mechanical than creative — once you know the mapping, it becomes fast.
 
@@ -14,13 +22,7 @@ Open any design you have made in Figma. What you see is a collection of nested f
 
 Take a simple profile card: a photo, a name, a short bio, and a "View Work" button. In Figma it might look like this in the layers panel:
 
-```
-Card (Frame, white fill, rounded corners, shadow)
-  ├── Avatar (Rectangle or Image, circle clip)
-  ├── Name (Text, bold, 20px)
-  ├── Bio (Text, regular, 14px, grey)
-  └── View Work (Frame, purple fill, white text)
-```
+<Mermaid code={layerTreeDiagram} title="Figma layer tree for a profile card" />
 
 Translating this to HTML is straightforward:
 - **Card frame** → `<div class="card">`

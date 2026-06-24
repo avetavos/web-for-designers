@@ -7,6 +7,13 @@ import LivePreview from '../../../../components/LivePreview.tsx';
 import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+import Mermaid from '../../../../components/Mermaid.astro';
+
+export const urlDiagram = `flowchart LR
+  URL["https://example.com/about/team.html"]
+  URL --> Protocol["protocol: https://"]
+  URL --> Domain["domain: example.com"]
+  URL --> Path["path to the file: /about/team.html"]`;
 
 Every day you open dozens of web pages — portfolio sites, design inspiration, documentation, social feeds. But what is actually happening behind that first click? Understanding this will make you a better designer, because you will know *why* the web is built the way it is.
 
@@ -28,11 +35,7 @@ Think of a server like a design asset library in the cloud. Your Figma file link
 
 A **URL** (Uniform Resource Locator) is just an address. It tells your browser exactly where to find a file.
 
-```
-https://example.com/about/team.html
-  ↑         ↑          ↑
-protocol  domain      path to the file
-```
+<Mermaid code={urlDiagram} title="The parts of a URL" />
 
 - **Protocol** (`https://`) — the "language" the browser and server use to talk. The `s` means the connection is encrypted (secure).
 - **Domain** (`example.com`) — the name of the server, like a street address.

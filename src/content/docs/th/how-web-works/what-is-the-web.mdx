@@ -7,6 +7,13 @@ import LivePreview from '../../../../components/LivePreview.tsx';
 import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
+import Mermaid from '../../../../components/Mermaid.astro';
+
+export const urlDiagram = `flowchart LR
+  URL["https://example.com/about/team.html"]
+  URL --> Protocol["protocol: https://"]
+  URL --> Domain["domain: example.com"]
+  URL --> Path["path to the file: /about/team.html"]`;
 
 ทุกวันคุณเปิดหน้าเว็บเป็นสิบๆ หน้า — portfolio site, แรงบันดาลใจด้านดีไซน์, documentation, social feed แต่จริงๆ แล้วเกิดอะไรขึ้นหลังการคลิกนั้น? การเข้าใจเรื่องนี้จะทำให้คุณเป็น designer ที่ดีขึ้น เพราะคุณจะรู้ *ว่าทำไม* เว็บถึงถูกสร้างมาแบบนั้น
 
@@ -28,11 +35,7 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
 **URL** (Uniform Resource Locator) คือที่อยู่ มันบอก browser ของคุณว่าจะหาไฟล์ได้ที่ไหนกันแน่
 
-```
-https://example.com/about/team.html
-  ↑         ↑          ↑
-protocol  domain      path ของไฟล์
-```
+<Mermaid code={urlDiagram} title="The parts of a URL" />
 
 - **Protocol** (`https://`) — "ภาษา" ที่ browser และ server ใช้คุยกัน ตัว `s` หมายถึงการเชื่อมต่อที่เข้ารหัสแล้ว (ปลอดภัย)
 - **Domain** (`example.com`) — ชื่อของ server เหมือนที่อยู่บ้าน
