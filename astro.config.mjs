@@ -15,6 +15,15 @@ export default defineConfig({
       title: 'Web for Designers',
       head: [
         { tag: 'script', attrs: { type: 'module', src: '/web-for-designers/enhance.js' } },
+        { tag: 'link', attrs: { rel: 'manifest', href: '/web-for-designers/manifest.webmanifest' } },
+        { tag: 'link', attrs: { rel: 'apple-touch-icon', href: '/web-for-designers/apple-touch-icon.png' } },
+        { tag: 'link', attrs: { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/web-for-designers/icon-192.png' } },
+        { tag: 'meta', attrs: { name: 'theme-color', content: '#e8649b' } },
+        { tag: 'meta', attrs: { name: 'mobile-web-app-capable', content: 'yes' } },
+        { tag: 'meta', attrs: { name: 'apple-mobile-web-app-capable', content: 'yes' } },
+        { tag: 'meta', attrs: { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' } },
+        { tag: 'meta', attrs: { name: 'apple-mobile-web-app-title', content: "Web for Designers" } },
+        { tag: 'script', content: "if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/web-for-designers/sw.js',{scope:'/web-for-designers/'}).catch(function(){})})}" },
       ],
       defaultLocale: 'en',
       locales: {
