@@ -74,6 +74,21 @@ btn.addEventListener('click', function() {
 
 CSS selector ที่ถูกต้องทุกรูปแบบใช้ได้ใน `querySelector` ถ้าเลือกเป้าหมายได้ใน stylesheet ก็จับมันได้ใน JavaScript เช่นกัน
 
+## Common Designer Mistakes
+
+- ขอให้ developer "ทำให้ทุกปุ่มมีสีนี้" โดยไม่รู้ว่า developer ต้อง "เลือก" element เหล่านั้นก่อนด้วย selector ที่ตรงกับ class/id ที่ตั้งไว้
+- ตั้งชื่อ layer ใน Figma ไม่ตรงกับชื่อ class ที่ developer จะใช้เลือก
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ทุกปุ่มในหน้านี้" แต่ developer ต้องเขียน code ที่ "หา" element เหล่านั้นก่อนจะแก้ไขหรือเพิ่ม interactivity ได้ (คล้าย "Select all with same style" ใน Figma)
+
+> 💡 Real World Example
+>
+> ฟีเจอร์ "Select all with same properties" ใน Figma ทำงานคล้าย `querySelectorAll` ใน JavaScript — หา element ทั้งหมดที่ตรงเงื่อนไขเดียวกันมาแก้พร้อมกัน
+
 export const quizSelectingElements = [
   {
     q: '`document.querySelector(\'#title\')` เลือกอะไร?',

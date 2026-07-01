@@ -60,6 +60,22 @@ a:hover { color: #5B21B6; text-decoration: none; }`;
 โดยพื้นฐานแล้ว เว็บไม่ใช่อะไรมากกว่าไฟล์บนคอมพิวเตอร์ที่เชื่อมต่อกันด้วยที่อยู่ ไม่มีอะไรลึกลับ เมื่อคุณเข้าใจเรื่องนี้ แนวคิดอย่าง "host เว็บไซต์" ก็จะชัดเจนขึ้นเอง — มันก็แค่การนำไฟล์ของคุณไปวางบน server เพื่อให้ browser ของคนอื่นสามารถ fetch ได้
 </Tip>
 
+## Common Designer Mistakes
+
+- ลืมว่า domain ต้องซื้อและต่ออายุทุกปี ไม่ใช่ของที่ได้มาตลอดชีวิต
+- คิดว่า URL path ไม่มีผลต่อการแชร์หรือ SEO
+- ลืมว่า server อาจ down หรือช้าได้ ไม่ใช่ทำงานตลอดเวลาแบบสมบูรณ์แบบ
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็นแค่ "หน้าเว็บ" หนึ่งหน้า แต่ developer ต้องคิดถึง request/response, DNS lookup, ค่า hosting และ uptime ของ server ด้วย
+
+> 💡 Real World Example
+>
+> Vercel และ Netlify คือ "server" ยุคใหม่ที่ deploy ไฟล์ให้อัตโนมัติทุกครั้งที่ push code Notion ตั้งค่า URL path ให้มีความหมายสำหรับทุกหน้า เพื่อให้แชร์ลิงก์ได้ง่าย
+
 export const quizWhatIsTheWeb = [
   {
     q: 'หน้าที่หลักของ browser คืออะไร?',

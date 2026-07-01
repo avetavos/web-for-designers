@@ -80,6 +80,21 @@ btn.addEventListener('click', function() {
 
 ใน Figma ทุก prototype interaction คือ: *trigger → action* ใน JavaScript ทุก event listener คือ: *event → callback* แนวคิดเหมือนกันทุกประการ มีแค่ syntax เท่านั้นที่ใหม่
 
+## Common Designer Mistakes
+
+- ออกแบบ interaction โดยลืมนึกถึง "จังหวะ" ที่มันเกิดขึ้น (click, hover, scroll, load)
+- ไม่ระบุใน design ว่า animation ควร trigger ตอนไหน (hover หรือ click)
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "hover แล้วปุ่มเปลี่ยนสี" แต่ developer ต้องเขียน code ที่ "ฟัง" event นั้นโดยเฉพาะ (mouseenter, click, scroll) แล้วค่อยสั่งให้อะไรเกิดขึ้น
+
+> 💡 Real World Example
+>
+> Interaction ของ Linear (เช่น command palette ที่เปิดด้วย Cmd+K) ต้องมีการ "ฟัง" keyboard event เฉพาะเจาะจงที่ designer ต้องระบุให้ developer รู้ล่วงหน้า
+
 export const quizEvents = [
   {
     q: '"event" ในเบราว์เซอร์คืออะไร?',

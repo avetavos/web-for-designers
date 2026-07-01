@@ -121,6 +121,21 @@ body { font-family: system-ui, sans-serif; background: #f9f9f9; padding: var(--s
 ถ้าค่า spacing ไม่อยู่ใน scale ให้ถามว่าทำไม มักหมายความว่าดีไซน์ต้องการการปรับเล็กน้อย — ช่องว่าง 13px น่าจะหมายถึง 12px หรือ 16px การแจ้งสิ่งเหล่านี้ในระหว่าง design review ถูกกว่ามากการแก้ไขหลังจากนักพัฒนาใช้งานแล้ว
 </Tip>
 
+## Common Designer Mistakes
+
+- ตั้งขนาด font/spacing แบบสุ่มไม่เป็น scale ทำให้แต่ละหน้าดู "ไม่ใช่ระบบเดียวกัน"
+- ใช้ scale คนละชุดระหว่าง desktop กับ mobile โดยไม่มีเหตุผลรองรับ
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ขนาดที่ดูสมส่วน" แต่ developer อยากได้ scale ที่จำกัด (เช่น type scale แบบ 1.25 ratio) เพื่อ map เป็น CSS variable ที่ reuse ได้ ไม่ต้องจำค่าที่ต่างกันทุกจุด
+
+> 💡 Real World Example
+>
+> Type scale ของ Material Design (Display/Headline/Title/Body/Label) ให้ชุดขนาดจำกัดที่ Google ใช้ตรงกันทั้ง Android และ Web
+
 export const quizScales = [
   {
     q: 'ทำไมดีไซเนอร์จึงมักใช้ 8px เป็น base spacing unit?',

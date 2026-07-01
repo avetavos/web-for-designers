@@ -87,6 +87,22 @@ p  { color: #6b7280; line-height: 1.6; margin: 0 0 1.25rem; }
 เมื่อคุณมองดูหน้าเว็บแล้วถามว่า "อันนั้นมาจากไหน?" — ถ้ามันเป็น content (คำ, รูปภาพ, label ปุ่ม) มันมาจาก HTML ถ้ามันเป็น visual property (สี, ขนาด, spacing) มันมาจาก CSS ถ้ามันตอบสนองต่อการคลิกหรือเปลี่ยนแปลงโดยไม่ต้อง reload หน้า นั่นคือ JavaScript
 </Tip>
 
+## Common Designer Mistakes
+
+- ใส่ style ปนอยู่ใน HTML แทนแยกไปที่ CSS ทำให้ maintain ยาก
+- คิดว่า JavaScript จำเป็นสำหรับทุกอย่างที่ดู interactive ทั้งที่ CSS ทำได้เยอะกว่าที่คิด
+- ลืมว่า content (HTML) ต้องมาก่อน style เสมอ
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "หน้าเดียวที่สวยครบ" แต่ developer แยกงานเป็น 3 ไฟล์คนละหน้าที่ (structure/style/behavior) เพื่อให้แก้ไขทีละส่วนได้โดยไม่กระทบส่วนอื่น
+
+> 💡 Real World Example
+>
+> Stripe docs แยก content (HTML) จาก theme (CSS) อย่างชัดเจน ทำให้สลับ dark mode ได้โดยไม่ต้องแก้ HTML แม้แต่บรรทัดเดียว
+
 export const quizHtmlCssJsRoles = [
   {
     q: 'ภาษาใดที่กำหนด content และโครงสร้างของหน้าเว็บ?',

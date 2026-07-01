@@ -82,6 +82,21 @@ document.querySelector('#runBtn').addEventListener('click', greet);`;
 | `function` | รวมคำสั่งไว้ภายใต้ชื่อเดียว | Component ที่มี interaction |
 | เรียก `fn()` | รันคำสั่งภายในฟังก์ชัน | Trigger การทำงานของ component |
 
+## Common Designer Mistakes
+
+- คิดว่า JavaScript "อันตราย" หรือซับซ้อนเกินจะเข้าใจ ทั้งที่แนวคิดพื้นฐานคล้ายกับ Figma variable/component property
+- มองข้ามว่าการตั้งชื่อตัวแปรที่ดีช่วยให้ developer อ่าน design intent ได้ง่ายขึ้น
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ปุ่มกดแล้วมีอะไรเกิดขึ้น" แต่ developer เห็น variable ที่เก็บค่า (เหมือน Figma variable) และ function ที่เป็นชุดคำสั่งเรียกซ้ำได้ (เหมือน component ที่เรียกใช้ได้หลายที่)
+
+> 💡 Real World Example
+>
+> Figma Variables ที่ใช้กำหนดสี/spacing ข้าม mode (light/dark) ทำงานตามแนวคิดเดียวกับตัวแปรใน JavaScript — ค่าเดียว ใช้ได้หลายที่ เปลี่ยนจุดเดียวกระทบทั้งหมด
+
 export const quizVariablesFunctions = [
   {
     q: 'ตัวแปรคืออะไร?',

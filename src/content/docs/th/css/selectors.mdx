@@ -113,6 +113,21 @@ h2 {
 Class คือ selector ที่คุณจะใช้บ่อยที่สุด ลองนึกถึงมันเหมือน component variant ใน Figma — กำหนดสไตล์ครั้งเดียว ใช้ได้กับ element เท่าไหร่ก็ได้ ส่วน ID นั้นดี แต่ควรเก็บไว้สำหรับสิ่งที่ปรากฏแค่ครั้งเดียวในหน้าจริงๆ
 </Tip>
 
+## Common Designer Mistakes
+
+- ตั้งชื่อ class ตาม "ลักษณะที่เห็น" เช่น `.red-button` แทนความหมาย เช่น `.btn-danger` ทำให้พังเมื่อเปลี่ยนสี
+- ใช้ id selector มากเกินไปทำให้ override ยาก
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "component ที่ตั้งชื่อใน Figma" แต่ developer แปลชื่อ layer เป็น class name ที่สื่อความหมายและ reuse ได้ข้าม component
+
+> 💡 Real World Example
+>
+> Shopify Polaris design system ตั้งชื่อ class ตาม role (`.Polaris-Button--primary`) ไม่ใช่ตามสี ทำให้เปลี่ยน theme ได้โดยไม่ต้องแก้ชื่อ class
+
 export const quizCssSelectors = [
   {
     q: 'สัญลักษณ์ใดที่ขึ้นต้น class selector?',

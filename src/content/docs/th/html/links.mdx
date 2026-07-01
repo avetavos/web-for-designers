@@ -79,6 +79,22 @@ a:hover { text-decoration: underline; }`;
 หลีกเลี่ยงข้อความลิงก์อย่าง "click here" หรือ "read more" ผู้ใช้ screen reader มักนำทางในหน้าเว็บด้วยการกระโดดข้ามระหว่างลิงก์ — พวกเขาได้ยินเฉพาะข้อความลิงก์โดยไม่มีประโยคแวดล้อม การเขียนว่า "ดูพอร์ตโฟลิโอของเรา" หรือ "ดาวน์โหลด PDF กรณีศึกษา" จะให้บริบทครบถ้วน นี่คือ quick win ด้าน accessibility และ usability ที่ไม่มีต้นทุนอะไรสำหรับผู้เขียนเลย
 </Tip>
 
+## Common Designer Mistakes
+
+- ทำ link ที่ดูไม่เหมือน link (ไม่มี underline หรือสีต่าง) ทำให้ user ไม่รู้ว่าคลิกได้
+- ลืม hover/visited state
+- ใช้ `<div onclick>` แทน `<a>` จริง
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ข้อความสีม่วง" แต่ developer เห็นว่า `<a>` ให้ keyboard navigation, "เปิดในแท็บใหม่" ผ่าน right-click และ SEO crawler ตาม link ได้ฟรีทั้งหมด
+
+> 💡 Real World Example
+>
+> Wikipedia ใช้สี link ที่ต่างจาก visited link ชัดเจน ช่วยให้ user รู้ว่าเคยอ่านหน้าไหนไปแล้ว
+
 export const quizLinks = [
   {
     q: 'attribute ใดบน anchor element ที่ใช้กำหนด URL ปลายทาง?',

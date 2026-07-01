@@ -144,6 +144,21 @@ export const galleryCss = `.gallery {
 `grid-template-areas` เป็นหนึ่งในฟีเจอร์ที่เป็นมิตรกับนักออกแบบมากที่สุดใน CSS ทั้งหมด คุณกำลังสเก็ตช์ layout ด้วยตัวอักษร ASCII คิดว่าแต่ละ string ที่อยู่ในเครื่องหมายคือหนึ่งแถว และแต่ละคำคือหนึ่งเซลล์ ใช้ `.` (จุด) สำหรับเซลล์ว่าง มันอ่านเหมือน wireframe พอดี
 </Tip>
 
+## Common Designer Mistakes
+
+- ใช้ Flexbox ฝืนทำ 2 มิติ (แถวและคอลัมน์พร้อมกัน) ทั้งที่ Grid ทำได้ตรงกว่า
+- ลืมว่า Grid ต้องกำหนด track ทั้งแถวและคอลัมน์ล่วงหน้าใน `grid-template-columns`/`grid-template-rows`
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ตาราง Dashboard/Gallery" แต่ developer เลือก Grid เมื่อ layout เป็น 2 มิติจริง (แถวและคอลัมน์ต้องสัมพันธ์กัน) แทนใช้ Flexbox ที่ทำได้ดีแค่ 1 มิติ
+
+> 💡 Real World Example
+>
+> Dashboard อย่าง Stripe และ Vercel ใช้ CSS Grid สำหรับ layout การ์ด metric ที่ต้อง align กันทั้งแถวและคอลัมน์พร้อมกัน
+
 export const quizGrid = [
   {
     q: '`grid-template-columns: repeat(4, 1fr)` สร้างอะไร?',

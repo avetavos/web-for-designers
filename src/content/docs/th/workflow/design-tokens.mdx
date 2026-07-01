@@ -115,6 +115,21 @@ body { font-family: system-ui, sans-serif; padding: var(--space-6); background: 
 ค่าที่ hardcode เช่น `#7C3AED` กระจัดกระจายทั่ว CSS คือ design debt เมื่อสีแบรนด์เปลี่ยน คุณจะพลาดอย่างน้อยหนึ่งที่ Tokens ไม่ใช่ภาระ — นี่คือวิธีที่คุณดูแล design system ในโค้ดโดยไม่ทำให้ทุกอย่างพัง
 </Tip>
 
+## Common Designer Mistakes
+
+- Hardcode สี/spacing ในแต่ละ component แยกกันแทนอ้างอิง token กลาง
+- เปลี่ยนสี brand ใน Figma แต่ไม่รู้ว่า developer ต้องไปแก้ทีละที่ในโค้ดถ้าไม่มี token
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "สี variable ใน Figma" แต่ developer เห็น CSS variable/design token ตัวเดียวที่ใช้ได้ทั้งระบบ เปลี่ยนที่เดียวกระทบทุกที่ที่ reference ถึง
+
+> 💡 Real World Example
+>
+> Design token ของ Shopify Polaris และ Material Design sync ตรงจาก Figma Variables ไปเป็น CSS variable ในโค้ดแบบอัตโนมัติ ลดงาน manual ทั้งสองฝั่ง
+
 export const quizDesignTokens = [
   {
     q: 'โดยปกติ CSS custom properties (tokens) ถูกกำหนดที่ไหน?',

@@ -79,6 +79,21 @@ menuBtn.addEventListener('click', function() {
 
 สามเครื่องมือที่คุณรวมกันในบทเรียนนี้ — `querySelector`, `addEventListener`, `classList.toggle` — คือรากฐานของ frontend interactivity ทุกอย่างที่เหลือสร้างขึ้นมาจากสิ่งเหล่านี้
 
+## Common Designer Mistakes
+
+- design animation ที่ซับซ้อนเกินกว่าจะ implement ได้จริงในเวลาที่มี
+- ลืมออกแบบ disabled/loading state ของปุ่มระหว่างรอ action เสร็จ
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "คลิกแล้ว modal เด้งขึ้นสวย ๆ" แต่ developer ต้องจัดการทั้ง state ก่อน-ระหว่าง-หลัง action (loading spinner, error handling, success feedback) ไม่ใช่แค่ animation เดียว
+
+> 💡 Real World Example
+>
+> ปุ่ม "Save" ของ Notion เปลี่ยนเป็น spinner แล้วเป็น checkmark ทำให้ user มั่นใจว่า action สำเร็จ โดยไม่ต้อง reload หน้า
+
 export const quizInteractions = [
   {
     q: 'ใน pattern menu toggle เทคนิคใดที่ซ่อนหรือแสดง menu?',

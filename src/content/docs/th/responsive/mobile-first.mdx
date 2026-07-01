@@ -134,6 +134,21 @@ body {
 ใน Mobile-First CSS ให้อ่าน Media Queries จากบน (แควที่สุด พบบ่อยที่สุด) ลงล่าง (กว้างที่สุด เสริมประสิทธิภาพ) Base Styles ที่ด้านบนคือรากฐาน แต่ละ `min-width` Query ต่อเติมบนรากฐานนั้น — เหมือนการเพิ่มห้องให้บ้านแทนที่จะทุบกำแพง Mental Model นี้ป้องกันไม่ให้คุณ Override Style โดยไม่ตั้งใจ
 </Tip>
 
+## Common Designer Mistakes
+
+- ออกแบบ desktop ก่อนแล้วค่อย "ย่อ" เป็น mobile ทีหลัง ทำให้ mobile กลายเป็นของแถมที่ดูอัดแน่น
+- ลืมว่า mobile-first หมายถึงออกแบบให้ใช้งานได้ดีที่สุดบนจอเล็กก่อน แล้วค่อย "เพิ่ม" ให้จอใหญ่
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ต้องมี 2 design" แต่ developer เขียน CSS แบบ mobile เป็นค่าเริ่มต้น (ไม่มี media query) แล้วค่อยเพิ่มกฎสำหรับจอใหญ่ขึ้นทีละขั้น (progressive enhancement)
+
+> 💡 Real World Example
+>
+> Instagram ออกแบบ mobile experience เป็นหลักก่อนเสมอ เพราะ traffic ส่วนใหญ่มาจากมือถือ ส่วน desktop เป็นแค่เวอร์ชันขยาย
+
 export const quizMobileFirst = [
   {
     q: 'ใน Mobile-First CSS คุณใช้ Media Query ชนิดใดเพื่อเสริมประสิทธิภาพสำหรับหน้าจอกว้างขึ้น?',

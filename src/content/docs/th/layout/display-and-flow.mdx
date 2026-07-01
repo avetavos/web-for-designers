@@ -64,6 +64,21 @@ p { background: #f3f4f6; padding: 0.5rem; border-radius: 4px; margin-bottom: 0.5
 
 เมื่อคุณใช้ Flexbox หรือ Grid คุณกำลัง *แทนที่* กฎ normal-flow สำหรับ children ของ element นั้น property `display` คือสวิตช์เปิด/ปิด การเข้าใจว่า normal flow มีหน้าตาอย่างไรทำให้เห็นชัดทันทีว่าทำไมการเพิ่ม `display: flex` ให้กับ container ถึงเปลี่ยนทุกอย่าง — คุณกำลังเลือกออกจากกฎการซ้อนค่าเริ่มต้น
 
+## Common Designer Mistakes
+
+- ตั้ง `position: absolute` กับทุก element แทนปล่อยให้ flow ตามธรรมชาติ ทำให้ responsive พังหมด
+- ไม่เข้าใจว่า inline element ไม่รับ width/height โดยตรง จนกว่าจะเปลี่ยนเป็น `inline-block` หรือ `block`
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "element ลอยอยู่ตรงนี้" แต่ developer เห็นว่า default display (block/inline) กำหนดว่า element ไหลต่อกันยังไงโดยไม่ต้องเขียน code เพิ่มเลย
+
+> 💡 Real World Example
+>
+> Notion's block editor ใช้ normal flow (block-level element เรียงต่อกัน) เป็นพื้นฐาน ทำให้ content ยืด/หดตามจำนวนตัวอักษรได้เอง
+
 export const quizDisplayFlow = [
   {
     q: 'block element ทำอะไรตามค่าเริ่มต้น?',

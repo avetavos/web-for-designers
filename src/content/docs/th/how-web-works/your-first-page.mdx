@@ -109,6 +109,22 @@ h1 {
 สิ่งที่คุณเห็นใน preview คือ HTML และ CSS จริงๆ — ภาษาเดียวกับที่ทุกเว็บไซต์บนอินเทอร์เน็ตใช้ ช่องว่างระหว่าง "designer" และ "คนที่เขียนโค้ดเว็บได้" นั้นเล็กกว่าที่คุณคิดมาก และตอนนี้คุณอยู่ฝั่งโน้นแล้ว
 </Tip>
 
+## Common Designer Mistakes
+
+- ลืม `<!DOCTYPE html>` ทำให้ browser render ผิดโหมด
+- ลืม viewport meta tag ทำให้มือถือแสดงผลย่อเล็กผิดปกติ
+- ตั้งชื่อไฟล์ผิด case (`Index.html` vs `index.html`) ซึ่งพังบน server ที่ case-sensitive
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ไฟล์เดียวที่เปิดได้" แต่ developer ต้องคิดถึง boilerplate ที่จำเป็นทุกหน้า (meta charset, viewport, title สำหรับ SEO และ browser tab)
+
+> 💡 Real World Example
+>
+> Static site generator อย่าง Astro และ Next.js generate boilerplate นี้ให้อัตโนมัติทุกหน้า เพื่อไม่ให้ developer พลาดสิ่งเหล่านี้
+
 export const quizYourFirstPage = [
   {
     q: 'CSS rule อย่าง `h1 { color: #7C3AED; }` ทำอะไร?',

@@ -102,6 +102,21 @@ export const positioningCss = `body { font-family: system-ui, sans-serif; paddin
 การใช้ positioning ที่พบบ่อยที่สุดใน UI คือ badge/overlay pattern: ตั้ง `position: relative` บน parent card หรือไอคอน แล้ว `position: absolute` บน badge นี่ยึด badge ไว้ภายใน card แทนที่จะลอยไปที่ใดที่หนึ่งบนหน้า เมื่อใดก็ตามที่คุณเห็น notification dot, image overlay หรือ floating label ในงานออกแบบ — นี่คือวิธีที่สร้างขึ้น
 </Tip>
 
+## Common Designer Mistakes
+
+- ใช้ `position: absolute` เพื่อ "จัดให้ตรงตามที่เห็นใน Figma" ทั้งที่ layout ควร flow ตามธรรมชาติ ทำให้ responsive พัง
+- ลืมว่า absolute ต้องมี parent เป็น `position: relative` ไม่งั้นจะ position เทียบกับ body ทั้งหน้า
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ป้าย badge ลอยมุมขวาบนของ card" แต่ developer ต้องตั้ง parent เป็น relative ก่อน แล้วค่อยวาง absolute element ข้างในอย่างเจตนา ไม่ใช่ใช้ absolute กับทุกอย่าง
+
+> 💡 Real World Example
+>
+> Badge "New" หรือ notification dot บนไอคอนของแอปอย่าง Slack ใช้ absolute positioning ภายใน relative parent แบบนี้เท่านั้น ไม่ใช่ทั้งหน้า
+
 export const quizPositioning = [
   {
     q: 'ค่า position ใดที่ลบ element ออกจาก document flow ปกติ?',

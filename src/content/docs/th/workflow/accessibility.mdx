@@ -142,6 +142,22 @@ export const a11yCss = `body { font-family: system-ui, sans-serif; padding: 2rem
 การออกแบบที่เข้าถึงได้ไม่ใช่ feature ที่คุณติดตั้งตอนท้ายโปรเจกต์ มันคือมิติคุณภาพ — เหมือนความสวยงามหรือประสิทธิภาพ เวลาที่ดีที่สุดในการเพิ่มมันคือใน Figma ก่อนเขียนโค้ดสักบรรทัด กำหนด focus states ตรวจสอบ contrast ตั้งชื่อ components ให้ชัดเจน นักพัฒนาจะขอบคุณคุณ และผู้ใช้ก็เช่นกัน
 </Tip>
 
+## Common Designer Mistakes
+
+- ลบ focus outline ด้วย `outline: none` เพื่อความสวยงามโดยไม่ใส่ focus style อื่นแทน ทำให้ keyboard user ใช้งานไม่ได้
+- ลืม alt text ให้รูปที่มีความหมาย
+- ใช้สีที่ contrast ไม่พอตาม WCAG
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "หน้าที่สวยและ contrast ดูโอเค" แต่ developer ต้องตรวจสอบ contrast ratio จริงตาม WCAG, เขียน alt text ที่มีความหมาย, และเทสต์ด้วย keyboard/screen reader จริง
+
+> 💡 Real World Example
+>
+> gov.uk และ BBC ออกแบบทุกหน้าให้ผ่านมาตรฐาน accessibility เพราะเป็นข้อบังคับทางกฎหมายสำหรับหน่วยงานรัฐ ทำให้กลายเป็นต้นแบบของเว็บที่ accessible จริง
+
 export const quizAccessibility = [
   {
     q: 'attribute `alt` บน `<img>` ทำหน้าที่อะไร?',

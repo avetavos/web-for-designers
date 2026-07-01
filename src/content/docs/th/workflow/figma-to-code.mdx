@@ -97,6 +97,21 @@ export const cardCss = `body { font-family: system-ui, sans-serif; padding: 2rem
 เปิด Dev Mode ก่อนเขียน CSS สักบรรทัด คลิกทุก layer ที่คุณต้องการ style และอ่านค่าที่แน่นอน คุณไม่ได้ประมาณ — คุณกำลังคัดลอกสเปคิฟิเคชัน นี่คือวิธีที่ professional handoffs ทำงาน
 </Tip>
 
+## Common Designer Mistakes
+
+- ส่งไฟล์ Figma ที่มี layer ตั้งชื่อไม่เป็นระบบ ("Rectangle 47", "Group 12") ทำให้ developer อ่าน intent ไม่ออก
+- ลืม detach/organize component ก่อนส่งงาน handoff
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ไฟล์ Figma ที่สวย" แต่ developer ต้องแปลทุก layer, spacing, สี เป็น code จริง — ยิ่ง layer ตั้งชื่อดีเท่าไร แปลงานยิ่งเร็วและถูกต้องเท่านั้น
+
+> 💡 Real World Example
+>
+> ทีม design ที่ Vercel ตั้งชื่อ layer/component ให้ตรงกับชื่อ component จริงในโค้ด (เช่น "Button/Primary") ทำให้ developer handoff เร็วขึ้นมาก
+
 export const quizFigmaToCode = [
   {
     q: 'Figma Dev Mode ช่วยให้คุณทำสิ่งใด?',

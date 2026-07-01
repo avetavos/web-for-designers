@@ -69,6 +69,21 @@ Dev Mode จัดการ static spec ส่วนเหล่านี้ต�
 ทุก state ที่คุณไม่ได้กำหนด นักพัฒนาจะสร้างเอง ทุกสีที่ไม่ใช่ token นักพัฒนาจะ hardcode ทุก component ที่ไม่มีชื่อ นักพัฒนาจะตั้งชื่อต่างจากที่คุณคาดหวัง ยิ่ง handoff ของคุณสมบูรณ์มากเท่าไร ดีไซน์ก็ยิ่ง implement ได้ตรงใจมากขึ้น และ revision cycles ก็น้อยลง
 </Tip>
 
+## Common Designer Mistakes
+
+- ส่งงานให้ developer โดยไม่ระบุ edge case (ข้อความยาวเกิน, ไม่มีรูป, list ว่าง)
+- ไม่ทำ redline/spec สำหรับ spacing ที่ developer ต้อง "เดา" เอาเอง
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "งานจบแล้ว ส่งได้" แต่ developer เห็นว่ายังมีคำถามอีกมาก (states ไหนที่ยังไม่ได้ design, breakpoint ไหนที่ยังไม่เห็นภาพ, content ที่ยาวผิดปกติจะเป็นยังไง)
+
+> 💡 Real World Example
+>
+> ทีม design ที่ Intercom ทำ "spec mode" ใน Figma แนบ note ระบุ edge case และ state ทุกอันไว้ในไฟล์ handoff โดยตรง ลดรอบถามตอบกับ developer ลงมาก
+
 export const quizHandoff = [
   {
     q: 'สิ่งที่สำคัญที่สุดที่ควรรวมใน developer handoff คืออะไร?',

@@ -169,6 +169,22 @@ export const typographyCss = `body {
 ลองคิดว่า CSS typography property แต่ละตัวคือช่องใน text inspector ของ Figma: `font-family` คือ dropdown ของ typeface, `font-size` คือช่องขนาด, `font-weight` คือ dropdown ของ weight, `line-height` คือ line height, `letter-spacing` คือ tracking และ `text-align` คือปุ่ม alignment คุณรู้แล้วว่าทุกอย่างทำอะไร — กำลังเรียนแค่ชื่อ CSS ของมัน
 </Tip>
 
+## Common Designer Mistakes
+
+- ใช้ font ที่ไม่มี fallback ทำให้ browser แสดง font แปลกถ้าโหลดไม่ทัน
+- ตั้ง line-height เป็นตัวเลขคงที่ (px) แทน unitless ทำให้ scale ผิดตอนเปลี่ยน font-size
+- ลืมว่า font ที่เลือกใน Figma อาจไม่มี weight ที่ต้องการจริงบนเว็บ
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "font ที่สวยตาม design" แต่ developer ต้องโหลด font file จริง (Google Fonts หรือ self-host) และเผื่อ fallback font ระหว่างที่ font หลักยังโหลดไม่เสร็จ
+
+> 💡 Real World Example
+>
+> Notion เผื่อ system font fallback ที่ใกล้เคียงกับ font จริงมาก ทำให้ระหว่างโหลด font ไม่กระตุกสายตา
+
 export const quizCssTypography = [
   {
     q: 'CSS property ใดที่เทียบเท่ากับ "tracking" ใน Figma?',

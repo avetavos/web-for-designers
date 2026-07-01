@@ -111,6 +111,22 @@ button:hover { background: #6D28D9; }`;
 placeholder (`placeholder="Jane Smith"`) ไม่ใช่ label มันหายไปเมื่อผู้ใช้เริ่มพิมพ์ ทำให้พวกเขาไม่เหลืออะไรเตือนว่า field นี้มีไว้ทำอะไร ให้ใส่ `<label>` ที่มองเห็นได้ไว้เหนือหรือข้าง input ทุกตัวเสมอ นี่คือหนึ่งในความล้มเหลวด้าน accessibility ของฟอร์มที่พบบ่อยที่สุดบนเว็บไซต์จริง — และเป็นหนึ่งในเรื่องที่แก้ง่ายที่สุด ผู้ใช้ของคุณและผู้ตรวจสอบ accessibility จะขอบคุณคุณ
 </Tip>
 
+## Common Designer Mistakes
+
+- ออกแบบ input โดยไม่คิดถึง error state
+- ใช้ placeholder แทน label
+- ไม่ระบุ input type (email, tel, number) ทำให้ mobile keyboard แสดงผิดแบบ
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "field ที่สวย" แต่ developer ต้อง handle validation, error message, disabled/loading state ของปุ่ม submit และ keyboard type บนมือถือ
+
+> 💡 Real World Example
+>
+> Stripe checkout form ใช้ input type ที่ถูกต้องทุกอัน ทำให้มือถือ auto-suggest เลขบัตรและ email ได้ถูกต้อง
+
 export const quizForms = [
   {
     q: 'คุณจะเชื่อม <label> เข้ากับ <input> element ของมันได้อย่างไร?',

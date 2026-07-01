@@ -122,6 +122,22 @@ export const flexboxCss = `.nav {
 `justify-content` ทำงานตามทิศทางที่ไอเทมไหล (main axis) เสมอ `align-items` ทำงาน *ตั้งฉาก* กับทิศทางนั้น (cross axis) ในภาษา Figma: ถ้า auto-layout ของคุณเป็นแนวนอน `justify-content` คือการจัดแนวนอนและ `align-items` คือการจัดแนวตั้ง เปลี่ยนทิศทางและทั้งสองก็เปลี่ยนตาม
 </Tip>
 
+## Common Designer Mistakes
+
+- ลืมตั้ง `flex-wrap` ทำให้ layout overflow บนจอเล็ก
+- ใช้ margin แทน `gap` ทำให้ระยะห่างไม่สม่ำเสมอตอน item ถูกเพิ่มหรือลบ
+- สลับสับสนระหว่าง main axis กับ cross axis เวลาเปลี่ยน `flex-direction`
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "Auto Layout เหมือนใน Figma" แต่ developer ต้องแปลทุก setting (direction, gap, alignment) เป็น property คนละตัวและเทสต์ที่ content length ต่างกันด้วย
+
+> 💡 Real World Example
+>
+> Linear ใช้ Flexbox แทบทุกจุดของ UI (sidebar, list items) เพราะ Auto Layout แบบ Figma แปลงเป็น Flexbox ได้ตรงที่สุด
+
 export const quizFlexbox = [
   {
     q: 'CSS property ใดที่เทียบเท่ากับ Figma Auto Layout gap โดยตรง?',

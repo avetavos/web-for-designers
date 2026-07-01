@@ -75,6 +75,21 @@ footer { background: #F3F4F6; padding: 0.75rem 1rem; text-align: center; color: 
 เวลาคุณออกแบบหน้าใน Figma คุณก็แบ่งมันออกเป็น region ที่มีชื่ออยู่แล้ว เช่น header, hero, feature section, testimonials, footer เมื่อคุณส่งดีไซน์นั้นต่อให้นักพัฒนา — หรือเขียน HTML เอง — เป้าหมายคือแปล region เหล่านั้นให้เป็น semantic element โดยตรง ไม่ใช่กอง `<div>` ทั่ว ๆ ไป แต่เป็น container ที่มีชื่อและมีจุดประสงค์ ที่ตรงกับสิ่งที่แต่ละ region *เป็น* จริง ๆ
 </Tip>
 
+## Common Designer Mistakes
+
+- ใช้ `<div>` ทุกที่แทน `<header>`/`<nav>`/`<main>`/`<footer>`
+- ใส่ heading (h1-h6) ตาม "ขนาดตัวอักษรที่อยากได้" แทนตาม hierarchy จริงของเนื้อหา
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ส่วนบน ส่วนกลาง ส่วนล่าง" แต่ developer เห็นว่า semantic tag ให้ screen reader และ SEO เข้าใจโครงสร้างเพจได้โดยไม่ต้องอ่าน CSS เลย
+
+> 💡 Real World Example
+>
+> Medium ใช้ `<article>` และ `<header>` ที่ชัดเจน ทำให้ browser reader mode ดึงเนื้อหาบทความออกมาแสดงได้อัตโนมัติ
+
 export const quizSemantic = [
   {
     q: 'element ใดควรห่อเนื้อหาหลักที่ไม่ซ้ำใครของหน้าเว็บ?',

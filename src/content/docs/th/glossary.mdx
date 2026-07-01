@@ -1,0 +1,69 @@
+---
+title: Glossary
+description: คำศัพท์เว็บที่ใช้ตลอด course นี้ — รักษา terminology ภาษาอังกฤษตามที่ทีม design และ dev ใช้จริง
+sidebar:
+  order: 99
+---
+
+import Tip from '../../../components/Tip.astro';
+import ProgressTracker from '../../../components/ProgressTracker.tsx';
+
+## Structure & Markup
+
+| English | Thai Style | เทียบกับ Figma |
+|---------|-----------|----------------|
+| HTML | HTML | โครงสร้าง Layer/Frame |
+| Element / Tag | element / tag | Layer หนึ่งชิ้น |
+| DOM | DOM | Layer Tree ทั้งหมดที่ browser เห็น |
+| Semantic | semantic | การตั้งชื่อ layer ให้สื่อความหมาย ไม่ใช่แค่รูปร่าง |
+| Attribute | attribute | Property ของ layer (เช่น `alt`, `href`) |
+
+## Style & Layout
+
+| English | Thai Style | เทียบกับ Figma |
+|---------|-----------|----------------|
+| CSS | CSS | Design Styles |
+| Layout | layout | การจัดวาง Frame |
+| Flexbox | Flexbox | Auto Layout (1 มิติ) |
+| CSS Grid | CSS Grid | Grid System (2 มิติ) |
+| Box model | box model | Padding + Border + Margin ที่ Figma Inspect แสดง |
+| Breakpoint | breakpoint | จุดที่สลับ Device Frame |
+| Responsive | responsive | Responsive Frame / Auto-resize |
+| Position | position | การ "pin" element ไว้จุดหนึ่ง |
+
+## Design System & Workflow
+
+| English | Thai Style | เทียบกับ Figma |
+|---------|-----------|----------------|
+| Component | component | Figma Component |
+| Variant | variant | Component Variant |
+| State | state | Component Variants (hover/active/disabled) |
+| Design Token | design token | Variables |
+| Design System | design system | Library ของ component + style ที่ใช้ร่วมกัน |
+
+## Behavior & Performance
+
+| English | Thai Style | หมายเหตุ |
+|---------|-----------|---------|
+| JavaScript | JavaScript | ทำให้หน้าเว็บ "โต้ตอบ" ได้ |
+| DOM manipulation | การเปลี่ยนแปลง element บนหน้าเว็บ | ไม่ใช่ reload หน้าใหม่ |
+| Event | event | จังหวะที่ user ทำอะไรบางอย่าง (click, hover, scroll) |
+| Rendering | rendering | ขั้นตอนที่ browser "วาด" หน้าเว็บออกมา |
+| Performance | performance | ความเร็วในการโหลด/ตอบสนอง |
+| Accessibility | accessibility | การออกแบบให้ทุกคนใช้งานได้ |
+
+## เมื่อ **ไม่** ควรใช้ literal Thai translation
+
+| หลีกเลี่ยง | ใช้แทน |
+|------------|--------|
+| ดำเนินการ (execute) | แสดงผล |
+| Render tree | โครงสร้างที่ browser ใช้แสดงผล |
+| Object | ข้อมูล |
+| Instance | element ที่ถูกสร้างขึ้น |
+| Runtime | ช่วงที่เว็บไซต์กำลังทำงาน |
+
+<Tip title="ทำไมคำเหล่านี้ไม่แปลเป็นไทยทั้งหมด">
+Course นี้เก็บคำศัพท์เว็บหลัก ๆ ไว้เป็นภาษาอังกฤษ เพราะเป็นคำที่ทั้ง designer และ developer ใช้พูดคุยกันจริงในทีม การแปลคำเหล่านี้ทั้งหมด (เช่น "การจัดวางแบบยืดหยุ่น" แทน Flexbox) จะทำให้อ่านเข้าใจยากขึ้นและสื่อสารกับ developer ไม่ตรงกัน จุดสำคัญคือให้เข้าใจ *ว่าคำนี้คืออะไรในบริบทที่คุณคุ้นเคยอยู่แล้ว* (เช่น Figma) มากกว่าจะจำนิยามแบบวิชาการ
+</Tip>
+
+<ProgressTracker client:visible id="th/glossary" />

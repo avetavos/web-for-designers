@@ -160,6 +160,22 @@ export const boxModelCss = `body {
 เพิ่ม `box-sizing: border-box` ใน global styles ของทุก project เสมอ มันทำให้การกำหนดขนาด element คาดเดาได้และตรงกับพฤติกรรม default ของ design tool ส่วนใหญ่ รวมถึง Figma ถ้าไม่มีมัน การเพิ่ม padding ให้ element ที่กำหนดขนาดไว้จะทำให้ layout พังในแบบที่ debug ยาก
 </Tip>
 
+## Common Designer Mistakes
+
+- บอก developer ว่า "กว้าง 300px" โดยไม่ระบุว่ารวม padding/border หรือไม่
+- ลืมว่า margin สองฝั่งอาจ collapse กัน
+- ไม่คิดถึง box-sizing ตอนวัดขนาดใน Figma
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "กรอบสี่เหลี่ยมหนึ่งกรอบ" แต่ developer เห็นสี่ชั้นซ้อนกัน (content, padding, border, margin) ที่ต้องรวมกันให้ได้ขนาดสุดท้ายตรงกับ Figma
+
+> 💡 Real World Example
+>
+> Figma's Inspect panel แสดง padding/margin ที่ map ตรงกับ CSS box model เป๊ะ ช่วยให้ developer copy ค่าไปใช้ได้ทันที
+
 export const quizCssBoxModel = [
   {
     q: 'ชั้นไหนของ box model อยู่ด้านนอกสุดของ border?',

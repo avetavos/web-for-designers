@@ -136,6 +136,21 @@ export const spacingCss = `body { font-family: system-ui, sans-serif; }
 เมื่อคุณคุ้นเคยแล้ว ย้ายค่า spacing ของคุณไปไว้ใน CSS custom properties (variables) ที่ด้านบนของ stylesheet: `--space-1: 0.25rem;` ถึง `--space-8: 2rem;` แล้วใช้ `padding: var(--space-4)` ทุกที่ นี่ mirror design tokens ได้พอดีและทำให้การเปลี่ยน spacing ทั่วโลกเป็นการอัปเดตบรรทัดเดียว — เหมือนกับการเปลี่ยนค่า token ใน design tool ของคุณพอดี
 </Tip>
 
+## Common Designer Mistakes
+
+- ใส่ spacing แบบสุ่ม (13px, 22px, 7px) แทนใช้ scale ที่สม่ำเสมอ
+- ไม่ sync spacing scale ระหว่าง Figma กับ code ทำให้ developer ต้อง "เดา" ค่าที่ใกล้เคียงที่สุด
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ระยะห่างที่ดูดี" แต่ developer อยากได้ scale จำกัด (4px, 8px, 16px, 24px...) เพื่อ map เป็น design token/CSS variable ที่ reuse ได้ทั้งระบบ
+
+> 💡 Real World Example
+>
+> Design system ของ Airbnb และ Stripe ใช้ spacing scale แบบ 4px หรือ 8px grid เท่านั้น ทำให้ทุก spacing ในทั้งเว็บ "ไปด้วยกัน" โดยไม่ต้องคิดใหม่ทุกครั้ง
+
 export const quizSpacing = [
   {
     q: 'คุณต้องการ 16px ระหว่างปุ่มใน flex container property ที่ดีที่สุดคือ:',

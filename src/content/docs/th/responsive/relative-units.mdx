@@ -85,6 +85,21 @@ export const relativeUnitsCss = `body {
 หลักปฏิบัติที่ดี: ใช้ `rem` สำหรับ Font Size และ Spacing (padding, margin, gap) ใช้ `%` สำหรับ Width ที่ควรเต็มพื้นที่ Parent สงวน `vw`/`vh` ไว้สำหรับ Section เต็มจอเช่น Hero หรือ Modal หลีกเลี่ยง `px` สำหรับสิ่งที่ควรปรับตามขนาด Text หรือหน้าจอ
 </Tip>
 
+## Common Designer Mistakes
+
+- ใช้ px ทุกที่ ทำให้ user ที่ปรับขนาด font ใน browser ไม่ได้ผล
+- สลับสับสนระหว่าง `rem` (เทียบกับ root) กับ `em` (เทียบกับ parent) ทำให้ nested element ขนาดเพี้ยน
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "ตัวเลข px ที่แน่นอนจาก Figma" แต่ developer ต้องแปลงเป็น rem/% เพื่อให้ layout ยืดหยุ่นตาม user preference และหน้าจอที่ต่างกัน
+
+> 💡 Real World Example
+>
+> เว็บ accessibility-first อย่าง gov.uk ใช้ rem ทั้งเว็บ เพื่อให้ user ที่ตั้งค่า browser font ใหญ่ขึ้น (สำหรับผู้มีปัญหาด้านสายตา) เห็นทุกอย่างขยายตามสัดส่วนถูกต้อง
+
 export const quizRelativeUnits = [
   {
     q: '`width: 50%` ใน CSS หมายความว่าอะไร?',

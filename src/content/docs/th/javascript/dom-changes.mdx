@@ -81,6 +81,21 @@ btn.addEventListener('click', function() {
 JavaScript แค่เพิ่มหรือลบชื่อ class เท่านั้น — ไม่เคยตั้งค่าสีหรือ spacing โดยตรง ความแตกต่างทางภาพทั้งหมดอยู่ใน CSS ของคุณ (`.card` กับ `.card.highlighted`) การแยกส่วนนี้ทำให้ style อยู่ในที่เดียวและ logic อยู่อีกที่หนึ่ง เหมือนกับความสัมพันธ์ระหว่าง component กับ variant ของมันในเครื่องมือออกแบบ
 </Tip>
 
+## Common Designer Mistakes
+
+- design ทุก state (loading, error, success) แยกกันโดยไม่คิดว่า developer ต้อง "เปลี่ยน" DOM เดิมให้กลายเป็น state ใหม่ (ไม่ใช่โหลดหน้าใหม่ทั้งหมด)
+- ลืมออกแบบ transition ระหว่าง state
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "3 หน้าจอแยกกัน" แต่ developer เห็นหน้าจอเดียวที่ต้อง "แก้ไข" content/class ทีละส่วนด้วย JavaScript เพื่อเปลี่ยนจาก state หนึ่งไปอีก state
+
+> 💡 Real World Example
+>
+> Todo list ของ Notion ไม่ reload หน้าเวลาติ๊กเสร็จ แต่ใช้ JavaScript แก้ DOM เฉพาะส่วนนั้น (ขีดทับ + เปลี่ยนสี) ทันที
+
 export const quizDomChanges = [
   {
     q: '`.classList.toggle(\'active\')` ทำอะไร?',

@@ -88,6 +88,21 @@ export const componentsCss = `body { font-family: system-ui, sans-serif; padding
 ถ้าคุณพบว่าตัวเองเขียน CSS เดิมสำหรับปุ่มที่สอง หยุด ดึงออกมาเป็น class `.btn` ถ้าคุณเขียนการ์ดที่สาม ให้แน่ใจว่ามันใช้ class `.card` เดียวกับสองอันแรก การ reuse ใน CSS ไม่ใช่ความขี้เกียจ — มันคือวินัยที่รักษา design system ให้สอดคล้องกัน
 </Tip>
 
+## Common Designer Mistakes
+
+- สร้าง component ใน Figma โดยไม่คิดถึง state ที่จำเป็น (hover, disabled, loading, error)
+- เปลี่ยน component หลักแต่ไม่ update instance ทั้งหมดให้ตรงกัน — developer ก็เจอปัญหาเดียวกันกับ shared component ในโค้ด
+
+## Developer Perspective
+
+### 👨‍💻 What Developers Actually See
+
+Designer เห็น "1 component, หลาย variant" แต่ developer เห็น component เดียวกันที่ต้องเขียน code ให้ครอบคลุมทุก state ที่อาจเกิดขึ้นจริง ไม่ใช่แค่ state ที่ design ไว้
+
+> 💡 Real World Example
+>
+> Design system ของ Atlassian มี component ที่กำหนด state ไว้ครบ (default/hover/active/disabled/loading) ตรงกับ code component จริงทุกตัว
+
 export const quizComponents = [
   {
     q: 'ใน CSS สิ่งใดที่ทำให้ style rule "ใช้ซ้ำได้" ในหลาย elements?',
