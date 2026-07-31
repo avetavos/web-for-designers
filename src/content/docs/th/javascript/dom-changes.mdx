@@ -8,13 +8,13 @@ import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
-ในฐานะ designer คุณคิดเป็น layer และ state อยู่แล้ว — ปุ่มในสถานะปกติ สถานะ hover สถานะ active JavaScript ช่วยให้คุณสลับระหว่างสถานะเหล่านั้นได้แบบ live ในเบราว์เซอร์ ส่วนที่เชื่อมระหว่างโค้ดกับสิ่งที่ผู้ใช้มองเห็นเรียกว่า **DOM**
+ในฐานะ designer คุณคิดเป็น layer และ state อยู่แล้ว — ปุ่มในสถานะปกติ สถานะ hover สถานะ active JavaScript ช่วยให้คุณสลับระหว่างสถานะเหล่านั้นได้แบบ live ใน browser ส่วนที่เชื่อมระหว่างโค้ดกับสิ่งที่ผู้ใช้มองเห็นเรียกว่า **DOM**
 
 ## DOM คืออะไร?
 
-DOM (Document Object Model) คือโมเดลของหน้าเว็บที่อยู่ใน memory ซึ่ง JavaScript อ่านและแก้ไขได้ ลองนึกภาพว่ามันคือ layer tree ใน Figma: ทุก element บนหน้าเว็บมี node ที่สอดคล้องกันใน tree และ JavaScript สามารถอ่านหรือแก้ไข node ใดก็ได้แบบ real time
+DOM (Document Object Model) คือโมเดลของหน้าเว็บที่อยู่ใน memory ซึ่ง JavaScript อ่านและแก้ไขได้ ลองนึกภาพว่าเป็น layer tree ใน Figma: ทุก element บนหน้าเว็บมี node ที่สอดคล้องกันใน tree และ JavaScript สามารถอ่านหรือแก้ไข node ใดก็ได้แบบ real time
 
-เมื่อ JavaScript เปลี่ยน DOM เบราว์เซอร์จะสะท้อนการเปลี่ยนแปลงนั้นบนหน้าจอทันที — ไม่จำเป็นต้อง reload หน้าเว็บ
+เมื่อ JavaScript เปลี่ยน DOM browser จะสะท้อนการเปลี่ยนแปลงนั้นบนหน้าจอทันที — ไม่จำเป็นต้อง reload หน้าเว็บ
 
 ## เทคนิคสองอย่างที่ควรรู้ตั้งแต่เนิ่นๆ
 
@@ -31,8 +31,8 @@ heading.textContent = 'Hello, world!';
 
 Element ยังมี object `.classList` ที่ให้คุณเพิ่ม ลบ หรือ toggle CSS class ได้ `.classList.toggle('class-name')` ทำงานเหมือนสวิตช์ไฟ:
 
-- ถ้า class **ไม่มีอยู่** มันจะเพิ่มเข้าไป
-- ถ้า class **มีอยู่แล้ว** มันจะลบออก
+- ถ้า class **ไม่มีอยู่** จะเพิ่มเข้าไป
+- ถ้า class **มีอยู่แล้ว** จะลบออก
 
 สิ่งนี้ตรงกับการสลับ variant state ใน Figma โดยตรง — element แค่สลับระหว่างสองสไตล์ภาพที่กำหนดไว้ใน CSS ของคุณ
 
@@ -73,26 +73,26 @@ btn.addEventListener('click', function() {
 
 1. `document.querySelector('#card')` ค้นหา card element ด้วย `id` และเก็บ reference ไว้ในตัวแปร `card`
 2. `document.querySelector('#toggleBtn')` ทำแบบเดียวกันสำหรับปุ่ม
-3. `btn.addEventListener('click', function() { ... })` บอกเบราว์เซอร์ให้รัน function ทุกครั้งที่มีการคลิกปุ่ม
+3. `btn.addEventListener('click', function() { ... })` บอก browser ให้รัน function ทุกครั้งที่มีการคลิกปุ่ม
 4. ภายใน function, `card.classList.toggle('highlighted')` จะ flip class เปิดหรือปิด
 5. `card.classList.contains('highlighted')` ตรวจสอบสถานะปัจจุบันเพื่อให้ label ของปุ่มซิงค์กันผ่าน `.textContent`
 
 <Tip title="CSS ทำงานด้านภาพ">
-JavaScript แค่เพิ่มหรือลบชื่อ class เท่านั้น — ไม่เคยตั้งค่าสีหรือ spacing โดยตรง ความแตกต่างทางภาพทั้งหมดอยู่ใน CSS ของคุณ (`.card` กับ `.card.highlighted`) การแยกส่วนนี้ทำให้ style อยู่ในที่เดียวและ logic อยู่อีกที่หนึ่ง เหมือนกับความสัมพันธ์ระหว่าง component กับ variant ของมันในเครื่องมือออกแบบ
+JavaScript แค่เพิ่มหรือลบชื่อ class เท่านั้น — ไม่เคยตั้งค่าสีหรือ spacing โดยตรง ความแตกต่างทางภาพทั้งหมดอยู่ใน CSS ของคุณ (`.card` กับ `.card.highlighted`) การแยกส่วนนี้ทำให้ style อยู่ในที่เดียวและ logic อยู่อีกที่หนึ่ง เหมือนกับความสัมพันธ์ระหว่าง component กับ variant ของตัวเองในเครื่องมือออกแบบ
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - design ทุก state (loading, error, success) แยกกันโดยไม่คิดว่า developer ต้อง "เปลี่ยน" DOM เดิมให้กลายเป็น state ใหม่ (ไม่ใช่โหลดหน้าใหม่ทั้งหมด)
 - ลืมออกแบบ transition ระหว่าง state
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "3 หน้าจอแยกกัน" แต่ developer เห็นหน้าจอเดียวที่ต้อง "แก้ไข" content/class ทีละส่วนด้วย JavaScript เพื่อเปลี่ยนจาก state หนึ่งไปอีก state
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Todo list ของ Notion ไม่ reload หน้าเวลาติ๊กเสร็จ แต่ใช้ JavaScript แก้ DOM เฉพาะส่วนนั้น (ขีดทับ + เปลี่ยนสี) ทันที
 

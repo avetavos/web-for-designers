@@ -16,7 +16,7 @@ export const layerTreeDiagram = `flowchart TD
   Card --> Bio["Bio (Text, regular, 14px, grey)"]
   Card --> View["View Work (Frame, purple fill, white text)"]`;
 
-เปิดดีไซน์ที่คุณสร้างใน Figma มาดูกัน สิ่งที่คุณเห็นคือชุดของ frames, text layers และ shapes ที่ซ้อนกัน ทุกอย่างมีคู่เทียบโดยตรงใน HTML และ CSS การแปลนั้นเป็นเรื่องของกลไกมากกว่าความคิดสร้างสรรค์ — เมื่อคุณรู้การแมปแล้ว มันจะเร็วมาก
+เปิดดีไซน์ที่คุณสร้างใน Figma มาดูกัน สิ่งที่คุณเห็นคือชุดของ frames, text layers และ shapes ที่ซ้อนกัน ทุกอย่างมีคู่เทียบโดยตรงใน HTML และ CSS การแปลนั้นเป็นเรื่องของกลไกมากกว่าความคิดสร้างสรรค์ — เมื่อคุณรู้การแมปแล้ว จะเร็วมาก
 
 ## อ่านดีไซน์ทีละ layer
 
@@ -97,18 +97,18 @@ export const cardCss = `body { font-family: system-ui, sans-serif; padding: 2rem
 เปิด Dev Mode ก่อนเขียน CSS สักบรรทัด คลิกทุก layer ที่คุณต้องการ style และอ่านค่าที่แน่นอน คุณไม่ได้ประมาณ — คุณกำลังคัดลอกสเปคิฟิเคชัน นี่คือวิธีที่ professional handoffs ทำงาน
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ส่งไฟล์ Figma ที่มี layer ตั้งชื่อไม่เป็นระบบ ("Rectangle 47", "Group 12") ทำให้ developer อ่าน intent ไม่ออก
 - ลืม detach/organize component ก่อนส่งงาน handoff
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "ไฟล์ Figma ที่สวย" แต่ developer ต้องแปลทุก layer, spacing, สี เป็น code จริง — ยิ่ง layer ตั้งชื่อดีเท่าไร แปลงานยิ่งเร็วและถูกต้องเท่านั้น
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > ทีม design ที่ Vercel ตั้งชื่อ layer/component ให้ตรงกับชื่อ component จริงในโค้ด (เช่น "Button/Primary") ทำให้ developer handoff เร็วขึ้นมาก
 

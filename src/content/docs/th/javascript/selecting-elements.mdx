@@ -8,15 +8,15 @@ import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
-ลองนึกถึงหน้าเว็บเหมือน Figma file ทุก heading, button, รูปภาพ และย่อหน้าล้วนเป็น layer ที่วางอยู่บน canvas ก่อนที่จะ style หรือ animate อะไรใน Figma ได้ คุณต้องคลิกเลือก layer นั้นก่อน JavaScript ทำงานในแบบเดียวกันทุกประการ — ก่อนที่จะเปลี่ยนแปลงสิ่งใดบนหน้า คุณต้อง **เลือกมัน** ก่อน
+ลองนึกถึงหน้าเว็บเหมือน Figma file ทุก heading, button, รูปภาพ และย่อหน้าล้วนเป็น layer ที่วางอยู่บน canvas ก่อนที่จะ style หรือ animate อะไรใน Figma ได้ คุณต้องคลิกเลือก layer นั้นก่อน JavaScript ทำงานในแบบเดียวกันทุกประการ — ก่อนที่จะเปลี่ยนแปลงสิ่งใดบนหน้า คุณต้อง **เลือก element นั้น** ก่อน
 
 ## `document` คืออะไร?
 
-`document` คือชื่อที่ JavaScript ใช้เรียกหน้าเว็บทั้งหมด มันแทนไฟล์ HTML ทั้งหมดที่ browser โหลดขึ้นมา ทุกครั้งที่ต้องการเข้าถึงหน้าและโต้ตอบกับมัน คุณจะเริ่มต้นจาก `document` เสมอ — เหมือน canvas ใน Figma ที่ทุกอย่างอยู่ข้างใน
+`document` คือชื่อที่ JavaScript ใช้เรียกหน้าเว็บทั้งหมด แทนไฟล์ HTML ทั้งหมดที่ browser โหลดขึ้นมา ทุกครั้งที่ต้องการเข้าถึงและโต้ตอบกับหน้าเว็บ คุณจะเริ่มต้นจาก `document` เสมอ — เหมือน canvas ใน Figma ที่ทุกอย่างอยู่ข้างใน
 
 ## การจับ element ด้วย `querySelector`
 
-`document.querySelector()` คือเครื่องมือหลักสำหรับการเลือก element คุณส่ง **CSS selector** เข้าไป — แบบเดียวกับที่คุณเขียนใน stylesheet อยู่แล้ว — แล้วมันจะคืน **element แรกที่ตรงกัน** ที่หามาได้
+`document.querySelector()` คือเครื่องมือหลักสำหรับการเลือก element คุณส่ง **CSS selector** เข้าไป — แบบเดียวกับที่คุณเขียนใน stylesheet อยู่แล้ว — แล้วจะได้ **element แรกที่ตรงกัน** ที่หามาได้
 
 ```js
 document.querySelector('.card')   // เลือก element แรกที่มี class "card"
@@ -72,20 +72,20 @@ btn.addEventListener('click', function() {
 | ประเภท tag | `button`, `h2`, `p` |
 | Element ที่ซ้อนอยู่ข้างใน | `.card h2` |
 
-CSS selector ที่ถูกต้องทุกรูปแบบใช้ได้ใน `querySelector` ถ้าเลือกเป้าหมายได้ใน stylesheet ก็จับมันได้ใน JavaScript เช่นกัน
+CSS selector ที่ถูกต้องทุกรูปแบบใช้ได้ใน `querySelector` ถ้าเลือกเป้าหมายได้ใน stylesheet ก็จับได้ใน JavaScript เช่นกัน
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ขอให้ developer "ทำให้ทุกปุ่มมีสีนี้" โดยไม่รู้ว่า developer ต้อง "เลือก" element เหล่านั้นก่อนด้วย selector ที่ตรงกับ class/id ที่ตั้งไว้
 - ตั้งชื่อ layer ใน Figma ไม่ตรงกับชื่อ class ที่ developer จะใช้เลือก
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "ทุกปุ่มในหน้านี้" แต่ developer ต้องเขียน code ที่ "หา" element เหล่านั้นก่อนจะแก้ไขหรือเพิ่ม interactivity ได้ (คล้าย "Select all with same style" ใน Figma)
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > ฟีเจอร์ "Select all with same properties" ใน Figma ทำงานคล้าย `querySelectorAll` ใน JavaScript — หา element ทั้งหมดที่ตรงเงื่อนไขเดียวกันมาแก้พร้อมกัน
 

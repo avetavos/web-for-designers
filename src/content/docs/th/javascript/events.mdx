@@ -8,13 +8,13 @@ import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
-ถ้าคุณเคยสร้าง prototype ใน Figma มาก่อน คุณก็เข้าใจแนวคิดหลักของ JavaScript events แล้ว เมื่อคุณตั้งค่า prototype interaction ไว้ว่า "เมื่อผู้ใช้แตะ hotspot นี้ ให้ไปที่ frame X" นั่นคือการอธิบาย trigger และ response JavaScript ทำงานแบบเดียวกันทุกประการ: คุณรอฟังสิ่งที่จะเกิดขึ้น แล้วเมื่อมันเกิด คุณก็รันโค้ด
+ถ้าคุณเคยสร้าง prototype ใน Figma มาก่อน คุณก็เข้าใจแนวคิดหลักของ JavaScript events แล้ว เมื่อคุณตั้งค่า prototype interaction ไว้ว่า "เมื่อผู้ใช้แตะ hotspot นี้ ให้ไปที่ frame X" นั่นคือการอธิบาย trigger และ response JavaScript ทำงานแบบเดียวกันทุกประการ: คุณรอฟังสิ่งที่จะเกิดขึ้น แล้วเมื่อเกิดขึ้นจริง คุณก็รันโค้ด
 
 ## Event คืออะไร?
 
-**Event** คือ ช่วงเวลาที่บางอย่างเกิดขึ้นในเบราว์เซอร์ ผู้ใช้คลิกปุ่ม — นั่นคือ event การกดแป้นพิมพ์ — นั่นก็คือ event การ hover เมาส์เหนือรูปภาพ — ก็เป็น event เช่นกัน
+**Event** คือ ช่วงเวลาที่บางอย่างเกิดขึ้นใน browser ผู้ใช้คลิกปุ่ม — นั่นคือ event การกดแป้นพิมพ์ — นั่นก็คือ event การ hover เมาส์เหนือรูปภาพ — ก็เป็น event เช่นกัน
 
-เบราว์เซอร์กำลังจับตาดูช่วงเวลาเหล่านี้ตลอดเวลา หน้าที่ของคุณในฐานะนักพัฒนาคือบอกเบราว์เซอร์ว่า "เมื่อ *event นี้* เกิดขึ้นบน *element นั้น* ให้รัน *โค้ดนี้*"
+browser กำลังจับตาดูช่วงเวลาเหล่านี้ตลอดเวลา หน้าที่ของคุณในฐานะนักพัฒนาคือบอก browser ว่า "เมื่อ *event นี้* เกิดขึ้นบน *element นั้น* ให้รัน *โค้ดนี้*"
 
 ## addEventListener
 
@@ -33,7 +33,7 @@ btn.addEventListener('click', function() {
 
 ลองนึกถึง `addEventListener` เหมือนกับแผง prototype ใน Figma คุณเลือก element เลือก trigger ("On click") แล้วระบุว่าจะเกิดอะไรขึ้นต่อไป ในที่นี้ trigger คือ `'click'` และ "สิ่งที่จะเกิดขึ้นต่อไป" คือฟังก์ชันที่คุณส่งเข้าไป
 
-ฟังก์ชันที่อยู่ข้างใน `addEventListener` เรียกว่า **callback** เพราะเบราว์เซอร์จะ "โทรกลับ" มาเรียกมันในเวลาที่เหมาะสม — คุณไม่ได้เรียกมันเอง
+ฟังก์ชันที่อยู่ข้างใน `addEventListener` เรียกว่า **callback** เพราะ browser จะ "โทรกลับ" มาเรียกฟังก์ชันนี้ในเวลาที่เหมาะสม — คุณไม่ได้เรียกเอง
 
 ## ปุ่มที่นับจำนวนคลิก
 
@@ -67,7 +67,7 @@ btn.addEventListener('click', function() {
 สังเกตว่า `textContent` ใช้ตัวดำเนินการ `+` เพื่อนำตัวเลขมาต่อกับข้อความรอบข้าง ซึ่งทำให้โค้ดอ่านง่ายและหลีกเลี่ยง syntax พิเศษภายใน string
 
 <Tip title="Handler จะรันทีหลัง ไม่ใช่ทันที">
-เมื่อคุณเขียน `addEventListener('click', function() { ... })` ฟังก์ชันจะ **ไม่รันทันที** มันถูกลงทะเบียนแล้วรอ เบราว์เซอร์จะเรียกมันก็ต่อเมื่อผู้ใช้คลิกจริงๆ เท่านั้น นี่คือความหมายของคำว่า "callback" — เบราว์เซอร์โทรกลับมาหาคุณในเวลาที่เหมาะสม
+เมื่อคุณเขียน `addEventListener('click', function() { ... })` ฟังก์ชันจะ **ไม่รันทันที** แต่ถูกลงทะเบียนไว้รอ browser จะเรียกก็ต่อเมื่อผู้ใช้คลิกจริงๆ เท่านั้น นี่คือความหมายของคำว่า "callback" — browser โทรกลับมาหาคุณในเวลาที่เหมาะสม
 </Tip>
 
 ## เปรียบเทียบกับ Figma
@@ -80,24 +80,24 @@ btn.addEventListener('click', function() {
 
 ใน Figma ทุก prototype interaction คือ: *trigger → action* ใน JavaScript ทุก event listener คือ: *event → callback* แนวคิดเหมือนกันทุกประการ มีแค่ syntax เท่านั้นที่ใหม่
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
-- ออกแบบ interaction โดยลืมนึกถึง "จังหวะ" ที่มันเกิดขึ้น (click, hover, scroll, load)
+- ออกแบบ interaction โดยลืมนึกถึง "จังหวะ" ที่เกิดขึ้น (click, hover, scroll, load)
 - ไม่ระบุใน design ว่า animation ควร trigger ตอนไหน (hover หรือ click)
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "hover แล้วปุ่มเปลี่ยนสี" แต่ developer ต้องเขียน code ที่ "ฟัง" event นั้นโดยเฉพาะ (mouseenter, click, scroll) แล้วค่อยสั่งให้อะไรเกิดขึ้น
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Interaction ของ Linear (เช่น command palette ที่เปิดด้วย Cmd+K) ต้องมีการ "ฟัง" keyboard event เฉพาะเจาะจงที่ designer ต้องระบุให้ developer รู้ล่วงหน้า
 
 export const quizEvents = [
   {
-    q: '"event" ในเบราว์เซอร์คืออะไร?',
+    q: '"event" ใน browser คืออะไร?',
     options: ['CSS animation', 'ช่วงเวลาที่บางอย่างเกิดขึ้น เช่น การคลิกหรือการกดแป้น', 'HTML attribute', 'ประเภทของตัวแปร'],
     answer: 1,
   },

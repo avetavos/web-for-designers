@@ -82,7 +82,7 @@ border: 1px solid #e2e8f0;
 border-radius: 4px;
 ```
 
-หลีกเลี่ยง `px` สำหรับ font size และ spacing เพราะมันไม่สนใจการตั้งค่า font ของ browser ผู้ใช้ ซึ่งกระทบ accessibility
+หลีกเลี่ยง `px` สำหรับ font size และ spacing เพราะไม่สนใจการตั้งค่า font ของ browser ผู้ใช้ ซึ่งกระทบ accessibility
 
 ### rem — สัมพันธ์กับ root font size
 
@@ -313,19 +313,19 @@ code {
 ใช้ HSL เมื่อต้องการสร้างสีที่อ่อนกว่า เข้มกว่า หรือหม่นกว่า เพียงแค่เปลี่ยนค่า L (lightness) หรือ S (saturation) Hex และ RGB เหมาะสำหรับ copy-paste ค่าที่แม่นยำจาก Figma แต่ HSL อ่านเข้าใจง่ายกว่ามากเมื่อต้องสร้าง color scale ทั้งชุด
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ใช้ px ทุกที่แม้แต่ font-size ทั้งที่ควรใช้ rem เพื่อรองรับ user ที่ปรับขนาด font ของ browser
 - ใส่สีจาก Figma เป็น RGB โดยไม่เผื่อ opacity/alpha
 - ไม่ตรวจสอบว่าสีเดียวกัน render ต่างกันบนจอแต่ละแบบ
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "ค่าสีและตัวเลข" ตายตัว แต่ developer ต้องเลือกหน่วย (px/rem/%/vw) ที่เหมาะกับแต่ละ property เพื่อให้ responsive ทำงานถูกต้อง
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Tailwind CSS (ที่ทีมอย่าง Airbnb และ Linear ใช้ภายใน) กำหนด spacing และ color scale เป็นชุดค่าคงที่ที่ตรงกับ design token ใน Figma
 

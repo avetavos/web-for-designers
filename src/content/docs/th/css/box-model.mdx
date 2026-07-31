@@ -10,7 +10,7 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
 ถ้ามี mental model อย่างเดียวที่คุณต้องจำก่อนจะเขียน CSS อีกบรรทัด นั่นคือ: **ทุก HTML element คือกล่องสี่เหลี่ยม** ไม่ใช่แค่บางครั้ง — แต่ทุกครั้ง ไม่ว่าจะเป็น heading, button, รูปภาพ หรือ `<div>` ที่มองไม่เห็น — ทั้งหมดคือกล่อง และทุกกล่องสร้างจากสี่ชั้นเหมือนกัน เรียงจากในออกนอก
 
-คุณรู้จักชั้นเหล่านี้แล้วจาก Figma CSS แค่ตั้งชื่อให้มันเท่านั้นเอง
+คุณรู้จักชั้นเหล่านี้แล้วจาก Figma CSS แค่ตั้งชื่อให้เท่านั้นเอง
 
 ## สี่ชั้นของ Box Model
 
@@ -50,7 +50,7 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
 ### 4. Margin
 
-ช่องว่าง**ภายนอก**กล่อง ผลัก element เพื่อนบ้านออกไป ส่วนนี้ไม่ใช่พื้นที่แสดงผลของ element — มันคือช่องว่างล่องหนระหว่างกล่อง นึกถึง gap ระหว่าง frame ใน Figma
+ช่องว่าง**ภายนอก**กล่อง ผลัก element เพื่อนบ้านออกไป ส่วนนี้ไม่ใช่พื้นที่แสดงผลของ element — แต่เป็นช่องว่างล่องหนระหว่างกล่อง นึกถึง gap ระหว่าง frame ใน Figma
 
 ```css
 .card {
@@ -157,22 +157,22 @@ export const boxModelCss = `body {
 ลองแก้ไข CSS: เพิ่ม `padding` ของ `.box`, เปลี่ยนความหนา `border` หรือปรับ `width` ด้วย `box-sizing: border-box` ที่ตั้งไว้ ขอบนอกของ `.box` จะอยู่ที่ 320px เสมอ — content area จะหดเล็กลงเพื่อรับการเปลี่ยนแปลง
 
 <Tip title="เพิ่ม box-sizing: border-box ในทุก project">
-เพิ่ม `box-sizing: border-box` ใน global styles ของทุก project เสมอ มันทำให้การกำหนดขนาด element คาดเดาได้และตรงกับพฤติกรรม default ของ design tool ส่วนใหญ่ รวมถึง Figma ถ้าไม่มีมัน การเพิ่ม padding ให้ element ที่กำหนดขนาดไว้จะทำให้ layout พังในแบบที่ debug ยาก
+เพิ่ม `box-sizing: border-box` ใน global styles ของทุก project เสมอ ทำให้การกำหนดขนาด element คาดเดาได้และตรงกับพฤติกรรม default ของ design tool ส่วนใหญ่ รวมถึง Figma ถ้าไม่มีบรรทัดนี้ การเพิ่ม padding ให้ element ที่กำหนดขนาดไว้จะทำให้ layout พังในแบบที่ debug ยาก
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - บอก developer ว่า "กว้าง 300px" โดยไม่ระบุว่ารวม padding/border หรือไม่
 - ลืมว่า margin สองฝั่งอาจ collapse กัน
 - ไม่คิดถึง box-sizing ตอนวัดขนาดใน Figma
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "กรอบสี่เหลี่ยมหนึ่งกรอบ" แต่ developer เห็นสี่ชั้นซ้อนกัน (content, padding, border, margin) ที่ต้องรวมกันให้ได้ขนาดสุดท้ายตรงกับ Figma
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Figma's Inspect panel แสดง padding/margin ที่ map ตรงกับ CSS box model เป๊ะ ช่วยให้ developer copy ค่าไปใช้ได้ทันที
 

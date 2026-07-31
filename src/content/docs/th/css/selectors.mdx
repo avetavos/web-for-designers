@@ -8,7 +8,7 @@ import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
-ก่อนที่ CSS จะสไตล์อะไรได้ มันต้องรู้ก่อนว่า *กำลังจะสไตล์อะไร* กลไกที่ใช้ระบุเป้าหมายนั้นเรียกว่า **selector** คุณเขียน selector ไว้หน้าวงเล็บปีกกา แล้ว browser จะนำสไตล์ข้างในไปใส่ให้ทุก element ที่ตรงกัน
+ก่อนที่ CSS จะสไตล์อะไรได้ ต้องรู้ก่อนว่า *กำลังจะสไตล์อะไร* กลไกที่ใช้ระบุเป้าหมายนั้นเรียกว่า **selector** คุณเขียน selector ไว้หน้าวงเล็บปีกกา แล้ว browser จะนำสไตล์ข้างในไปใส่ให้ทุก element ที่ตรงกัน
 
 selector พื้นฐานมีสามแบบที่ดีไซเนอร์ทุกคนควรรู้ แต่ละแบบสอดคล้องกับสิ่งที่คุณใช้อยู่แล้วใน Figma
 
@@ -18,7 +18,7 @@ selector พื้นฐานมีสามแบบที่ดีไซเ�
 p { color: gray; }
 ```
 
-**Element selector** ใช้ชื่อแท็กโดยตรง ไม่มีสัญลักษณ์นำหน้า มันจะจับคู่กับ *ทุก* element ประเภทนั้นในหน้า การเขียน `h2 { }` ก็เหมือนกับการเข้าไปใน Figma แล้วเปลี่ยน text style ให้ทุก layer ที่ใช้ style เดียวกัน — กฎเดียว เปลี่ยนทั้งหมดทันที
+**Element selector** ใช้ชื่อแท็กโดยตรง ไม่มีสัญลักษณ์นำหน้า จะจับคู่กับ *ทุก* element ประเภทนั้นในหน้า การเขียน `h2 { }` ก็เหมือนกับการเข้าไปใน Figma แล้วเปลี่ยน text style ให้ทุก layer ที่ใช้ style เดียวกัน — กฎเดียว เปลี่ยนทั้งหมดทันที
 
 ใช้ element selector สำหรับค่าเริ่มต้น เช่น font ของ body ขนาด heading หรือสีของ link
 
@@ -28,7 +28,7 @@ p { color: gray; }
 .card { background: white; border-radius: 12px; }
 ```
 
-**Class selector** ขึ้นต้นด้วยจุด (`.`) มันจับคู่กับทุก element ที่มี attribute `class` ตรงกัน class เดียวกันจะใส่ให้ element ไหนก็ได้กี่ตัวก็ได้ — `<div class="card">`, `<section class="card">`, `<article class="card">` — ทุกตัวได้รับสไตล์เดียวกัน
+**Class selector** ขึ้นต้นด้วยจุด (`.`) และจับคู่กับทุก element ที่มี attribute `class` ตรงกัน class เดียวกันจะใส่ให้ element ไหนก็ได้กี่ตัวก็ได้ — `<div class="card">`, `<section class="card">`, `<article class="card">` — ทุกตัวได้รับสไตล์เดียวกัน
 
 นี่คือสิ่งที่ใกล้เคียงที่สุดกับ **component หรือ shared style ใน Figma** ในโลก CSS: กำหนดหน้าตาครั้งเดียว แล้วนำไปใช้ซ้ำได้ทุกที่ คุณยังสามารถซ้อน class หลายอันบน element เดียวได้:
 
@@ -44,7 +44,7 @@ element นั้นจะได้รับสไตล์จากทั้ง
 #hero { background: #7C3AED; color: white; }
 ```
 
-**ID selector** ขึ้นต้นด้วย `#` มันจับคู่กับ *element เดียว* ที่มี attribute `id` ตรงกัน ID ต้องไม่ซ้ำกันในหน้าเดียว — มีได้แค่ element เดียวที่ใช้ id นั้น ลองนึกถึง layer ที่ตั้งชื่อเฉพาะและมีชิ้นเดียวบน canvas Figma ของคุณ ใช้ ID สำหรับสิ่งที่ไม่ซ้ำจริงๆ เช่น hero section หลัก, navigation, หรือ footer
+**ID selector** ขึ้นต้นด้วย `#` และจับคู่กับ *element เดียว* ที่มี attribute `id` ตรงกัน ID ต้องไม่ซ้ำกันในหน้าเดียว — มีได้แค่ element เดียวที่ใช้ id นั้น ลองนึกถึง layer ที่ตั้งชื่อเฉพาะและมีชิ้นเดียวบน canvas Figma ของคุณ ใช้ ID สำหรับสิ่งที่ไม่ซ้ำจริงๆ เช่น hero section หลัก, navigation, หรือ footer
 
 ## สรุปเปรียบเทียบกับ Figma
 
@@ -107,24 +107,24 @@ h2 {
 
 <LivePreview client:visible html={selectorsHtml} css={selectorsCss} />
 
-ลองเพิ่ม element ที่สองด้วย `id="hero"` แล้วสังเกตว่า CSS ยังคงสไตล์มัน — แต่โดยหลักการแล้ว ID ควรไม่ซ้ำกัน จากนั้นลองเพิ่ม class ใหม่ชื่อ `secondary` ให้การ์ดใบหนึ่ง แล้วเขียน rule `.secondary { }` เพื่อให้มี border color ที่ต่างออกไป
+ลองเพิ่ม element ที่สองด้วย `id="hero"` แล้วสังเกตว่า CSS ยังคงสไตล์ให้อยู่ — แต่โดยหลักการแล้ว ID ควรไม่ซ้ำกัน จากนั้นลองเพิ่ม class ใหม่ชื่อ `secondary` ให้การ์ดใบหนึ่ง แล้วเขียน rule `.secondary { }` เพื่อให้มี border color ที่ต่างออกไป
 
 <Tip title="Class คือ selector ที่คุณจะใช้บ่อยที่สุด">
-Class คือ selector ที่คุณจะใช้บ่อยที่สุด ลองนึกถึงมันเหมือน component variant ใน Figma — กำหนดสไตล์ครั้งเดียว ใช้ได้กับ element เท่าไหร่ก็ได้ ส่วน ID นั้นดี แต่ควรเก็บไว้สำหรับสิ่งที่ปรากฏแค่ครั้งเดียวในหน้าจริงๆ
+Class คือ selector ที่คุณจะใช้บ่อยที่สุด ลองนึกถึง class เหมือน component variant ใน Figma — กำหนดสไตล์ครั้งเดียว ใช้ได้กับ element เท่าไหร่ก็ได้ ส่วน ID นั้นดี แต่ควรเก็บไว้สำหรับสิ่งที่ปรากฏแค่ครั้งเดียวในหน้าจริงๆ
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ตั้งชื่อ class ตาม "ลักษณะที่เห็น" เช่น `.red-button` แทนความหมาย เช่น `.btn-danger` ทำให้พังเมื่อเปลี่ยนสี
 - ใช้ id selector มากเกินไปทำให้ override ยาก
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "component ที่ตั้งชื่อใน Figma" แต่ developer แปลชื่อ layer เป็น class name ที่สื่อความหมายและ reuse ได้ข้าม component
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Shopify Polaris design system ตั้งชื่อ class ตาม role (`.Polaris-Button--primary`) ไม่ใช่ตามสี ทำให้เปลี่ยน theme ได้โดยไม่ต้องแก้ชื่อ class
 

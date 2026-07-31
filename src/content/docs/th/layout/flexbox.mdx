@@ -8,9 +8,9 @@ import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
-ถ้าคุณเคยใช้ **Auto Layout** ใน Figma คุณเข้าใจ Flexbox แล้ว พวกมันทำงานบนแนวคิดเดียวกันพอดี: container พ่อแม่ควบคุมวิธีการจัดเรียง children ตามแกนเดียว คุณตั้งกฎบน parent และ children ก็ทำตาม
+ถ้าคุณเคยใช้ **Auto Layout** ใน Figma คุณเข้าใจ Flexbox แล้ว ทั้งสองทำงานบนแนวคิดเดียวกันพอดี: container พ่อแม่ควบคุมวิธีการจัดเรียง children ตามแกนเดียว คุณตั้งกฎบน parent และ children ก็ทำตาม
 
-ความแตกต่างเดียวคือ syntax มาดูการแมปจากสิ่งที่คุณรู้แล้วกับสิ่งที่ CSS เรียกมัน
+ความแตกต่างเดียวคือ syntax มาดูการแมปจากสิ่งที่คุณรู้แล้วไปยังชื่อที่ CSS ใช้เรียก
 
 ## การแปล Figma → CSS
 
@@ -34,7 +34,7 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 - `row` — ซ้ายไปขวา (ค่าเริ่มต้น)
 - `column` — บนลงล่าง
 
-**`justify-content`** — children กระจายตัวอย่างไรตาม *main axis* (ทิศทางที่พวกมันไหล)?
+**`justify-content`** — children กระจายตัวอย่างไรตาม *main axis* (ทิศทางที่ children ไหลไป)?
 - `flex-start` / `flex-end` / `center` / `space-between` / `space-around` / `space-evenly`
 
 **`align-items`** — children จัดแนวอย่างไรบน *cross axis* (ตั้งฉากกับการไหล)?
@@ -122,19 +122,19 @@ export const flexboxCss = `.nav {
 `justify-content` ทำงานตามทิศทางที่ไอเทมไหล (main axis) เสมอ `align-items` ทำงาน *ตั้งฉาก* กับทิศทางนั้น (cross axis) ในภาษา Figma: ถ้า auto-layout ของคุณเป็นแนวนอน `justify-content` คือการจัดแนวนอนและ `align-items` คือการจัดแนวตั้ง เปลี่ยนทิศทางและทั้งสองก็เปลี่ยนตาม
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ลืมตั้ง `flex-wrap` ทำให้ layout overflow บนจอเล็ก
 - ใช้ margin แทน `gap` ทำให้ระยะห่างไม่สม่ำเสมอตอน item ถูกเพิ่มหรือลบ
 - สลับสับสนระหว่าง main axis กับ cross axis เวลาเปลี่ยน `flex-direction`
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "Auto Layout เหมือนใน Figma" แต่ developer ต้องแปลทุก setting (direction, gap, alignment) เป็น property คนละตัวและเทสต์ที่ content length ต่างกันด้วย
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Linear ใช้ Flexbox แทบทุกจุดของ UI (sidebar, list items) เพราะ Auto Layout แบบ Figma แปลงเป็น Flexbox ได้ตรงที่สุด
 

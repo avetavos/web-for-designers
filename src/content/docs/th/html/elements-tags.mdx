@@ -8,7 +8,7 @@ import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
-เนื้อหาทุกชิ้นบนหน้าเว็บ — ไม่ว่าจะเป็นหัวข้อ ย่อหน้า รูปภาพ หรือปุ่ม — ล้วนถูกห่อหุ้มอยู่ใน **element** ลองนึกถึง element เหมือนกล่องที่มีป้ายกำกับ ป้ายนั้นบอกเบราว์เซอร์ (รวมถึง screen reader และ search engine) ว่า *เนื้อหาข้างในเป็นชนิดไหน*
+เนื้อหาทุกชิ้นบนหน้าเว็บ — ไม่ว่าจะเป็นหัวข้อ ย่อหน้า รูปภาพ หรือปุ่ม — ล้วนถูกห่อหุ้มอยู่ใน **element** ลองนึกถึง element เหมือนกล่องที่มีป้ายกำกับ ป้ายนั้นบอก browser (รวมถึง screen reader และ search engine) ว่า *เนื้อหาข้างในเป็นชนิดไหน*
 
 คุณเขียน element โดยใช้ **tag** ซึ่งก็คือป้ายกำกับคู่หนึ่งที่อยู่ในเครื่องหมายมุม (angle bracket) ห่อเนื้อหาของคุณเอาไว้ element ส่วนใหญ่มี **opening tag** และ **closing tag** (closing tag จะเพิ่มเครื่องหมาย slash เข้าไป) บาง element พิเศษ เช่น รูปภาพ เป็นแบบ self-closing — เพราะไม่มีเนื้อหาข้อความให้ห่อ จึงไม่มีอะไรต้องครอบ
 
@@ -18,18 +18,18 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 <tagname attribute="value">Content goes here</tagname>
 ```
 
-**opening tag** สามารถพกพาข้อมูลเพิ่มเติมที่เรียกว่า **attribute** ได้ — ลองนึกว่ามันคือการตั้งค่าหรือ property ของ element นั้น เช่น ลิงก์จำเป็นต้องรู้ว่าจะ *ไปที่ไหน* และรูปภาพจำเป็นต้องรู้ว่า *ไฟล์อยู่ที่ไหน* ค่าพวกนี้อยู่ใน attribute
+**opening tag** สามารถพกพาข้อมูลเพิ่มเติมที่เรียกว่า **attribute** ได้ — ลองนึกว่าเป็นการตั้งค่าหรือ property ของ element นั้น เช่น ลิงก์จำเป็นต้องรู้ว่าจะ *ไปที่ไหน* และรูปภาพจำเป็นต้องรู้ว่า *ไฟล์อยู่ที่ไหน* ค่าพวกนี้อยู่ใน attribute
 
 ```
 <a href="https://example.com">Visit this site</a>
 <img src="photo.jpg" alt="A description of the photo" />
 ```
 
-สังเกตว่า tag ของรูปภาพลงท้ายด้วย `/>` — มันเป็นแบบ self-closing เพราะไม่มีเนื้อหาข้อความให้ห่อ
+สังเกตว่า tag ของรูปภาพลงท้ายด้วย `/>` — เป็นแบบ self-closing เพราะไม่มีเนื้อหาข้อความให้ห่อ
 
 ## โครงกระดูกของหน้าเว็บ
 
-เอกสาร HTML ทุกฉบับทำตามโครงสร้างมาตรฐานเดียวกัน มันเหมือนเทมเพลตของไฟล์ดีไซน์ — กรอบนอกชุดเดิมทุกครั้ง แล้วใส่เนื้อหาเฉพาะของคุณเข้าไปข้างใน
+เอกสาร HTML ทุกฉบับทำตามโครงสร้างมาตรฐานเดียวกัน เหมือนเทมเพลตของไฟล์ดีไซน์ — กรอบนอกชุดเดิมทุกครั้ง แล้วใส่เนื้อหาเฉพาะของคุณเข้าไปข้างใน
 
 ```html
 <!doctype html>
@@ -44,14 +44,14 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 </html>
 ```
 
-- `<!doctype html>` — คำสั่งบรรทัดเดียวที่บอกเบราว์เซอร์ว่า "นี่คือไฟล์ HTML สมัยใหม่" ต้องอยู่บรรทัดแรกสุดเสมอ
+- `<!doctype html>` — คำสั่งบรรทัดเดียวที่บอก browser ว่า "นี่คือไฟล์ HTML สมัยใหม่" ต้องอยู่บรรทัดแรกสุดเสมอ
 - `<html>` — container นอกสุด เหมือน canvas ใน Figma
-- `<head>` — metadata ที่มองไม่เห็น เช่น ชื่อหน้าเว็บ, character encoding, ลิงก์ไปยังไฟล์ CSS ลองนึกว่ามันคือแผง "document settings"
+- `<head>` — metadata ที่มองไม่เห็น เช่น ชื่อหน้าเว็บ, character encoding, ลิงก์ไปยังไฟล์ CSS ลองนึกว่าเป็นแผง "document settings"
 - `<body>` — ทุกอย่างที่ผู้ใช้ *มองเห็น* จริง ๆ อยู่ตรงนี้
 
 ## การซ้อน (Nesting)
 
-element สามารถอยู่ภายใน element อื่นได้ — เรียกว่าการ **nesting** กฎนั้นง่ายมาก คือต้องปิด element ด้านในให้เรียบร้อยก่อนปิด element ด้านนอกเสมอ พูดในภาษา Figma ก็คือ text layer ต้องอยู่ภายใน parent frame ของมันทั้งหมด คุณจะปล่อยให้มันเหลื่อมออกไปบางส่วนไม่ได้
+element สามารถอยู่ภายใน element อื่นได้ — เรียกว่าการ **nesting** กฎนั้นง่ายมาก คือต้องปิด element ด้านในให้เรียบร้อยก่อนปิด element ด้านนอกเสมอ พูดในภาษา Figma ก็คือ text layer ต้องอยู่ภายใน parent frame ของตัวเองทั้งหมด คุณจะปล่อยให้เหลื่อมออกไปบางส่วนไม่ได้
 
 export const nestingHtml = `<div>
   <h2>My design portfolio</h2>
@@ -64,25 +64,25 @@ div { border: 2px dashed #d8b4fe; padding: 1rem; border-radius: 8px; }`;
 
 <LivePreview client:visible html={nestingHtml} css={nestingCss} />
 
-ลองเปลี่ยน `<h2>` เป็น `<h3>` หรือเพิ่ม `<p>` อีกอันใต้อันแรก สังเกตว่าเบราว์เซอร์เรียง block element ซ้อนต่อกันลงมา เหมือน auto-layout ใน frame แนวตั้งเลย
+ลองเปลี่ยน `<h2>` เป็น `<h3>` หรือเพิ่ม `<p>` อีกอันใต้อันแรก สังเกตว่า browser เรียง block element ซ้อนต่อกันลงมา เหมือน auto-layout ใน frame แนวตั้งเลย
 
 <Tip title="การย่อหน้าคือเพื่อนของคุณ">
-ย่อหน้า element ที่ซ้อนกันด้วยช่องว่างสองช่อง (หรือ tab) มันไม่มีผลต่อวิธีที่เบราว์เซอร์อ่านไฟล์ แต่ทำให้มองเห็นโครงสร้างได้ทันที — เหมือนการตั้งชื่อและจัดกลุ่ม layer ใน Figma ให้เป็นระเบียบ โค้ดที่อ่านยากคือโค้ดที่แก้ยาก
+ย่อหน้า element ที่ซ้อนกันด้วยช่องว่างสองช่อง (หรือ tab) ไม่มีผลต่อวิธีที่ browser อ่านไฟล์ แต่ทำให้มองเห็นโครงสร้างได้ทันที — เหมือนการตั้งชื่อและจัดกลุ่ม layer ใน Figma ให้เป็นระเบียบ โค้ดที่อ่านยากคือโค้ดที่แก้ยาก
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ใช้ `<div>` แทน element ที่มีความหมาย เช่นใช้ div ทำปุ่มแทน `<button>`
 - เปิด tag แต่ลืมปิด
 - nest element ผิดกฎ (เช่น `<p>` ซ้อนใน `<p>`)
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "กล่องสี่เหลี่ยม" ธรรมดา แต่ developer เห็นว่า tag ที่ถูกต้องให้ default behavior มาฟรี (button กด Enter ได้, รับ keyboard focus ได้) โดยไม่ต้องเขียน code เพิ่ม
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Linear ใช้ semantic `<button>` ทุกที่ที่ควรเป็นปุ่ม ทำให้ keyboard shortcut ทำงานได้ทันทีโดยไม่ต้องเขียน JavaScript เพิ่ม
 

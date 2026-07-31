@@ -8,9 +8,9 @@ import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
-คุณคงเคยใช้ `<div>` เพื่อจัดกลุ่มสิ่งต่าง ๆ — มันเป็น container ที่เป็นกลาง ไม่มีความหมายในตัวเอง HTML ยังมีชุดของ container ที่ *มี* ความหมายให้คุณด้วย พวกมันเรียกว่า **semantic element** และจับคู่ได้แทบจะสมบูรณ์แบบกับ region ที่คุณกำหนดไว้อยู่แล้วในดีไซน์ Figma ของคุณ
+คุณคงเคยใช้ `<div>` เพื่อจัดกลุ่มสิ่งต่าง ๆ — เป็น container ที่เป็นกลาง ไม่มีความหมายในตัวเอง HTML ยังมีชุดของ container ที่ *มี* ความหมายให้คุณด้วย container กลุ่มนี้เรียกว่า **semantic element** และจับคู่ได้แทบจะสมบูรณ์แบบกับ region ที่คุณกำหนดไว้อยู่แล้วในดีไซน์ Figma ของคุณ
 
-"Semantic" แปลว่า "มีความหมาย" นั่นแหละ เมื่อคุณใช้ `<header>` แทน `<div class="header">` ทั้งเบราว์เซอร์ screen reader และ search engine ต่างเข้าใจว่า region นั้น *คืออะไร* — ไม่ใช่แค่ว่ามันหน้าตาเป็นอย่างไร
+"Semantic" แปลว่า "มีความหมาย" นั่นแหละ เมื่อคุณใช้ `<header>` แทน `<div class="header">` ทั้ง browser screen reader และ search engine ต่างเข้าใจว่า region นั้น *คืออะไร* — ไม่ใช่แค่ว่าหน้าตาเป็นอย่างไร
 
 ## region หลัก ๆ
 
@@ -24,10 +24,10 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 | `<aside>` | เนื้อหาที่เกี่ยวข้องทางอ้อมกับเนื้อหาหลัก — sidebar หรือ callout | frame ของ sidebar |
 | `<footer>` | เนื้อหาปิดท้าย — ลิขสิทธิ์ ลิงก์รอง ข้อมูลติดต่อ | frame ด้านล่าง |
 
-## ทำไมมันถึงสำคัญ
+## ทำไมถึงสำคัญ
 
 1. **Screen reader** ใช้ landmark เหล่านี้เพื่อให้ผู้ใช้กระโดดตรงไปยังเนื้อหา `<main>` ได้เลย โดยข้าม header และ nav ในทุกหน้า นั่นคือการปรับปรุง usability ครั้งใหญ่สำหรับผู้ใช้ที่ตาบอด
-2. **Search engine** เข้าใจว่าเนื้อหาใน `<article>` คือข้อความหลักของหน้า และให้น้ำหนักกับมันตามนั้น
+2. **Search engine** เข้าใจว่าเนื้อหาใน `<article>` คือข้อความหลักของหน้า และให้น้ำหนักตามนั้น
 3. **ทีมของคุณเอง** สามารถอ่าน HTML แล้วเข้าใจ layout ของหน้าได้ในพริบตา โดยไม่ต้องไปถอดรหัสจากชื่อ class
 
 export const semanticHtml = `<header>
@@ -72,21 +72,21 @@ footer { background: #F3F4F6; padding: 0.75rem 1rem; text-align: center; color: 
 ดูสิว่าแต่ละ region จับคู่กับ element ที่มีชื่อได้ชัดเจนแค่ไหน ลองเปลี่ยน `<section>` เป็น `<div>` ดู — หน้าเว็บจะดูเหมือนเดิมเป๊ะ แต่ความหมายหายไปแล้ว ความแตกต่างที่มองไม่เห็นนี่แหละคือหัวใจของ semantics
 
 <Tip title="คิดเป็น landmark ไม่ใช่แค่กล่อง">
-เวลาคุณออกแบบหน้าใน Figma คุณก็แบ่งมันออกเป็น region ที่มีชื่ออยู่แล้ว เช่น header, hero, feature section, testimonials, footer เมื่อคุณส่งดีไซน์นั้นต่อให้นักพัฒนา — หรือเขียน HTML เอง — เป้าหมายคือแปล region เหล่านั้นให้เป็น semantic element โดยตรง ไม่ใช่กอง `<div>` ทั่ว ๆ ไป แต่เป็น container ที่มีชื่อและมีจุดประสงค์ ที่ตรงกับสิ่งที่แต่ละ region *เป็น* จริง ๆ
+เวลาคุณออกแบบหน้าใน Figma คุณก็แบ่งหน้าออกเป็น region ที่มีชื่ออยู่แล้ว เช่น header, hero, feature section, testimonials, footer เมื่อคุณส่งดีไซน์นั้นต่อให้นักพัฒนา — หรือเขียน HTML เอง — เป้าหมายคือแปล region เหล่านั้นให้เป็น semantic element โดยตรง ไม่ใช่กอง `<div>` ทั่ว ๆ ไป แต่เป็น container ที่มีชื่อและมีจุดประสงค์ ที่ตรงกับสิ่งที่แต่ละ region *เป็น* จริง ๆ
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ใช้ `<div>` ทุกที่แทน `<header>`/`<nav>`/`<main>`/`<footer>`
 - ใส่ heading (h1-h6) ตาม "ขนาดตัวอักษรที่อยากได้" แทนตาม hierarchy จริงของเนื้อหา
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "ส่วนบน ส่วนกลาง ส่วนล่าง" แต่ developer เห็นว่า semantic tag ให้ screen reader และ SEO เข้าใจโครงสร้างเพจได้โดยไม่ต้องอ่าน CSS เลย
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Medium ใช้ `<article>` และ `<header>` ที่ชัดเจน ทำให้ browser reader mode ดึงเนื้อหาบทความออกมาแสดงได้อัตโนมัติ
 
@@ -99,10 +99,10 @@ export const quizSemantic = [
   {
     q: 'ประโยชน์หลักของการใช้ <nav> แทน <div class="nav"> คืออะไร?',
     options: [
-      'มันเพิ่ม bullet point ให้ลิงก์โดยอัตโนมัติ',
-      'มันบอกเบราว์เซอร์ screen reader และ search engine ว่านี่คือ region ของ navigation',
-      'มันทำให้ลิงก์เปิดในแท็บใหม่',
-      'มันทำให้ไม่จำเป็นต้องใช้ CSS',
+      'เพิ่ม bullet point ให้ลิงก์โดยอัตโนมัติ',
+      'บอก browser screen reader และ search engine ว่านี่คือ region ของ navigation',
+      'ทำให้ลิงก์เปิดในแท็บใหม่',
+      'ทำให้ไม่จำเป็นต้องใช้ CSS',
     ],
     answer: 1,
   },

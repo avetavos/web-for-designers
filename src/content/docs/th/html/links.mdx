@@ -8,9 +8,9 @@ import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
-ลิงก์คือเส้นใยที่ถักทอเว็บขึ้นมา ทุก navigation bar ทุกปุ่ม call-to-action ทุกข้อความ "อ่านเพิ่มเติม" — ภายใต้พื้นผิวแล้ว มันคือ HTML element เดียวกันทั้งหมด นั่นคือ `<a>` หรือ **anchor element**
+ลิงก์คือเส้นใยที่ถักทอเว็บขึ้นมา ทุก navigation bar ทุกปุ่ม call-to-action ทุกข้อความ "อ่านเพิ่มเติม" — ภายใต้พื้นผิวแล้วล้วนเป็น HTML element เดียวกันทั้งหมด นั่นคือ `<a>` หรือ **anchor element**
 
-ลองนึกถึงลิงก์เหมือน prototype connection ใน Figma คุณกำหนดต้นทาง (ข้อความหรือรูปภาพสักชิ้น) ปลายทาง (URL หรือ frame อื่น) แล้วเบราว์เซอร์จัดการ transition ให้เมื่อผู้ใช้คลิก
+ลองนึกถึงลิงก์เหมือน prototype connection ใน Figma คุณกำหนดต้นทาง (ข้อความหรือรูปภาพสักชิ้น) ปลายทาง (URL หรือ frame อื่น) แล้ว browser จัดการ transition ให้เมื่อผู้ใช้คลิก
 
 ## Anchor element
 
@@ -45,7 +45,7 @@ attribute `href` — ย่อมาจาก *hypertext reference* — เก�
 
 ## การเปิดในแท็บใหม่
 
-เพิ่ม `target="_blank"` เพื่อเปิดลิงก์ในแท็บใหม่ของเบราว์เซอร์ แทนที่จะออกจากหน้าปัจจุบัน วิธีนี้นิยมใช้กับลิงก์ไปยังเว็บไซต์ภายนอก เพื่อให้ผู้ใช้ไม่หลุดจากตำแหน่งที่ค้างอยู่:
+เพิ่ม `target="_blank"` เพื่อเปิดลิงก์ในแท็บใหม่ของ browser แทนที่จะออกจากหน้าปัจจุบัน วิธีนี้นิยมใช้กับลิงก์ไปยังเว็บไซต์ภายนอก เพื่อให้ผู้ใช้ไม่หลุดจากตำแหน่งที่ค้างอยู่:
 
 ```html
 <a href="https://figma.com" target="_blank" rel="noopener noreferrer">
@@ -53,7 +53,7 @@ attribute `href` — ย่อมาจาก *hypertext reference* — เก�
 </a>
 ```
 
-ใส่ `rel="noopener noreferrer"` ควบคู่ไปกับ `target="_blank"` เสมอ — มันคือการเพิ่มความปลอดภัยเล็ก ๆ น้อย ๆ ที่ไม่มีต้นทุนอะไรเลย
+ใส่ `rel="noopener noreferrer"` ควบคู่ไปกับ `target="_blank"` เสมอ — เป็นการเพิ่มความปลอดภัยเล็ก ๆ น้อย ๆ ที่ไม่มีต้นทุนอะไรเลย
 
 export const linksHtml = `<nav>
   <a href="#">Home</a>
@@ -79,19 +79,19 @@ a:hover { text-decoration: underline; }`;
 หลีกเลี่ยงข้อความลิงก์อย่าง "click here" หรือ "read more" ผู้ใช้ screen reader มักนำทางในหน้าเว็บด้วยการกระโดดข้ามระหว่างลิงก์ — พวกเขาได้ยินเฉพาะข้อความลิงก์โดยไม่มีประโยคแวดล้อม การเขียนว่า "ดูพอร์ตโฟลิโอของเรา" หรือ "ดาวน์โหลด PDF กรณีศึกษา" จะให้บริบทครบถ้วน นี่คือ quick win ด้าน accessibility และ usability ที่ไม่มีต้นทุนอะไรสำหรับผู้เขียนเลย
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ทำ link ที่ดูไม่เหมือน link (ไม่มี underline หรือสีต่าง) ทำให้ user ไม่รู้ว่าคลิกได้
 - ลืม hover/visited state
 - ใช้ `<div onclick>` แทน `<a>` จริง
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "ข้อความสีม่วง" แต่ developer เห็นว่า `<a>` ให้ keyboard navigation, "เปิดในแท็บใหม่" ผ่าน right-click และ SEO crawler ตาม link ได้ฟรีทั้งหมด
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Wikipedia ใช้สี link ที่ต่างจาก visited link ชัดเจน ช่วยให้ user รู้ว่าเคยอ่านหน้าไหนไปแล้ว
 
@@ -105,7 +105,7 @@ export const quizLinks = [
     q: 'target="_blank" ทำหน้าที่อะไร?',
     options: [
       'เปิดลิงก์ในแท็บเดิม',
-      'เปิดลิงก์ในแท็บใหม่ของเบราว์เซอร์',
+      'เปิดลิงก์ในแท็บใหม่ของ browser',
       'ปิดการใช้งานลิงก์',
       'ทำให้ข้อความลิงก์เป็นตัวหนา',
     ],

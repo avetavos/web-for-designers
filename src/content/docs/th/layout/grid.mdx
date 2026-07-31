@@ -8,7 +8,7 @@ import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
-Flexbox จัดการทีละทิศทาง CSS Grid จัดการ *ทั้งสอง* อย่างพร้อมกัน — แถวและคอลัมน์พร้อมกัน ถ้าคุณเคยตั้ง **layout grid** ใน Figma เพื่อให้คอลัมน์สอดคล้องกันในทุกหน้าจอ CSS Grid คือสิ่งที่ทำให้สิ่งนั้นเป็นจริงในเบราว์เซอร์
+Flexbox จัดการทีละทิศทาง CSS Grid จัดการ *ทั้งสอง* อย่างพร้อมกัน — แถวและคอลัมน์พร้อมกัน ถ้าคุณเคยตั้ง **layout grid** ใน Figma เพื่อให้คอลัมน์สอดคล้องกันในทุกหน้าจอ CSS Grid คือสิ่งที่ทำให้สิ่งนั้นเป็นจริงใน browser
 
 ความแตกต่างสำคัญจาก Flexbox: กับ Grid *parent* จะกำหนดโครงสร้างสองมิติทั้งหมด children เพียงแค่เข้าไปในตำแหน่ง
 
@@ -141,21 +141,21 @@ export const galleryCss = `.gallery {
 ลองเปลี่ยน `repeat(3, 1fr)` เป็น `repeat(2, 1fr)` หรือ `repeat(4, 1fr)`
 
 <Tip title="Grid areas คือ wireframe ของคุณ">
-`grid-template-areas` เป็นหนึ่งในฟีเจอร์ที่เป็นมิตรกับนักออกแบบมากที่สุดใน CSS ทั้งหมด คุณกำลังสเก็ตช์ layout ด้วยตัวอักษร ASCII คิดว่าแต่ละ string ที่อยู่ในเครื่องหมายคือหนึ่งแถว และแต่ละคำคือหนึ่งเซลล์ ใช้ `.` (จุด) สำหรับเซลล์ว่าง มันอ่านเหมือน wireframe พอดี
+`grid-template-areas` เป็นหนึ่งในฟีเจอร์ที่เป็นมิตรกับนักออกแบบมากที่สุดใน CSS ทั้งหมด คุณกำลังสเก็ตช์ layout ด้วยตัวอักษร ASCII คิดว่าแต่ละ string ที่อยู่ในเครื่องหมายคือหนึ่งแถว และแต่ละคำคือหนึ่งเซลล์ ใช้ `.` (จุด) สำหรับเซลล์ว่าง อ่านแล้วเหมือน wireframe พอดี
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ใช้ Flexbox ฝืนทำ 2 มิติ (แถวและคอลัมน์พร้อมกัน) ทั้งที่ Grid ทำได้ตรงกว่า
 - ลืมว่า Grid ต้องกำหนด track ทั้งแถวและคอลัมน์ล่วงหน้าใน `grid-template-columns`/`grid-template-rows`
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "ตาราง Dashboard/Gallery" แต่ developer เลือก Grid เมื่อ layout เป็น 2 มิติจริง (แถวและคอลัมน์ต้องสัมพันธ์กัน) แทนใช้ Flexbox ที่ทำได้ดีแค่ 1 มิติ
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Dashboard อย่าง Stripe และ Vercel ใช้ CSS Grid สำหรับ layout การ์ด metric ที่ต้อง align กันทั้งแถวและคอลัมน์พร้อมกัน
 
@@ -188,9 +188,9 @@ export const quizGrid = [
   {
     q: 'ข้อได้เปรียบหลักของ CSS Grid เหนือ Flexbox คืออะไร?',
     options: [
-      'Grid โหลดเร็วกว่าในเบราว์เซอร์',
+      'Grid โหลดเร็วกว่าใน browser',
       'Grid สามารถควบคุม layout สองมิติ (แถวและคอลัมน์) พร้อมกัน',
-      'Grid รองรับในเบราว์เซอร์เก่า',
+      'Grid รองรับใน browser เก่า',
       'Grid ทำงานได้โดยไม่ต้องมี display: grid',
     ],
     answer: 1,

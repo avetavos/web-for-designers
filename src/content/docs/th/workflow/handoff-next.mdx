@@ -9,7 +9,7 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
 {/* No LivePreview: this is a conceptual lesson about collaboration process — no runnable snippet applies. */}
 
-คุณได้เรียนรู้วิธีที่ดีไซน์กลายเป็นโค้ดแล้ว ตอนนี้มาพูดถึงช่วงเวลาที่เชื่องาน ของคุณกับงานของนักพัฒนา: **handoff** handoff ที่ดีไม่ได้แค่แชร์ไฟล์ — มันสื่อสารสเปคที่สมบูรณ์ที่นักพัฒนาสามารถ implement ได้โดยไม่ต้องถามคำถามเพิ่มเติม
+คุณได้เรียนรู้วิธีที่ดีไซน์กลายเป็นโค้ดแล้ว ตอนนี้มาพูดถึงช่วงเวลาที่เชื่องาน ของคุณกับงานของนักพัฒนา: **handoff** handoff ที่ดีไม่ได้แค่แชร์ไฟล์ — แต่สื่อสารสเปคที่สมบูรณ์ที่นักพัฒนาสามารถ implement ได้โดยไม่ต้องถามคำถามเพิ่มเติม
 
 ## อะไรทำให้ดีไซน์ "พร้อมสำหรับนักพัฒนา"
 
@@ -35,7 +35,7 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 เมื่อคุณ toggle frame เป็น "Ready for development" ใน Figma นักพัฒนาจะสลับไป Dev Mode เพื่อตรวจสอบ:
 - ค่าพิกเซลที่แน่นอนสำหรับ padding, gap และ margins
 - Font properties: family, size, weight, line-height, letter-spacing
-- ค่าสีและชื่อ token ของมัน
+- ค่าสีและชื่อ token ของตัวเอง
 - Border-radius, shadow และ opacity
 - Asset exports (icons, รูปภาพในรูปแบบและสเกลที่ถูกต้อง)
 
@@ -69,18 +69,18 @@ Dev Mode จัดการ static spec ส่วนเหล่านี้ต�
 ทุก state ที่คุณไม่ได้กำหนด นักพัฒนาจะสร้างเอง ทุกสีที่ไม่ใช่ token นักพัฒนาจะ hardcode ทุก component ที่ไม่มีชื่อ นักพัฒนาจะตั้งชื่อต่างจากที่คุณคาดหวัง ยิ่ง handoff ของคุณสมบูรณ์มากเท่าไร ดีไซน์ก็ยิ่ง implement ได้ตรงใจมากขึ้น และ revision cycles ก็น้อยลง
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ส่งงานให้ developer โดยไม่ระบุ edge case (ข้อความยาวเกิน, ไม่มีรูป, list ว่าง)
 - ไม่ทำ redline/spec สำหรับ spacing ที่ developer ต้อง "เดา" เอาเอง
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "งานจบแล้ว ส่งได้" แต่ developer เห็นว่ายังมีคำถามอีกมาก (states ไหนที่ยังไม่ได้ design, breakpoint ไหนที่ยังไม่เห็นภาพ, content ที่ยาวผิดปกติจะเป็นยังไง)
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > ทีม design ที่ Intercom ทำ "spec mode" ใน Figma แนบ note ระบุ edge case และ state ทุกอันไว้ในไฟล์ handoff โดยตรง ลดรอบถามตอบกับ developer ลงมาก
 

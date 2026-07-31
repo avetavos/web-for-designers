@@ -227,19 +227,19 @@ export const bgBordersCss = `body {
 Background, border และ box-shadow ใน CSS ตรงกับแผง Fill, Stroke และ Effects ใน Figma แบบหนึ่งต่อหนึ่ง ถ้าคุณตั้งค่าได้ใน design panel ของ Figma ก็มี CSS property รองรับเสมอ
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ลืมว่า border เพิ่มความกว้างของ element ถ้าไม่ใช้ `box-sizing: border-box`
 - ใช้รูปภาพเป็น background แทน CSS gradient ทำให้ไฟล์หนักโดยไม่จำเป็น
 - ค่า border-radius ไม่ตรงกันระหว่าง Figma กับ code
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "เส้นขอบสวย" แต่ developer ต้องคำนวณว่า border นับรวมอยู่ใน width หรือไม่ (box-sizing) ก่อนจะจัด layout ให้ตรง pixel
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Stripe ใช้ CSS gradient background แทนไฟล์รูปในหลายจุด ทำให้เพจโหลดเร็วขึ้นมากและ resize ได้โดยไม่แตก
 

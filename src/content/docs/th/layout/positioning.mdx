@@ -10,21 +10,21 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
 Flexbox และ Grid จัดเรียง elements ใน flow ที่คาดเดาได้ แต่บางครั้งคุณต้องการ element ที่ *ออกนอก* flow นั้น — notification badge ที่ลอยอยู่บนไอคอน, sticky header ที่ยังมองเห็นขณะ scroll หน้า, tooltip ที่ hover อยู่เหนือเนื้อหา นั่นคือที่ที่ CSS **positioning** เข้ามา
 
-ทุก element มี property `position` ตามค่าเริ่มต้นคือ `static` ซึ่งหมายความว่ามันอยู่ใน normal flow เมื่อคุณเปลี่ยนเป็นอย่างอื่น คุณจะได้ความสามารถพิเศษ — และความรับผิดชอบใหม่สองสามอย่าง
+ทุก element มี property `position` ตามค่าเริ่มต้นคือ `static` ซึ่งหมายความว่าอยู่ใน normal flow เมื่อคุณเปลี่ยนเป็นอย่างอื่น คุณจะได้ความสามารถพิเศษ — และความรับผิดชอบใหม่สองสามอย่าง
 
 ## สี่ค่า
 
 **`position: static`** — ค่าเริ่มต้น Elements อยู่ใน document flow ปกติ `top`, `left`, `right`, `bottom` และ `z-index` ไม่มีผล
 
-**`position: relative`** — Element ยังคงอยู่ใน normal flow แต่ตอนนี้คุณสามารถเลื่อนมันด้วย `top`/`left`/`right`/`bottom` สำคัญกว่านั้น มันสร้าง *positioning context* — children ที่เป็น `absolute` จะถูกวางตำแหน่งสัมพันธ์กับ element นี้ ไม่ใช่กับหน้าทั้งหน้า คิดว่า "ฉันต้องการให้ element นี้เป็นจุดเริ่มต้นสำหรับ badge ของฉัน"
+**`position: relative`** — Element ยังคงอยู่ใน normal flow แต่ตอนนี้คุณเลื่อนตำแหน่งได้ด้วย `top`/`left`/`right`/`bottom` สำคัญกว่านั้น element นี้จะสร้าง *positioning context* — children ที่เป็น `absolute` จะถูกวางตำแหน่งสัมพันธ์กับ element นี้ ไม่ใช่กับหน้าทั้งหน้า คิดว่า "ฉันต้องการให้ element นี้เป็นจุดเริ่มต้นสำหรับ badge ของฉัน"
 
-**`position: absolute`** — Element ถูกลบออกจาก normal flow อย่างสมบูรณ์ มันถูกวางสัมพันธ์กับ ancestor ที่ใกล้ที่สุดที่มี position ที่ไม่ใช่ static Elements อื่นใน flow ไม่เห็นมัน — พวกมันทำงานเหมือนมันไม่มีอยู่ เหมาะสำหรับ badges, tooltips, dropdowns และ overlays
+**`position: absolute`** — Element ถูกลบออกจาก normal flow อย่างสมบูรณ์ แล้ววางตำแหน่งสัมพันธ์กับ ancestor ที่ใกล้ที่สุดที่มี position ที่ไม่ใช่ static Elements อื่นใน flow จะมองไม่เห็น element นี้ — ทุกตัวจัดวางเหมือนไม่มี element นี้อยู่ เหมาะสำหรับ badges, tooltips, dropdowns และ overlays
 
-**`position: sticky`** — เป็นแบบผสม Element อยู่ใน normal flow *จนกว่า* คุณจะ scroll เกิน threshold แล้วมัน "ติด" ที่ขอบ viewport (กำหนดโดย `top`, `right` เป็นต้น) จนกว่า parent ของมันจะ scroll ออกไป เหมาะสำหรับ navigation bars และ table headers
+**`position: sticky`** — เป็นแบบผสม Element อยู่ใน normal flow *จนกว่า* คุณจะ scroll เกิน threshold แล้ว element จะ "ติด" ที่ขอบ viewport (กำหนดโดย `top`, `right` เป็นต้น) จนกว่า parent ของตัวเองจะ scroll ออกไป เหมาะสำหรับ navigation bars และ table headers
 
 ## property `z-index`
 
-เมื่อ positioned elements ทับซ้อนกัน `z-index` ควบคุมว่าอันไหนจะปรากฏอยู่ด้านบน ตัวเลขที่สูงกว่าอยู่ด้านบน มันทำงานเฉพาะบน elements ที่มี `position` ที่ไม่ใช่ static
+เมื่อ positioned elements ทับซ้อนกัน `z-index` ควบคุมว่าอันไหนจะปรากฏอยู่ด้านบน ตัวเลขที่สูงกว่าอยู่ด้านบน ทำงานเฉพาะบน elements ที่มี `position` ที่ไม่ใช่ static
 
 คิดเหมือนแผง layer order ใน Figma พอดี — สูงกว่าใน stack = อยู่ด้านบน — ยกเว้นใน CSS คุณแสดงเป็นตัวเลขแทนการลาก
 
@@ -94,26 +94,26 @@ export const positioningCss = `body { font-family: system-ui, sans-serif; paddin
 
 สิ่งที่ลองได้:
 - เปลี่ยน `top: -8px` และ `right: -8px` ของ `.badge` เป็นค่าอื่น — ย้าย badge ไปมา
-- เปลี่ยน `position: absolute` ของ `.badge` เป็น `position: relative` — ดูมันกลับสู่ normal flow
+- เปลี่ยน `position: absolute` ของ `.badge` เป็น `position: relative` — ดู badge กลับสู่ normal flow
 - ลบ `position: relative` ออกจาก `.card` — badge จะวางตำแหน่งสัมพันธ์กับทั้งเอกสาร
-- เปลี่ยน `.sticky-bar` จาก `position: sticky` เป็น `position: relative` — มันหยุดติดเมื่อ scroll
+- เปลี่ยน `.sticky-bar` จาก `position: sticky` เป็น `position: relative` — แถบจะหยุดติดเมื่อ scroll
 
 <Tip title="relative + absolute คือ badge pattern">
 การใช้ positioning ที่พบบ่อยที่สุดใน UI คือ badge/overlay pattern: ตั้ง `position: relative` บน parent card หรือไอคอน แล้ว `position: absolute` บน badge นี่ยึด badge ไว้ภายใน card แทนที่จะลอยไปที่ใดที่หนึ่งบนหน้า เมื่อใดก็ตามที่คุณเห็น notification dot, image overlay หรือ floating label ในงานออกแบบ — นี่คือวิธีที่สร้างขึ้น
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ใช้ `position: absolute` เพื่อ "จัดให้ตรงตามที่เห็นใน Figma" ทั้งที่ layout ควร flow ตามธรรมชาติ ทำให้ responsive พัง
 - ลืมว่า absolute ต้องมี parent เป็น `position: relative` ไม่งั้นจะ position เทียบกับ body ทั้งหน้า
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "ป้าย badge ลอยมุมขวาบนของ card" แต่ developer ต้องตั้ง parent เป็น relative ก่อน แล้วค่อยวาง absolute element ข้างในอย่างเจตนา ไม่ใช่ใช้ absolute กับทุกอย่าง
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Badge "New" หรือ notification dot บนไอคอนของแอปอย่าง Slack ใช้ absolute positioning ภายใน relative parent แบบนี้เท่านั้น ไม่ใช่ทั้งหน้า
 

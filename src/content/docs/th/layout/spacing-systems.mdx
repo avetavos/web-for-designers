@@ -38,7 +38,7 @@ spacing scale ที่ใช้กันมากที่สุดนั้น
 
 **`padding`** — พื้นที่ *ภายใน* element ระหว่าง border กับเนื้อหา ทำให้ element เองใหญ่ขึ้น คิดว่าเหมือน "horizontal/vertical padding" ใน Figma auto-layout frame
 
-**`margin`** — พื้นที่ *ภายนอก* element ดัน neighbor ออกไป ไม่ทำให้ element ใหญ่ขึ้น — มันสร้างบัฟเฟอร์โซนรอบๆ
+**`margin`** — พื้นที่ *ภายนอก* element ดัน neighbor ออกไป ไม่ทำให้ element ใหญ่ขึ้น — แต่สร้างบัฟเฟอร์โซนรอบๆ
 
 **`gap`** — พื้นที่ *ระหว่าง* children ใน Flex หรือ Grid container วิธีที่สะอาดและคาดเดาได้มากที่สุดในการเว้นระยะไอเทม — ไม่เพิ่มพื้นที่รอบขอบ เพิ่มเฉพาะระหว่างไอเทม
 
@@ -127,27 +127,27 @@ export const spacingCss = `body { font-family: system-ui, sans-serif; }
 <LivePreview client:visible html={spacingHtml} css={spacingCss} />
 
 สิ่งที่ลองได้:
-- เปลี่ยน `padding` ของ `.card` จาก `1.5rem` เป็น `0.5rem` — สังเกตว่ามันรู้สึกแออัดแค่ไหน
-- เปลี่ยน `gap` ของ `.page` จาก `1rem` เป็น `3rem` — สังเกตว่ามันโปร่งขึ้นแค่ไหน
+- เปลี่ยน `padding` ของ `.card` จาก `1.5rem` เป็น `0.5rem` — สังเกตว่ารู้สึกแออัดแค่ไหน
+- เปลี่ยน `gap` ของ `.page` จาก `1rem` เป็น `3rem` — สังเกตว่าโปร่งขึ้นแค่ไหน
 - เปลี่ยน `gap` ของ `.actions` จาก `0.5rem` เป็น `2rem` — ปุ่มจะห่างออกจากกัน
-- ลอง `padding: 2rem` บน `.card` — มันขยายให้พอดี
+- ลอง `padding: 2rem` บน `.card` — การ์ดจะขยายให้พอดี
 
 <Tip title="CSS custom properties เป็น spacing tokens">
 เมื่อคุณคุ้นเคยแล้ว ย้ายค่า spacing ของคุณไปไว้ใน CSS custom properties (variables) ที่ด้านบนของ stylesheet: `--space-1: 0.25rem;` ถึง `--space-8: 2rem;` แล้วใช้ `padding: var(--space-4)` ทุกที่ นี่ mirror design tokens ได้พอดีและทำให้การเปลี่ยน spacing ทั่วโลกเป็นการอัปเดตบรรทัดเดียว — เหมือนกับการเปลี่ยนค่า token ใน design tool ของคุณพอดี
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ใส่ spacing แบบสุ่ม (13px, 22px, 7px) แทนใช้ scale ที่สม่ำเสมอ
 - ไม่ sync spacing scale ระหว่าง Figma กับ code ทำให้ developer ต้อง "เดา" ค่าที่ใกล้เคียงที่สุด
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "ระยะห่างที่ดูดี" แต่ developer อยากได้ scale จำกัด (4px, 8px, 16px, 24px...) เพื่อ map เป็น design token/CSS variable ที่ reuse ได้ทั้งระบบ
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Design system ของ Airbnb และ Stripe ใช้ spacing scale แบบ 4px หรือ 8px grid เท่านั้น ทำให้ทุก spacing ในทั้งเว็บ "ไปด้วยกัน" โดยไม่ต้องคิดใหม่ทุกครั้ง
 
@@ -163,7 +163,7 @@ export const quizSpacing = [
       'Padding สำหรับข้อความ margin สำหรับรูปภาพ',
       'Padding คือพื้นที่ภายใน element margin คือพื้นที่ภายนอก',
       'Margin คือพื้นที่ภายใน element padding คือพื้นที่ภายนอก',
-      'พวกมันทำสิ่งเดียวกัน',
+      'ทั้งสองทำสิ่งเดียวกัน',
     ],
     answer: 1,
   },

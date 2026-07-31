@@ -22,10 +22,10 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
 Convention การตั้งชื่อที่นักพัฒนาส่วนใหญ่ใช้คือ **BEM** — Block, Element, Modifier รูปแบบ:
 - **Block:** component เอง → `.card`
-- **Element:** ส่วนประกอบของมัน → `.card__title`, `.card__body`
+- **Element:** ส่วนประกอบของตัวเอง → `.card__title`, `.card__body`
 - **Modifier:** variant → `.btn--primary`, `.btn--secondary`
 
-คุณไม่จำเป็นต้องจำ BEM สิ่งสำคัญคือแนวคิด: **ตั้งชื่อ class ตามสิ่งที่มัน *เป็น* ไม่ใช่ตามหน้าตา** `.card` ดีกว่า `.white-rounded-box` `.btn--primary` ดีกว่า `.purple-button`
+คุณไม่จำเป็นต้องจำ BEM สิ่งสำคัญคือแนวคิด: **ตั้งชื่อ class ตามสิ่งที่ element นั้น *เป็น* ไม่ใช่ตามหน้าตา** `.card` ดีกว่า `.white-rounded-box` `.btn--primary` ดีกว่า `.purple-button`
 
 ## สร้าง components ที่ใช้ซ้ำได้
 
@@ -85,21 +85,21 @@ export const componentsCss = `body { font-family: system-ui, sans-serif; padding
 สังเกตว่าทั้งสองการ์ดใช้ classes `.card`, `.card__title` และ `.card__body` เดียวกัน — เนื้อหาเท่านั้นที่ต่างกัน นี่คือ component model ใน HTML และ CSS
 
 <Tip title="การ copy-paste คือ component ที่กำลังรอให้สร้าง">
-ถ้าคุณพบว่าตัวเองเขียน CSS เดิมสำหรับปุ่มที่สอง หยุด ดึงออกมาเป็น class `.btn` ถ้าคุณเขียนการ์ดที่สาม ให้แน่ใจว่ามันใช้ class `.card` เดียวกับสองอันแรก การ reuse ใน CSS ไม่ใช่ความขี้เกียจ — มันคือวินัยที่รักษา design system ให้สอดคล้องกัน
+ถ้าคุณพบว่าตัวเองเขียน CSS เดิมสำหรับปุ่มที่สอง หยุด ดึงออกมาเป็น class `.btn` ถ้าคุณเขียนการ์ดที่สาม ให้แน่ใจว่าใช้ class `.card` เดียวกับสองอันแรก การ reuse ใน CSS ไม่ใช่ความขี้เกียจ — แต่เป็นวินัยที่รักษา design system ให้สอดคล้องกัน
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - สร้าง component ใน Figma โดยไม่คิดถึง state ที่จำเป็น (hover, disabled, loading, error)
 - เปลี่ยน component หลักแต่ไม่ update instance ทั้งหมดให้ตรงกัน — developer ก็เจอปัญหาเดียวกันกับ shared component ในโค้ด
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "1 component, หลาย variant" แต่ developer เห็น component เดียวกันที่ต้องเขียน code ให้ครอบคลุมทุก state ที่อาจเกิดขึ้นจริง ไม่ใช่แค่ state ที่ design ไว้
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Design system ของ Atlassian มี component ที่กำหนด state ไว้ครบ (default/hover/active/disabled/loading) ตรงกับ code component จริงทุกตัว
 

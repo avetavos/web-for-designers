@@ -63,7 +63,7 @@ menuBtn.addEventListener('click', function() {
 
 **บรรทัดที่ 5** เรียก `classList.toggle('open')` ถ้า menu ยังไม่มี class `open` ก็จะเพิ่มให้ ถ้ามีอยู่แล้วก็จะลบออก เพียงบรรทัดเดียว — จบ
 
-**บรรทัดที่ 6–10** ตรวจสอบว่าตอนนี้ menu เปิดหรือปิดอยู่ จากนั้นอัปเดต label ของปุ่มให้แสดงข้อความที่ถูกต้องเสมอ นี่คือ good practice: UI ของคุณควรสะท้อนสถานะปัจจุบันของมัน
+**บรรทัดที่ 6–10** ตรวจสอบว่าตอนนี้ menu เปิดหรือปิดอยู่ จากนั้นอัปเดต label ของปุ่มให้แสดงข้อความที่ถูกต้องเสมอ นี่คือ good practice: UI ของคุณควรสะท้อนสถานะปัจจุบันของตัวเอง
 
 ในส่วน CSS นั้น `.menu` เริ่มต้นด้วย `display: none` เมื่อ class `open` ถูกเพิ่มเข้ามา `.menu.open` จะทำงานด้วย `display: flex` — และ nav ก็ปรากฏขึ้น เมื่อ class ถูกลบออก nav ก็หายไปอีกครั้ง JavaScript ไม่แตะ `display` โดยตรงเลย นั่นคือหน้าที่ของ CSS
 
@@ -75,22 +75,22 @@ menuBtn.addEventListener('click', function() {
 
 นี่ไม่ใช่การพูดให้ฟังดูดี เปิด source code ของเว็บไซต์ production เกือบทุกแห่งแล้วคุณจะพบ pattern นี้: ปุ่มหนึ่งปุ่ม, การ toggle class, และ CSS จัดการส่วนที่เหลือ Framework อย่าง React และ Vue ห่อหุ้มไว้ในระดับนามธรรม แต่แนวคิดพื้นฐานก็เหมือนกันทุกประการ
 
-นี่คือ pattern เดียวกับที่เว็บไซต์จริงทุกแห่งใช้ — และตอนนี้คุณก็รู้วิธีสร้างมันแล้ว
+นี่คือ pattern เดียวกับที่เว็บไซต์จริงทุกแห่งใช้ — และตอนนี้คุณก็รู้วิธีสร้างแล้ว
 
 สามเครื่องมือที่คุณรวมกันในบทเรียนนี้ — `querySelector`, `addEventListener`, `classList.toggle` — คือรากฐานของ frontend interactivity ทุกอย่างที่เหลือสร้างขึ้นมาจากสิ่งเหล่านี้
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - design animation ที่ซับซ้อนเกินกว่าจะ implement ได้จริงในเวลาที่มี
 - ลืมออกแบบ disabled/loading state ของปุ่มระหว่างรอ action เสร็จ
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "คลิกแล้ว modal เด้งขึ้นสวย ๆ" แต่ developer ต้องจัดการทั้ง state ก่อน-ระหว่าง-หลัง action (loading spinner, error handling, success feedback) ไม่ใช่แค่ animation เดียว
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > ปุ่ม "Save" ของ Notion เปลี่ยนเป็น spinner แล้วเป็น checkmark ทำให้ user มั่นใจว่า action สำเร็จ โดยไม่ต้อง reload หน้า
 
@@ -102,7 +102,7 @@ export const quizInteractions = [
   },
   {
     q: 'ทำไมจึงควรให้ CSS จัดการ show/hide แทนการตั้ง `style.display` โดยตรงใน JS?',
-    options: ['CSS ช้ากว่า JS', 'CSS จัดการ visual logic และเปลี่ยนได้โดยไม่แตะ JavaScript', 'JS อ่าน CSS ไม่ได้', 'เบราว์เซอร์ไม่สนใจ inline styles'],
+    options: ['CSS ช้ากว่า JS', 'CSS จัดการ visual logic และเปลี่ยนได้โดยไม่แตะ JavaScript', 'JS อ่าน CSS ไม่ได้', 'browser ไม่สนใจ inline styles'],
     answer: 1,
   },
   {

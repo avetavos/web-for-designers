@@ -1,6 +1,6 @@
 ---
 title: Display & Normal Flow
-description: 'เบราว์เซอร์เรียง elements ตามค่าเริ่มต้นอย่างไร และ display: block, inline, inline-block หมายความว่าอะไร'
+description: 'browser เรียง elements ตามค่าเริ่มต้นอย่างไร และ display: block, inline, inline-block หมายความว่าอะไร'
 ---
 
 import LivePreview from '../../../../components/LivePreview.tsx';
@@ -8,7 +8,7 @@ import Tip from '../../../../components/Tip.astro';
 import Quiz from '../../../../components/Quiz.tsx';
 import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
-ก่อนที่คุณจะควบคุม layout ได้ คุณต้องเข้าใจว่าเกิดอะไรขึ้นเมื่อคุณ *ไม่ทำอะไรเลย* เบราว์เซอร์มีระบบในตัวสำหรับวาง elements บนหน้า เรียกว่า **normal flow** และมันไม่ใช่เรื่องสุ่ม มันตามกฎง่ายๆ สองข้อตาม `display` type ค่าเริ่มต้นของ element
+ก่อนที่คุณจะควบคุม layout ได้ คุณต้องเข้าใจว่าเกิดอะไรขึ้นเมื่อคุณ *ไม่ทำอะไรเลย* browser มีระบบในตัวสำหรับวาง elements บนหน้า เรียกว่า **normal flow** และไม่ใช่เรื่องสุ่ม แต่ทำตามกฎง่ายๆ สองข้อตาม `display` type ค่าเริ่มต้นของ element
 
 ## Block vs inline
 
@@ -18,7 +18,7 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
 ตัวอย่าง: `<div>`, `<p>`, `<h1>`–`<h6>`, `<section>`, `<article>`
 
-**Inline elements** ไหลตามข้อความ พวกมันนั่งเคียงข้างกันและใช้เฉพาะความกว้างที่เนื้อหาต้องการ พวกมันไม่ขึ้นบรรทัดใหม่ คิดว่าเหมือนข้อความหรือไอคอนแต่ละตัวในบรรทัดข้อความ
+**Inline elements** ไหลตามข้อความ นั่งเคียงข้างกันและใช้เฉพาะความกว้างที่เนื้อหาต้องการ และไม่ขึ้นบรรทัดใหม่ คิดว่าเหมือนข้อความหรือไอคอนแต่ละตัวในบรรทัดข้อความ
 
 ตัวอย่าง: `<span>`, `<a>`, `<strong>`, `<em>`, `<img>`
 
@@ -35,7 +35,7 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 | `grid` | เปิดใช้งาน Grid กับ children |
 | `none` | ซ่อน element อย่างสมบูรณ์ (ไม่ใช่แค่มองไม่เห็น — ถูกลบออกจาก layout) |
 
-ตัวอย่างที่แก้ไขได้ด้านล่างมีทั้ง block และ inline elements ลองเปลี่ยน `.label` จาก `display: inline` เป็น `display: inline-block` และเพิ่ม `width: 100px` — สังเกตว่าตอนนี้คุณสามารถควบคุมขนาดได้ แล้วลอง `display: block` เพื่อดูมันกระโดดไปบรรทัดของตัวเอง
+ตัวอย่างที่แก้ไขได้ด้านล่างมีทั้ง block และ inline elements ลองเปลี่ยน `.label` จาก `display: inline` เป็น `display: inline-block` และเพิ่ม `width: 100px` — สังเกตว่าตอนนี้คุณสามารถควบคุมขนาดได้ แล้วลอง `display: block` เพื่อดู label กระโดดไปอยู่บรรทัดของตัวเอง
 
 export const flowHtml = `<p>This is a <span class="label">block</span> paragraph. It fills the full width.</p>
 <p>This is another <span class="label">inline</span> paragraph. Notice they stack.</p>
@@ -57,25 +57,25 @@ p { background: #f3f4f6; padding: 0.5rem; border-radius: 4px; margin-bottom: 0.5
 <LivePreview client:visible html={flowHtml} css={flowCss} />
 
 <Tip title="inline-block คือตรงกลาง">
-`inline-block` มีประโยชน์มากสำหรับ navigation links, tags และ badge components พวกมันไหลเป็นธรรมชาติในข้อความเหมือน inline elements แต่คุณสามารถให้ padding, width และ height ที่แน่นอนได้เหมือน block elements คุณจะใช้มันตลอดสำหรับ UI chips และ labels
+`inline-block` มีประโยชน์มากสำหรับ navigation links, tags และ badge components element เหล่านี้ไหลเป็นธรรมชาติในข้อความเหมือน inline elements แต่คุณสามารถให้ padding, width และ height ที่แน่นอนได้เหมือน block elements คุณจะได้ใช้ตลอดสำหรับ UI chips และ labels
 </Tip>
 
 ## ทำไมสิ่งนี้จึงสำคัญสำหรับ layout
 
 เมื่อคุณใช้ Flexbox หรือ Grid คุณกำลัง *แทนที่* กฎ normal-flow สำหรับ children ของ element นั้น property `display` คือสวิตช์เปิด/ปิด การเข้าใจว่า normal flow มีหน้าตาอย่างไรทำให้เห็นชัดทันทีว่าทำไมการเพิ่ม `display: flex` ให้กับ container ถึงเปลี่ยนทุกอย่าง — คุณกำลังเลือกออกจากกฎการซ้อนค่าเริ่มต้น
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ตั้ง `position: absolute` กับทุก element แทนปล่อยให้ flow ตามธรรมชาติ ทำให้ responsive พังหมด
 - ไม่เข้าใจว่า inline element ไม่รับ width/height โดยตรง จนกว่าจะเปลี่ยนเป็น `inline-block` หรือ `block`
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer เห็น "element ลอยอยู่ตรงนี้" แต่ developer เห็นว่า default display (block/inline) กำหนดว่า element ไหลต่อกันยังไงโดยไม่ต้องเขียน code เพิ่มเลย
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Notion's block editor ใช้ normal flow (block-level element เรียงต่อกัน) เป็นพื้นฐาน ทำให้ content ยืด/หดตามจำนวนตัวอักษรได้เอง
 
@@ -100,7 +100,7 @@ export const quizDisplayFlow = [
     options: [
       'ทำให้ element โปร่งใส',
       'ลบ element ออกจาก layout อย่างสมบูรณ์',
-      'ย้ายมันออกไปนอกหน้าจอทางซ้าย',
+      'ย้าย element ออกไปนอกหน้าจอทางซ้าย',
       'แปลงเป็น block element',
     ],
     answer: 1,

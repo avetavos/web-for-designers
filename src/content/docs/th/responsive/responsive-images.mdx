@@ -140,18 +140,18 @@ Attribute `srcset` ให้คุณระบุหลายเวอร์ช�
 เมื่อ Handoff ให้ Developer ควร Export รูปภาพที่ 1x, 2x และ (สำหรับ Hero เต็มความกว้าง) 3x เสมอ ตั้งชื่อให้ชัดเจน: `hero@1x.jpg`, `hero@2x.jpg`, `hero@3x.jpg` รักษาขนาดไฟล์ให้ต่ำกว่า 200 KB สำหรับ Content Images และต่ำกว่า 500 KB สำหรับ Hero Images ใช้ Format WebP — เล็กกว่า JPEG ประมาณ 30% ที่คุณภาพเดียวกัน นิสัยเหล่านี้ส่งผลโดยตรงต่อความเร็วในการโหลด Design บนอุปกรณ์จริง
 </Tip>
 
-## Common Designer Mistakes
+## ข้อผิดพลาดที่นักออกแบบเจอบ่อย
 
 - ใช้รูปเดียวกัน (ขนาดใหญ่สุด) กับทุกหน้าจอ ทำให้มือถือโหลดหนักเกินจำเป็น
 - ลืมกำหนด width/height ทำให้เกิด layout shift ตอนรูปกำลังโหลด
 
-## Developer Perspective
+## มุมมองของ developer
 
-### 👨‍💻 What Developers Actually See
+### 👨‍💻 สิ่งที่ developer เห็นจริง ๆ
 
 Designer ส่งไฟล์รูป 1 ไฟล์ความละเอียดสูงสุด แต่ developer ต้อง generate หลาย size (`srcset`) ให้ browser เลือกไฟล์ที่เหมาะกับหน้าจอนั้นเอง
 
-> 💡 Real World Example
+> 💡 ตัวอย่างจากของจริง
 >
 > Airbnb serve รูปที่ปรับ resolution ตามอุปกรณ์อัตโนมัติผ่าน CDN ทำให้มือถือโหลดไฟล์เล็กกว่า desktop หลายเท่าโดยที่ดูเหมือนกัน
 
