@@ -19,9 +19,9 @@ Flexbox จัดการทีละทิศทาง CSS Grid จัดก�
 **`grid-template-columns`** — กำหนดโครงสร้างคอลัมน์ นี่คือ Grid property ที่สำคัญที่สุด
 
 ```css
-grid-template-columns: 200px 1fr 1fr;   /* คงที่ + สองคอลัมน์ยืดหยุ่น */
-grid-template-columns: repeat(3, 1fr);  /* สามคอลัมน์เท่ากัน */
-grid-template-columns: repeat(4, 1fr);  /* สี่คอลัมน์เท่ากัน — เหมือน 4-col Figma grid */
+grid-template-columns: 200px 1fr 1fr;   /* fixed + two flexible columns */
+grid-template-columns: repeat(3, 1fr);  /* three equal columns */
+grid-template-columns: repeat(4, 1fr);  /* four equal columns — like a 4-col Figma grid */
 ```
 
 **`fr` — หน่วย fractional** — `fr` หมายถึง "ส่วนหนึ่งของพื้นที่ที่มี" หนึ่ง `1fr` ได้หนึ่งส่วน สองคอลัมน์ที่ `1fr 2fr` หมายความว่าอันที่สองกว้างเป็นสองเท่าของอันแรก นี่คือแนวคิดเดียวกับการ sizing แบบสัดส่วน "fill container" ของ Figma
@@ -157,7 +157,7 @@ Designer เห็น "ตาราง Dashboard/Gallery" แต่ developer �
 
 > 💡 ตัวอย่างจากของจริง
 >
-> Dashboard อย่าง Stripe และ Vercel ใช้ CSS Grid สำหรับ layout การ์ด metric ที่ต้อง align กันทั้งแถวและคอลัมน์พร้อมกัน
+> Dashboard ที่มีการ์ด metric ต้อง align กันทั้งแถวและคอลัมน์พร้อมกัน คือปัญหาสองมิติแบบที่ CSS Grid ถูกออกแบบมาเพื่อแก้โดยตรง
 
 export const quizGrid = [
   {

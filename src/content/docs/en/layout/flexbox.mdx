@@ -122,6 +122,22 @@ Things to try:
 `justify-content` always works along the direction items are flowing (main axis). `align-items` always works *perpendicular* to that direction (cross axis). In Figma terms: if your auto-layout is horizontal, `justify-content` is horizontal alignment and `align-items` is vertical alignment. Flip the direction and both flip with it.
 </Tip>
 
+## Common mistakes designers run into
+
+- Forgetting to set `flex-wrap`, causing the layout to overflow on small screens
+- Using margin instead of `gap`, making spacing inconsistent when items are added or removed
+- Confusing the main axis with the cross axis when `flex-direction` changes
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "Auto Layout, like in Figma," but developers have to translate every setting (direction, gap, alignment) into its own property, and test it with different content lengths too.
+
+> 💡 Real-world example
+>
+> Figma's Auto Layout maps onto Flexbox more directly than any other CSS layout method, which is why Flexbox tends to be the first tool developers reach for once a design uses Auto Layout.
+
 export const quizFlexbox = [
   {
     q: 'Which CSS property is the direct equivalent of Figma Auto Layout gap?',

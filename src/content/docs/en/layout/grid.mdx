@@ -144,6 +144,21 @@ Try changing `repeat(3, 1fr)` to `repeat(2, 1fr)` or `repeat(4, 1fr)`.
 `grid-template-areas` is one of the most designer-intuitive features in all of CSS. You are literally sketching the layout with ASCII text. Think of each quoted string as a row, and each word as a cell. Use `.` (a dot) for an empty cell. It reads exactly like a wireframe.
 </Tip>
 
+## Common mistakes designers run into
+
+- Forcing Flexbox to do a two-dimensional job (rows and columns at once) when Grid does it more directly
+- Forgetting that Grid needs both row and column tracks defined up front, in `grid-template-columns`/`grid-template-rows`
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a dashboard/gallery grid," but developers reach for Grid specifically when the layout is genuinely two-dimensional (rows and columns need to relate to each other), instead of Flexbox, which only really handles one dimension well.
+
+> 💡 Real-world example
+>
+> A dashboard of metric cards that needs to align across both rows and columns at once is exactly the two-dimensional problem CSS Grid was designed to solve.
+
 export const quizGrid = [
   {
     q: 'What does `grid-template-columns: repeat(4, 1fr)` create?',

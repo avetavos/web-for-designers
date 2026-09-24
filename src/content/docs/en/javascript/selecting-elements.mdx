@@ -74,6 +74,21 @@ If multiple elements share the same class, `document.querySelector('.card')` onl
 
 Any valid CSS selector works inside `querySelector`. If you can target it in a stylesheet, you can grab it in JavaScript.
 
+## Common mistakes designers run into
+
+- Asking a developer to "make all the buttons this color" without realizing the developer first has to "select" those elements with a selector that matches the class/id you've set up
+- Naming layers in Figma in a way that doesn't match the class name a developer would use to select them
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "every button on this page," but developers have to write code that "finds" those elements first, before editing them or adding interactivity — similar to "select all with the same style" in a design tool.
+
+> 💡 Real-world example
+>
+> Selecting every layer that shares a property in a design tool and `document.querySelectorAll()` in JavaScript solve the same problem: find everything matching one condition, then act on all of them together.
+
 export const quizSelectingElements = [
   {
     q: "What does `document.querySelector('#title')` select?",

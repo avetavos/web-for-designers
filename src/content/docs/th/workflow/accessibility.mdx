@@ -17,10 +17,10 @@ Accessibility (a11y) หมายถึงการออกแบบให้�
 Screen readers อ่านออกเสียงรูปภาพโดยอ่าน attribute `alt` หากไม่มี ผู้ใช้ screen reader จะไม่ได้ยินอะไรเลยหรือได้ยินชื่อไฟล์ยาวๆ ที่เข้าใจยาก
 
 ```html
-<!-- ไม่ดี -->
+<!-- Bad -->
 <img src="hero.jpg" />
 
-<!-- ดี -->
+<!-- Good -->
 <img src="hero.jpg" alt="A designer sketching wireframes on paper" />
 ```
 
@@ -39,10 +39,10 @@ WCAG (Web Content Accessibility Guidelines) กำหนด contrast ratio ข�
 ทุก form input ต้องมี `<label>` ที่มองเห็นได้และเชื่อมกับ input ข้อความ placeholder ไม่ใช่ label — เพราะหายไปเมื่อผู้ใช้พิมพ์ แถม contrast ยังต่ำ
 
 ```html
-<!-- ไม่ดี: ไม่มี label -->
+<!-- Bad: no label -->
 <input type="email" placeholder="Email address" />
 
-<!-- ดี: label ที่ถูกต้อง -->
+<!-- Good: proper label -->
 <label for="email">Email address</label>
 <input type="email" id="email" placeholder="you@example.com" />
 ```
@@ -156,7 +156,7 @@ Designer เห็น "หน้าที่สวยและ contrast ดู�
 
 > 💡 ตัวอย่างจากของจริง
 >
-> gov.uk และ BBC ออกแบบทุกหน้าให้ผ่านมาตรฐาน accessibility เพราะเป็นข้อบังคับทางกฎหมายสำหรับหน่วยงานรัฐ ทำให้กลายเป็นต้นแบบของเว็บที่ accessible จริง
+> เว็บไซต์หน่วยงานรัฐของสหราชอาณาจักรถูกบังคับตามกฎหมายให้ผ่านมาตรฐาน WCAG 2.2 AA ภายใต้ Public Sector Bodies Accessibility Regulations 2018 — จึงเป็นเหตุผลที่ design system ของหน่วยงานรัฐอย่าง GOV.UK มักเป็นต้นแบบด้าน accessibility ที่ดี ([GOV.UK Service Manual: Accessibility](https://www.gov.uk/service-manual/helping-people-to-use-your-service/making-your-service-accessible-an-introduction))
 
 export const quizAccessibility = [
   {

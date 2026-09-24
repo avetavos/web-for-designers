@@ -134,6 +134,21 @@ At narrow widths the nav links stack vertically — the natural mobile pattern. 
 In mobile-first CSS, read media queries from top (narrowest, most common) to bottom (widest, enhanced). The base styles at the top are the foundation. Each `min-width` query builds on that foundation — like adding rooms to a house rather than demolishing walls. This mental model prevents you from accidentally overriding styles you didn't intend to touch.
 </Tip>
 
+## Common mistakes designers run into
+
+- Designing desktop first and then "shrinking" it down to mobile later, which makes mobile feel like a cramped afterthought
+- Forgetting that mobile-first means designing for the smallest screen to work well first, then "adding" for bigger screens
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "I need two designs," but developers write mobile CSS as the default (no media query at all), then add rules for bigger screens step by step (progressive enhancement).
+
+> 💡 Real-world example
+>
+> A product whose traffic is mostly mobile gets designed mobile-first for a very practical reason: the experience most people actually have is the one that gets designed and tested first, and desktop becomes the expanded version.
+
 export const quizMobileFirst = [
   {
     q: 'In mobile-first CSS, which kind of media query do you use to enhance a layout for wider screens?',

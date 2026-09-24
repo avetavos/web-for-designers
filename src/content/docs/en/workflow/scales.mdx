@@ -121,6 +121,21 @@ body { font-family: system-ui, sans-serif; background: #f9f9f9; padding: var(--s
 If a spacing value is not on the scale, ask why. It usually means the design needs a small adjustment — a 13px gap was probably meant to be 12px or 16px. Catching these during design review is much cheaper than fixing them after a developer implements them.
 </Tip>
 
+## Common mistakes designers run into
+
+- Setting font/spacing sizes randomly instead of a scale, so each screen feels like "a different system"
+- Using a different scale for desktop vs. mobile with no real reason behind it
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a size that looks proportional," but developers want a limited scale (like a type scale built on a 1.25 ratio) that maps onto reusable CSS variables, instead of memorizing a different value everywhere.
+
+> 💡 Real-world example
+>
+> Material Design's type scale (Display/Headline/Title/Body/Label) gives a fixed, limited set of sizes that Google uses consistently across both Android and the web. ([Material Design 3: Type scale tokens](https://m3.material.io/styles/typography/type-scale-tokens))
+
 export const quizScales = [
   {
     q: 'Why do designers often use 8px as a base spacing unit?',

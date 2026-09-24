@@ -64,6 +64,21 @@ p { background: #f3f4f6; padding: 0.5rem; border-radius: 4px; margin-bottom: 0.5
 
 When you reach for Flexbox or Grid, you are *replacing* the normal-flow rules for that element's children. The `display` property is the on/off switch. Understanding what normal flow looks like makes it immediately obvious why adding `display: flex` to a container changes everything — you are opting out of the default stacking rules.
 
+## Common mistakes designers run into
+
+- Setting `position: absolute` on every element instead of letting normal flow do the work, breaking responsive layout entirely
+- Not realizing an inline element doesn't accept width/height directly until it becomes `inline-block` or `block`
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "an element floating here," but developers see that the default display (block/inline) already decides how elements flow next to each other, with no extra code needed.
+
+> 💡 Real-world example
+>
+> A block-based editor that lets content grow or shrink with the amount of text is just relying on normal flow (stacked block-level elements) as its foundation — no absolute positioning required.
+
 export const quizDisplayFlow = [
   {
     q: 'What does a block element do by default?',

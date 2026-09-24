@@ -19,9 +19,9 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 `document.querySelector()` คือเครื่องมือหลักสำหรับการเลือก element คุณส่ง **CSS selector** เข้าไป — แบบเดียวกับที่คุณเขียนใน stylesheet อยู่แล้ว — แล้วจะได้ **element แรกที่ตรงกัน** ที่หามาได้
 
 ```js
-document.querySelector('.card')   // เลือก element แรกที่มี class "card"
-document.querySelector('#title')  // เลือก element ที่มี id "title"
-document.querySelector('button')  // เลือก <button> tag แรก
+document.querySelector('.card')   // selects the first element with class "card"
+document.querySelector('#title')  // selects the element with id "title"
+document.querySelector('button')  // selects the first <button> tag
 ```
 
 ถ้าคุณรู้วิธีเขียน CSS selector แล้ว คุณก็รู้วิธีเลือก element ใน JavaScript แล้วด้วย syntax เหมือนกันทุกอย่าง
@@ -33,10 +33,10 @@ document.querySelector('button')  // เลือก <button> tag แรก
 ```js
 var heading = document.querySelector('h1');
 
-// อ่านข้อความปัจจุบัน
+// Read the current text
 var currentText = heading.textContent;
 
-// เปลี่ยนข้อความ
+// Change the text
 heading.textContent = 'New heading text';
 ```
 
@@ -87,7 +87,7 @@ Designer เห็น "ทุกปุ่มในหน้านี้" แต�
 
 > 💡 ตัวอย่างจากของจริง
 >
-> ฟีเจอร์ "Select all with same properties" ใน Figma ทำงานคล้าย `querySelectorAll` ใน JavaScript — หา element ทั้งหมดที่ตรงเงื่อนไขเดียวกันมาแก้พร้อมกัน
+> การเลือก layer ที่มีคุณสมบัติเดียวกันทั้งหมดในเครื่องมือออกแบบ กับ `document.querySelectorAll()` ใน JavaScript แก้ปัญหาเดียวกัน — หา element ทั้งหมดที่ตรงเงื่อนไขเดียวมาจัดการพร้อมกัน
 
 export const quizSelectingElements = [
   {

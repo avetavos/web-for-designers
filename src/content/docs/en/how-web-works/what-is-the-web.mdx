@@ -60,6 +60,22 @@ Hover over the link in the preview. Notice how the cursor changes. That is the b
 At its core, the web is nothing more than files on computers, connected by addresses. There is no magic. When you understand this, concepts like "hosting a website" become obvious — it just means putting your files on a server so other people's browsers can fetch them.
 </Tip>
 
+## Common mistakes designers run into
+
+- Forgetting that a domain has to be bought and renewed every year, not owned forever
+- Thinking the URL path has no effect on sharing or SEO
+- Forgetting that a server can go down or be slow — it doesn't run perfectly all the time
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see just "a web page," but developers also have to think about the request/response cycle, DNS lookups, hosting costs, and the server's uptime.
+
+> 💡 Real-world example
+>
+> Vercel automatically deploys a new version of a site on every push to a connected Git repository — a modern "server" that redeploys itself, rather than one you configure once and leave alone. ([Vercel docs: Deploying Git Repositories](https://vercel.com/docs/git))
+
 export const quizWhatIsTheWeb = [
   {
     q: "What is a browser's primary job?",

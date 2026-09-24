@@ -102,6 +102,21 @@ Things to try:
 The most common use of positioning in UI work is the badge/overlay pattern: set `position: relative` on the parent card or icon, then `position: absolute` on the badge. This anchors the badge inside its card rather than flying off somewhere on the page. Any time you see a notification dot, an image overlay, or a floating label in a design — this is how it is built.
 </Tip>
 
+## Common mistakes designers run into
+
+- Using `position: absolute` to "match exactly what I see in Figma" when the layout should flow naturally — breaking responsiveness
+- Forgetting that an absolutely positioned element needs a `position: relative` parent, or it positions itself against the entire page body
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a badge floating in the top-right corner of a card," but developers have to set the parent to relative first, then intentionally place the absolute element inside it — not use absolute for everything.
+
+> 💡 Real-world example
+>
+> A "New" badge or a notification dot on an app icon is placed with absolute positioning inside a relative parent scoped to just that icon — never relative to the whole page.
+
 export const quizPositioning = [
   {
     q: 'Which position value removes an element from the normal document flow?',

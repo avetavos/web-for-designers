@@ -27,7 +27,7 @@ method ที่เชื่อมทุกอย่างเข้าด้ว�
 var btn = document.querySelector('#myButton');
 
 btn.addEventListener('click', function() {
-  // โค้ดนี้จะรันทุกครั้งที่ปุ่มถูกคลิก
+  // this code runs every time the button is clicked
 });
 ```
 
@@ -93,7 +93,7 @@ Designer เห็น "hover แล้วปุ่มเปลี่ยนสี
 
 > 💡 ตัวอย่างจากของจริง
 >
-> Interaction ของ Linear (เช่น command palette ที่เปิดด้วย Cmd+K) ต้องมีการ "ฟัง" keyboard event เฉพาะเจาะจงที่ designer ต้องระบุให้ developer รู้ล่วงหน้า
+> Command palette ที่เปิดด้วย Cmd+K ทำงานได้เพราะมีโค้ดที่ "ฟัง" keyboard event นั้นโดยเฉพาะ — เป็นรายละเอียดที่ designer ต้องระบุไว้ล่วงหน้า ไม่ใช่ปล่อยให้เข้าใจเอาเอง
 
 export const quizEvents = [
   {

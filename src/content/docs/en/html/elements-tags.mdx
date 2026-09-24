@@ -70,6 +70,22 @@ Try changing `<h2>` to `<h3>`, or add another `<p>` below the first one. Notice 
 Indent nested elements by two spaces (or a tab). It has no effect on how the browser reads the file, but it makes the structure instantly visible — like keeping your Figma layers named and grouped. Code that is hard to read is code that is hard to fix.
 </Tip>
 
+## Common mistakes designers run into
+
+- Using a `<div>` instead of a meaningful element — for example, a div for a button instead of a real `<button>`
+- Opening a tag but forgetting to close it
+- Nesting elements illegally (e.g. a `<p>` inside another `<p>`)
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a rectangle," but developers see that the right tag gives you default behavior for free (a button responds to Enter, receives keyboard focus) without writing any extra code.
+
+> 💡 Real-world example
+>
+> A real `<button>` element is keyboard-operable (Enter/Space, tab focus) the moment it's on the page — a `<div>` styled to look like a button needs extra JavaScript and ARIA just to reach the same baseline.
+
 export const quizElementsTags = [
   {
     q: 'What is the correct way to write a closing tag for a paragraph?',

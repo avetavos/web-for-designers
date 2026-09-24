@@ -109,6 +109,22 @@ Each change is isolated and reversible — exactly like working with properties 
 What you see in the preview is real HTML and CSS — the same languages used by every website on the internet. The gap between "designer" and "someone who can write web code" is much smaller than you thought. You are already on the other side of it.
 </Tip>
 
+## Common mistakes designers run into
+
+- Forgetting `<!DOCTYPE html>`, which makes the browser render in the wrong mode
+- Forgetting the viewport meta tag, which makes mobile show a shrunken, unusable layout
+- Getting a filename's case wrong (`Index.html` vs `index.html`), which breaks on a case-sensitive server
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "one file that opens," but developers have to remember the boilerplate every page needs (meta charset, viewport, a title for both SEO and the browser tab).
+
+> 💡 Real-world example
+>
+> Static site generators and frameworks like Astro and Next.js scaffold this boilerplate into every page's layout automatically, so a developer can't forget it by accident. ([Astro: Project structure](https://docs.astro.build/en/basics/project-structure/))
+
 export const quizYourFirstPage = [
   {
     q: 'What does a CSS rule like `h1 { color: #7C3AED; }` do?',

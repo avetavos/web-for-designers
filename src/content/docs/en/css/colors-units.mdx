@@ -313,6 +313,22 @@ The CSS panel is fully editable. Try these experiments:
 Use HSL when you want to create lighter, darker, or more muted versions of a color — just change the L (lightness) or S (saturation) value. Hex and RGB are great for copy-pasting exact values from Figma, but HSL is more readable when you're building a full color scale.
 </Tip>
 
+## Common mistakes designers run into
+
+- Using px everywhere, even for font-size, when rem better supports users who change their browser's font size
+- Bringing colors over from Figma as plain RGB without allowing for opacity/alpha
+- Not checking that the same color renders differently across different screens
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see fixed "colors and numbers," but developers have to choose the right unit (px/rem/%/vw) for each property so that responsive behavior actually works.
+
+> 💡 Real-world example
+>
+> Utility frameworks like Tailwind CSS ship a fixed spacing and color scale out of the box — the same idea as a Figma design-token set, just expressed as CSS/utility classes instead of design variables.
+
 export const quizCssColorsUnits = [
   {
     q: 'Which color format uses hue, saturation, and lightness?',

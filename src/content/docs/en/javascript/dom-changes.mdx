@@ -81,6 +81,21 @@ btn.addEventListener('click', function() {
 JavaScript only adds or removes a class name — it never sets colors or spacing directly. All the visual difference lives in your CSS (`.card` vs `.card.highlighted`). This separation keeps your styling in one place and your logic in another, exactly like the relationship between a component and its variants in a design tool.
 </Tip>
 
+## Common mistakes designers run into
+
+- Designing every state (loading, error, success) as separate screens without considering that a developer has to "change" the existing DOM into the new state, not reload the whole page
+- Forgetting to design the transition between states
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "three separate screens," but developers see one screen that has to be "edited" piece by piece with JavaScript to move from one state to another.
+
+> 💡 Real-world example
+>
+> Checking off a to-do item in a modern web app usually doesn't reload the page at all — JavaScript edits just that one row's DOM (strike-through, color change) immediately.
+
 export const quizDomChanges = [
   {
     q: 'What does `.classList.toggle(\'active\')` do?',

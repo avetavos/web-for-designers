@@ -18,8 +18,8 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 - `let` — ค่า**สามารถอัปเดตได้ในภายหลัง** (เหมือน text layer ที่คุณยังจะแก้ไข)
 
 ```js
-const brandColor = '#7C3AED'; // จะไม่มีวันเปลี่ยน
-let buttonLabel = 'Sign up';  // อาจเปลี่ยนเป็น 'Creating account…'
+const brandColor = '#7C3AED'; // will never change
+let buttonLabel = 'Sign up';  // might change to 'Creating account…'
 ```
 
 ใช้ `const` เป็นค่าเริ่มต้น แล้วหยิบ `let` มาใช้เฉพาะเมื่อรู้ว่าค่านั้นจะต้องเปลี่ยน
@@ -42,7 +42,7 @@ function greet() {
 การเขียนฟังก์ชันยังไม่ได้เป็นการรัน หากต้องการรันจริง คุณต้อง**เรียกใช้ (call)** ฟังก์ชันนั้น โดยพิมพ์ชื่อตามด้วย `()`:
 
 ```js
-greet(); // รันคำสั่งทั้งหมดข้างใน greet
+greet(); // runs the instructions inside greet
 ```
 
 คุณเรียกใช้ฟังก์ชันกี่ครั้งก็ได้ นั่นคือหัวใจของตัวเอง — เขียน logic ครั้งเดียว นำไปใช้ซ้ำได้ทุกที่
@@ -95,7 +95,7 @@ Designer เห็น "ปุ่มกดแล้วมีอะไรเกิ
 
 > 💡 ตัวอย่างจากของจริง
 >
-> Figma Variables ที่ใช้กำหนดสี/spacing ข้าม mode (light/dark) ทำงานตามแนวคิดเดียวกับตัวแปรใน JavaScript — ค่าเดียว ใช้ได้หลายที่ เปลี่ยนจุดเดียวกระทบทั้งหมด
+> Figma Variables ที่ใช้กำหนดสีหรือ spacing ให้สลับได้ตาม mode (light/dark) ทำงานตามแนวคิดเดียวกับตัวแปรใน JavaScript — ค่าเดียว ใช้ได้หลายที่ เปลี่ยนจุดเดียวกระทบทั้งหมด ([Figma: Guide to variables](https://help.figma.com/hc/en-us/articles/15343816063383-Guide-to-variables-in-Figma))
 
 export const quizVariablesFunctions = [
   {

@@ -30,9 +30,9 @@ background-color: white;
 คุณไม่จำเป็นต้องเข้าใจเลขฐาน 16 เพียงแค่ copy ค่าจาก Figma แล้ว paste ลงใน CSS ได้เลย
 
 ```css
-background-color: #7C3AED;   /* ม่วง */
-color: #ffffff;              /* ขาว */
-border-color: #e2e8f0;       /* เทาอ่อน */
+background-color: #7C3AED;   /* purple */
+color: #ffffff;              /* white */
+border-color: #e2e8f0;       /* light grey */
 ```
 
 ### RGB — ตรงกับ slider ใน Figma
@@ -41,13 +41,13 @@ border-color: #e2e8f0;       /* เทาอ่อน */
 
 ```css
 background-color: rgb(124, 58, 237);
-color: rgb(255, 255, 255);   /* ขาว */
+color: rgb(255, 255, 255);   /* white */
 ```
 
 เพิ่มช่อง alpha (ความโปร่งใส) ด้วย **RGBA** ค่าที่สี่อยู่ระหว่าง `0` (โปร่งใสสนิท) ถึง `1` (ทึบสนิท) — เหมือน opacity ใน Figma หารด้วย 100
 
 ```css
-background-color: rgba(124, 58, 237, 0.15);   /* opacity 15% */
+background-color: rgba(124, 58, 237, 0.15);   /* 15% opacity */
 ```
 
 ### HSL — วิธีที่ดีไซเนอร์คิดถึงสี
@@ -64,7 +64,7 @@ background-color: rgba(124, 58, 237, 0.15);   /* opacity 15% */
 
 ```css
 background-color: hsl(263, 70%, 46%);
-color: hsla(263, 70%, 46%, 0.2);   /* opacity 20% */
+color: hsla(263, 70%, 46%, 0.2);   /* 20% opacity */
 ```
 
 ---
@@ -97,7 +97,7 @@ border-radius: 4px;
 **ใช้ `rem` สำหรับ font size และ vertical spacing** เป็น default ที่ดีที่สุดสำหรับ typography และ padding/margin
 
 ```css
-font-size: 1rem;       /* 16px ที่ค่าเริ่มต้น */
+font-size: 1rem;       /* 16px at default */
 margin-bottom: 1.5rem;
 padding: 1rem 1.5rem;
 ```
@@ -121,7 +121,7 @@ max-width: 640px;
 
 ```css
 font-size: 1.25rem;
-padding: 0.5em 1em;   /* สเกลตาม font-size ของ element นี้ */
+padding: 0.5em 1em;   /* scales with this element's font-size */
 ```
 
 ### สรุปง่ายๆ
@@ -327,7 +327,7 @@ Designer เห็น "ค่าสีและตัวเลข" ตายต�
 
 > 💡 ตัวอย่างจากของจริง
 >
-> Tailwind CSS (ที่ทีมอย่าง Airbnb และ Linear ใช้ภายใน) กำหนด spacing และ color scale เป็นชุดค่าคงที่ที่ตรงกับ design token ใน Figma
+> Framework อย่าง Tailwind CSS มาพร้อม spacing และ color scale ที่กำหนดไว้ตายตัว — แนวคิดเดียวกับชุด design token ใน Figma เพียงแต่แสดงผลเป็น CSS/utility class แทน design variable
 
 export const quizCssColorsUnits = [
   {

@@ -14,11 +14,11 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
 ```css
 @media (max-width: 480px) {
-  /* กฎใน Block นี้จะใช้เฉพาะเมื่อ Viewport กว้าง 480 px หรือแควกว่า */
+  /* rules inside here only apply when the viewport is 480 px wide or narrower */
 }
 
 @media (min-width: 480px) {
-  /* กฎใน Block นี้จะใช้เฉพาะเมื่อ Viewport กว้าง 480 px หรือกว้างกว่า */
+  /* rules inside here only apply when the viewport is 480 px wide or wider */
 }
 ```
 
@@ -120,12 +120,12 @@ export const mediaQueriesCss = `body {
 
 ```css
 h1 {
-  font-size: 2.5rem;   /* default: หน้าจอใหญ่ */
+  font-size: 2.5rem;   /* default: large screen */
 }
 
 @media (max-width: 420px) {
   h1 {
-    font-size: 1.6rem;  /* เล็กลงบนหน้าจอแคว */
+    font-size: 1.6rem;  /* smaller on narrow screens */
   }
 }
 ```
@@ -147,7 +147,7 @@ Designer เห็น "3 design เวอร์ชัน (mobile/tablet/desktop)
 
 > 💡 ตัวอย่างจากของจริง
 >
-> BBC News และ The Guardian ทดสอบเว็บที่ทุกความกว้างหน้าจอ ไม่ใช่แค่ 3 breakpoint เพราะผู้อ่านใช้อุปกรณ์หลากหลายมาก
+> การทดสอบ layout ด้วยการลากขยาย browser จากแคบไปกว้างอย่างช้า ๆ — ไม่ใช่แค่เช็คสองสามความกว้างที่ design ไว้ — เป็นวิธีเดียวที่มั่นใจได้ว่าจะเจอช่องโหว่ของ breakpoint ก่อนที่ผู้อ่านจะเจอ
 
 export const quizMediaQueries = [
   {

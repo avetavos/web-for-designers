@@ -79,6 +79,22 @@ Try changing one of the `href="#"` values to `https://google.com` and see the UR
 Avoid link text like "click here" or "read more". Screen reader users often navigate a page by jumping between links — they hear the link text without the surrounding sentence. "Visit our portfolio" or "Download the case study PDF" gives them the full context. This is a quick win for accessibility and usability that costs you nothing as an author.
 </Tip>
 
+## Common mistakes designers run into
+
+- Styling a link so it doesn't look like a link (no underline, no distinct color), so users don't realize it's clickable
+- Forgetting hover/visited states
+- Using `<div onclick>` instead of a real `<a>`
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "purple text," but developers see that a real `<a>` gives keyboard navigation, an "open in new tab" option via right-click, and free crawling by search engines — all at once.
+
+> 💡 Real-world example
+>
+> Wikipedia styles visited links in a distinct color from unvisited ones, so readers can tell at a glance which pages they've already read. ([Wikipedia: Help:Link color](https://en.wikipedia.org/wiki/Help:Link_color))
+
 export const quizLinks = [
   {
     q: 'Which attribute on an anchor element sets the destination URL?',

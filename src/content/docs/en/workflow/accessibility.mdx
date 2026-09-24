@@ -142,6 +142,22 @@ Tab through the form using only your keyboard. Each field should show a clear pu
 Accessible design is not a feature you bolt on at the end of a project. It is a quality dimension — like visual polish or performance. The best time to add it is in Figma, before a single line of code is written. Define focus states, check contrast, name your components clearly. Your developer will thank you, and so will your users.
 </Tip>
 
+## Common mistakes designers run into
+
+- Removing the focus outline with `outline: none` for looks, without providing another focus style — making the page unusable by keyboard
+- Forgetting alt text for meaningful images
+- Using colors that don't meet WCAG contrast requirements
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a page that looks nice and the contrast seems fine," but developers have to check the actual contrast ratio against WCAG, write alt text that's actually meaningful, and test with a real keyboard and screen reader.
+
+> 💡 Real-world example
+>
+> UK public-sector websites are legally required to meet WCAG 2.2 AA under the Public Sector Bodies Accessibility Regulations 2018 — which is exactly why government design systems like GOV.UK's tend to be strong accessibility references. ([GOV.UK Service Manual: Accessibility](https://www.gov.uk/service-manual/helping-people-to-use-your-service/making-your-service-accessible-an-introduction))
+
 export const quizAccessibility = [
   {
     q: 'What does the `alt` attribute on an `<img>` do?',

@@ -140,6 +140,21 @@ This is the direct code equivalent of having different image crops in your Figma
 When handing off to a developer, always export images at 1x, 2x, and (for full-width heroes) 3x resolution. Name them clearly: `hero@1x.jpg`, `hero@2x.jpg`, `hero@3x.jpg`. Keep file sizes under 200 KB for content images and under 500 KB for hero images. Use WebP format — it is roughly 30% smaller than JPEG at the same quality. These habits directly affect how fast your designs load on real devices.
 </Tip>
 
+## Common mistakes designers run into
+
+- Using the same file (the largest size) for every screen, making mobile load far more data than it needs
+- Forgetting to set width/height, which causes layout shift while the image is loading
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers hand over one file at the highest resolution, but developers have to generate several sizes (`srcset`) so the browser can pick the one that fits that screen.
+
+> 💡 Real-world example
+>
+> An image CDN that automatically resizes the same source image per device lets a phone download a file many times smaller than desktop, while the picture looks identical on both.
+
 export const quizResponsiveImages = [
   {
     q: 'What does `max-width: 100%` on an image do?',

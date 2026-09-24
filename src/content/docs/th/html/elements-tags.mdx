@@ -84,7 +84,7 @@ Designer เห็น "กล่องสี่เหลี่ยม" ธรร�
 
 > 💡 ตัวอย่างจากของจริง
 >
-> Linear ใช้ semantic `<button>` ทุกที่ที่ควรเป็นปุ่ม ทำให้ keyboard shortcut ทำงานได้ทันทีโดยไม่ต้องเขียน JavaScript เพิ่ม
+> `<button>` จริงใช้งานผ่านคีย์บอร์ดได้ทันที (Enter/Space, รับ tab focus) ตั้งแต่วางลงในหน้า ส่วน `<div>` ที่แต่งให้ดูเหมือนปุ่มต้องเขียน JavaScript และ ARIA เพิ่มเพื่อให้ได้พฤติกรรมพื้นฐานแบบเดียวกัน
 
 export const quizElementsTags = [
   {

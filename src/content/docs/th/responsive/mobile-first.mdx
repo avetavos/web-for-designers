@@ -20,21 +20,21 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 ## รูปแบบ
 
 ```css
-/* Base styles — หน้าจอเล็ก ไม่ต้องการ Media Query */
+/* Base styles — small screen, no media query needed */
 .nav {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-/* Tablet ขึ้นไป: สลับเป็น Row */
+/* Tablet and up: switch to a row */
 @media (min-width: 420px) {
   .nav {
     flex-direction: row;
   }
 }
 
-/* Desktop ขึ้นไป: เพิ่มช่องว่าง */
+/* Desktop and up: add more space */
 @media (min-width: 700px) {
   .nav {
     gap: 2rem;
@@ -147,7 +147,7 @@ Designer เห็น "ต้องมี 2 design" แต่ developer เข�
 
 > 💡 ตัวอย่างจากของจริง
 >
-> Instagram ออกแบบ mobile experience เป็นหลักก่อนเสมอ เพราะ traffic ส่วนใหญ่มาจากมือถือ ส่วน desktop เป็นแค่เวอร์ชันขยาย
+> โปรดักต์ที่ traffic ส่วนใหญ่มาจากมือถือ มักถูกออกแบบแบบ mobile-first ด้วยเหตุผลที่ตรงไปตรงมา — ประสบการณ์ที่คนส่วนใหญ่เจอจริงคือสิ่งที่ถูกออกแบบและเทสต์ก่อน ส่วน desktop เป็นแค่เวอร์ชันขยาย
 
 export const quizMobileFirst = [
   {

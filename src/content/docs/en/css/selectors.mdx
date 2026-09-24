@@ -113,6 +113,21 @@ Try adding a second element with `id="hero"` and notice that CSS still styles it
 Classes are your most-used selector. Think of them like component variants in Figma — define the style once, apply it to as many elements as you want. IDs are useful, but save them for things that genuinely appear only once on a page.
 </Tip>
 
+## Common mistakes designers run into
+
+- Naming a class after what it looks like, e.g. `.red-button`, instead of what it means, e.g. `.btn-danger` — which breaks the moment the color changes
+- Overusing id selectors, which makes styles hard to override later
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "the component named in Figma," but developers translate that layer name into a class name that's meaningful and reusable across components.
+
+> 💡 Real-world example
+>
+> Most component-based design systems name classes after a component's role (`.button--primary`, `.button--danger`) rather than its color, so switching a theme's colors never requires renaming a class.
+
 export const quizCssSelectors = [
   {
     q: 'What symbol starts a class selector?',

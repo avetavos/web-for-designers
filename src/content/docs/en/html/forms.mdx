@@ -111,6 +111,22 @@ Click the "Full name" label text — notice the cursor jumps into the input. Tha
 A placeholder (`placeholder="Jane Smith"`) is not a label. It disappears when the user starts typing, leaving them with no reminder of what the field is for. Always provide a visible `<label>` above or beside each input. This is one of the most common form accessibility failures on real websites — and one of the easiest to fix. Your users, and accessibility auditors, will thank you.
 </Tip>
 
+## Common mistakes designers run into
+
+- Designing an input without thinking about its error state
+- Using a placeholder instead of a label
+- Not specifying an input type (email, tel, number), which makes the mobile keyboard show the wrong layout
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a nice-looking field," but developers have to handle validation, error messages, the submit button's disabled/loading state, and the right keyboard type on mobile.
+
+> 💡 Real-world example
+>
+> Using the correct HTML input type (`email`, `tel`, `number`) for every field — the way Stripe's own checkout form does — is what lets a phone show the right keyboard and offer autofill for card numbers and email addresses. ([MDN: `<input>` types](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input))
+
 export const quizForms = [
   {
     q: 'How do you link a <label> to its <input> element?',

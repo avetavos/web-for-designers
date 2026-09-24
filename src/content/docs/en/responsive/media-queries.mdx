@@ -134,6 +134,21 @@ h1 {
 The live preview pane in this course is roughly half the page width on a desktop — usually 400–500 px wide. A breakpoint of 768 px will never trigger inside the preview because the pane is already narrower than that. Use breakpoints around 400–480 px in these examples so you can observe the change without needing a phone. In real projects you will use standard breakpoints (640 px, 768 px, 1024 px), but for learning, keep them small.
 </Tip>
 
+## Common mistakes designers run into
+
+- Designing only for the main breakpoints (375px, 1440px) and assuming everything in between will look fine on its own
+- Setting breakpoints based on "devices that exist" instead of "where the content actually starts to break"
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "three design versions (mobile/tablet/desktop)," but developers have to write CSS rules that cover every width in between too, not just the three points that got designed.
+
+> 💡 Real-world example
+>
+> Testing a layout by dragging the browser window slowly from narrow to wide — not just checking the two or three widths that were designed — is the only reliable way to catch a breakpoint gap before a reader does.
+
 export const quizMediaQueries = [
   {
     q: 'What does `@media (max-width: 480px)` mean?',

@@ -16,7 +16,7 @@ Background ที่ง่ายที่สุดคือการใส่ส
 
 ```css
 .box {
-  background-color: #7C3AED; /* สีม่วง — เหมือน solid fill ใน Figma */
+  background-color: #7C3AED; /* purple — same as a solid fill in Figma */
 }
 ```
 
@@ -25,8 +25,8 @@ Background ที่ง่ายที่สุดคือการใส่ส
 ```css
 .hero {
   background-image: url('image.jpg');
-  background-size: cover;       /* ขยายเต็มกล่องและตัดส่วนเกิน — เหมือน "Fill" ของ Figma */
-  background-position: center;  /* จัดรูปไว้ตรงกลาง */
+  background-size: cover;       /* fills the box and crops — Figma's "Fill" mode */
+  background-position: center;  /* keeps the image centred */
 }
 ```
 
@@ -78,15 +78,15 @@ border-color: #7C3AED;
 `border-radius` ทำให้มุมขององค์ประกอบโค้งมน เหมือน corner radius ใน Figma:
 
 ```css
-border-radius: 8px;   /* โค้งเล็กน้อย — นิยมใช้กับการ์ด */
-border-radius: 16px;  /* โค้งมากขึ้น */
-border-radius: 50%;   /* วงกลมสมบูรณ์ (ใช้กับองค์ประกอบที่เป็นสี่เหลี่ยมจัตุรัส) */
+border-radius: 8px;   /* slightly rounded — common for cards */
+border-radius: 16px;  /* more rounded */
+border-radius: 50%;   /* perfect circle (works on square elements) */
 ```
 
 กำหนดรัศมีแต่ละมุมต่างกันได้ ค่าเรียงตามเข็มนาฬิกาจากมุมบนซ้าย:
 
 ```css
-border-radius: 16px 4px 16px 4px; /* บนซ้าย, บนขวา, ล่างขวา, ล่างซ้าย */
+border-radius: 16px 4px 16px 4px; /* top-left, top-right, bottom-right, bottom-left */
 ```
 
 ## Box-shadow — Effects panel ใน CSS
@@ -116,7 +116,7 @@ box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 `opacity: 0.8` ทำให้ทั้งองค์ประกอบโปร่งใส 80% รวมถึงข้อความและ children ด้วย หากต้องการให้เฉพาะ *พื้นหลัง* โปร่งใสแต่ข้อความยังคมชัด ให้ใช้ `rgba()` หรือ `hsla()` กับค่าสีโดยตรง:
 
 ```css
-/* เฉพาะพื้นหลังโปร่งใส ข้อความยังคง opacity เต็ม */
+/* Only the background becomes semi-transparent, text stays fully opaque */
 background-color: rgba(124, 58, 237, 0.15);
 ```
 
@@ -241,7 +241,7 @@ Designer เห็น "เส้นขอบสวย" แต่ developer ต�
 
 > 💡 ตัวอย่างจากของจริง
 >
-> Stripe ใช้ CSS gradient background แทนไฟล์รูปในหลายจุด ทำให้เพจโหลดเร็วขึ้นมากและ resize ได้โดยไม่แตก
+> เว็บผลิตภัณฑ์หลายแห่งใช้ CSS gradient แทนไฟล์รูปสำหรับพื้นหลัง เพราะทำให้เพจเบาและขยายได้แบบไม่แตกที่ทุกขนาดหน้าจอ ต่างจากไฟล์รูปที่ต้องแลกกับขนาดไฟล์ที่หนักขึ้น
 
 export const quizCssBgBorders = [
   {

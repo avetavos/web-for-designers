@@ -136,6 +136,21 @@ Things to try:
 Once you get comfortable, move your spacing values into CSS custom properties (variables) at the top of your stylesheet: `--space-1: 0.25rem;` through `--space-8: 2rem;`. Then use `padding: var(--space-4)` everywhere. This mirrors design tokens exactly and makes global spacing changes a one-line update — exactly like changing a token value in your design tool.
 </Tip>
 
+## Common mistakes designers run into
+
+- Using random spacing values (13px, 22px, 7px) instead of a consistent scale
+- Not syncing the spacing scale between Figma and code, forcing developers to "guess" the closest value
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "spacing that looks good," but developers want a limited scale (4px, 8px, 16px, 24px...) that maps onto a design token/CSS variable reusable across the whole system.
+
+> 💡 Real-world example
+>
+> GitLab's Pajamas design system builds its entire spacing scale from a single 8px base unit, so every spacing value across the whole product "belongs together" without anyone having to re-decide it each time. ([GitLab Pajamas: Spacing](https://design.gitlab.com/product-foundations/spacing))
+
 export const quizSpacing = [
   {
     q: 'You want 16px of space between buttons inside a flex container. The best property to use is:',

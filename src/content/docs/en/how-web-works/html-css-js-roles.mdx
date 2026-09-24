@@ -87,6 +87,22 @@ Click the **CSS** tab and clear the contents to see the bare HTML. Then paste it
 When you look at a web page and ask "where does that come from?" — if it is a piece of content (a word, an image, a button label), it comes from HTML. If it is a visual property (color, size, spacing), it comes from CSS. If it responds to a click or changes without reloading the page, it is JavaScript.
 </Tip>
 
+## Common mistakes designers run into
+
+- Mixing style directly into HTML instead of separating it into CSS, which makes maintenance harder
+- Assuming JavaScript is needed for anything that looks interactive, when CSS alone can do more than most people expect
+- Forgetting that content (HTML) always has to exist before it can be styled
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "one finished-looking page," but developers split the work into three separate concerns (structure/style/behavior) so each one can be changed without affecting the others.
+
+> 💡 Real-world example
+>
+> Keeping content (HTML) cleanly separate from theme (CSS) is what makes something like a dark-mode toggle possible without touching the markup at all — only the CSS variables change.
+
 export const quizHtmlCssJsRoles = [
   {
     q: 'Which language defines the content and structure of a web page?',

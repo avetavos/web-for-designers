@@ -97,6 +97,21 @@ Try editing the card: change `border-radius: 12px` to `border-radius: 0` to see 
 Always open Dev Mode before writing a single line of CSS. Click every layer you need to style and read the exact values. You are not estimating — you are copying a specification. This is how professional handoffs work.
 </Tip>
 
+## Common mistakes designers run into
+
+- Handing off a Figma file with unorganized layer names ("Rectangle 47", "Group 12"), leaving developers unable to read the intent
+- Forgetting to detach/organize components before handoff
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a nice-looking Figma file," but developers have to translate every layer, spacing value, and color into real code — the better the layer names, the faster and more accurate that translation is.
+
+> 💡 Real-world example
+>
+> Naming a Figma layer or component to match the real code component it becomes (e.g. "Button/Primary") turns handoff into a lookup instead of a guessing game.
+
 export const quizFigmaToCode = [
   {
     q: 'What does Figma Dev Mode help you do?',

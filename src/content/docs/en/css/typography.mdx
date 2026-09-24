@@ -169,6 +169,22 @@ export const typographyCss = `body {
 Think of each CSS typography property as a field in Figma's text inspector: `font-family` is the typeface dropdown, `font-size` is the size field, `font-weight` is the weight dropdown, `line-height` is line height, `letter-spacing` is tracking, and `text-align` is the alignment buttons. You already know what all of these do — you are just learning the CSS name for each.
 </Tip>
 
+## Common mistakes designers run into
+
+- Using a font with no fallback, so the browser shows an unexpected font if it hasn't finished loading
+- Setting line-height as a fixed pixel number instead of unitless, which breaks the scale when font-size changes
+- Forgetting that the font weight chosen in Figma might not actually be available on the web
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "the font that matches the design," but developers have to load the actual font file (Google Fonts or self-hosted) and provide a fallback font for the moment before the real one has loaded.
+
+> 💡 Real-world example
+>
+> A fallback font stack chosen to closely match a webfont's size and spacing (a "metric-compatible" fallback) keeps the page from visibly jumping once the real font finishes loading.
+
 export const quizCssTypography = [
   {
     q: 'Which CSS property is equivalent to "tracking" in Figma?',

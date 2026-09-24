@@ -88,6 +88,21 @@ Try adding a fifth item to the ordered list. Notice the browser renumbers automa
 Using `<ul>` for navigation is not just a convention — it communicates structure. Screen readers announce "list, 4 items" before reading the links, which helps users understand how many navigation options there are and skip past them quickly. A row of standalone `<a>` tags gives no such hint. Wrapping nav links in a `<ul>` is a small habit that makes a big difference.
 </Tip>
 
+## Common mistakes designers run into
+
+- Using paragraphs separated by line breaks instead of a real `<ul>`/`<ol>`, so a screen reader has no way of knowing it's a list
+- Forgetting that a nested list needs correctly nested markup
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a bulleted list," but developers see that a semantic list lets a screen reader announce the item count (e.g. "list, 5 items").
+
+> 💡 Real-world example
+>
+> A screen reader announces a properly marked-up `<ul>` as "list, 5 items" — plain paragraphs separated by line breaks announce nothing, no matter how similar they look visually.
+
 export const quizLists = [
   {
     q: 'Which list element should you use for a set of steps that must be followed in order?',

@@ -80,6 +80,21 @@ When you write `addEventListener('click', function() { ... })`, the function doe
 
 In Figma, every prototype interaction is: *trigger → action*. In JavaScript, every event listener is: *event → callback*. The mental model is identical; only the syntax is new.
 
+## Common mistakes designers run into
+
+- Designing an interaction without thinking about the "moment" it happens (click, hover, scroll, load)
+- Not specifying in the design when an animation should trigger (on hover or on click)
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a button changes color on hover," but developers have to write code that specifically "listens" for that event (mouseenter, click, scroll) before triggering anything.
+
+> 💡 Real-world example
+>
+> A command palette that opens with Cmd+K only works because code is listening for that specific keyboard event — a detail a designer needs to specify up front, not leave implicit.
+
 export const quizEvents = [
   {
     q: 'What is a browser "event"?',

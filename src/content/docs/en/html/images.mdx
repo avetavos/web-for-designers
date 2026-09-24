@@ -62,6 +62,22 @@ Try changing the `alt` text. Now imagine a user who cannot see the image — you
 If an image is purely decorative — a background texture, a divider graphic, an icon that has a text label right next to it — set `alt=""` (empty string, not missing). This tells screen readers to skip the image entirely, which avoids cluttering the audio experience. The rule: if removing the image would lose information, write descriptive alt text. If it is just decoration, use `alt=""`.
 </Tip>
 
+## Common mistakes designers run into
+
+- Using the highest-resolution image everywhere, making the page unnecessarily heavy
+- Forgetting alt text
+- Not accounting for aspect ratio while the image is still loading (causing layout shift)
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "one nice image," but developers have to export several sizes/formats (WebP, `srcset`) and plan for a placeholder while the image is still loading.
+
+> 💡 Real-world example
+>
+> Serving the same image at several resolutions through `srcset` lets the browser pick the smallest file that still looks sharp on that screen — a phone downloads far less data than a desktop for the same picture.
+
 export const quizImages = [
   {
     q: 'Which two attributes are essential on every <img> element?',

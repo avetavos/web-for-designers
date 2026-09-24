@@ -85,6 +85,21 @@ Notice that the red box always stays 280 px — on a narrow screen it overflows 
 A practical rule: use `rem` for font sizes and spacing (padding, margin, gap), and `%` for widths that should fill their parent. Reserve `vw`/`vh` for full-viewport sections like heroes or modals. Avoid `px` for anything that scales with text or screen size.
 </Tip>
 
+## Common mistakes designers run into
+
+- Using px everywhere, which stops working for users who increase the font size in their browser
+- Confusing `rem` (relative to the root) with `em` (relative to the parent), which distorts sizing on nested elements
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "an exact px number from Figma," but developers have to convert it to rem/% so the layout stays flexible for user preferences and different screens.
+
+> 💡 Real-world example
+>
+> GOV.UK Frontend outputs its CSS in relative units like rem specifically because it helps type resize correctly when a user zooms or increases their browser's text size. ([GOV.UK Design System: Type scale](https://design-system.service.gov.uk/styles/type-scale/))
+
 export const quizRelativeUnits = [
   {
     q: 'What does `width: 50%` mean in CSS?',

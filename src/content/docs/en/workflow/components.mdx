@@ -88,6 +88,21 @@ Notice both cards use the exact same `.card`, `.card__title`, and `.card__body` 
 If you find yourself writing the same CSS for a second button, stop. Extract it into a `.btn` class. If you write a third card, make sure it uses the same `.card` class as the first two. Reuse in CSS is not laziness — it is the discipline that keeps a design system coherent.
 </Tip>
 
+## Common mistakes designers run into
+
+- Creating a component in Figma without thinking through the states it actually needs (hover, disabled, loading, error)
+- Changing the main component but not updating every instance to match — developers hit the exact same problem with a shared component in code
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "one component, several variants," but developers see the same component and have to write code that covers every state that can actually happen, not just the ones that got designed.
+
+> 💡 Real-world example
+>
+> Atlassian's design system documents each button's real states — default, disabled, selected, loading — matching the exact states its code component implements. ([Atlassian Design System: Button](https://atlassian.design/components/button/examples))
+
 export const quizComponents = [
   {
     q: 'In CSS, what makes a style rule "reusable" across multiple elements?',

@@ -31,9 +31,9 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
 ```css
 .card {
-  padding: 2rem;          /* ทั้งสี่ด้าน */
-  padding: 1rem 2rem;     /* บน/ล่าง 1rem, ซ้าย/ขวา 2rem */
-  padding-top: 1rem;      /* ด้านเดียว */
+  padding: 2rem;          /* all four sides */
+  padding: 1rem 2rem;     /* top/bottom 1rem, left/right 2rem */
+  padding-top: 1rem;      /* one side only */
 }
 ```
 
@@ -43,8 +43,8 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
 ```css
 .card {
-  border: 2px solid #7C3AED;   /* ความหนา สไตล์ สี */
-  border-radius: 12px;          /* มุมโค้งมน */
+  border: 2px solid #7C3AED;   /* width style color */
+  border-radius: 12px;          /* rounded corners */
 }
 ```
 
@@ -54,9 +54,9 @@ import ProgressTracker from '../../../../components/ProgressTracker.tsx';
 
 ```css
 .card {
-  margin: 2rem;           /* ทุกด้าน */
-  margin: 1rem 0;         /* บน/ล่าง 1rem, ซ้าย/ขวา 0 */
-  margin-bottom: 1.5rem;  /* ด้านเดียว */
+  margin: 2rem;           /* all sides */
+  margin: 1rem 0;         /* top/bottom 1rem, left/right 0 */
+  margin-bottom: 1.5rem;  /* one side only */
 }
 ```
 
@@ -75,7 +75,7 @@ padding: 1rem 2rem 1rem 2rem;   /* top right bottom left */
 นี่คือตรงข้ามกับวิธีที่ design tool ทำงาน ใน Figma ขอบ frame รวม stroke และ inner spacing อยู่แล้ว property `box-sizing: border-box` ทำให้ CSS ทำงานแบบเดียวกัน: `width` วัดจากขอบ border ถึงขอบ border — padding และ border **รวมอยู่แล้ว** ไม่บวกเพิ่ม
 
 ```css
-/* เพิ่มใน global styles ของทุก project */
+/* Add this to every project's global styles */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -174,7 +174,7 @@ Designer เห็น "กรอบสี่เหลี่ยมหนึ่ง
 
 > 💡 ตัวอย่างจากของจริง
 >
-> Figma's Inspect panel แสดง padding/margin ที่ map ตรงกับ CSS box model เป๊ะ ช่วยให้ developer copy ค่าไปใช้ได้ทันที
+> แผง Inspect ใน Dev Mode ของ Figma แสดงค่า padding/spacing ที่ map ตรงกับ CSS box model ทำให้ developer อ่านค่าไปใช้ในโค้ดได้ทันที ([Figma: Guide to Dev Mode](https://help.figma.com/hc/en-us/articles/15023124644247-Guide-to-Dev-Mode))
 
 export const quizCssBoxModel = [
   {

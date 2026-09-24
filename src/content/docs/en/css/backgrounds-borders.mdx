@@ -227,6 +227,22 @@ Try editing the CSS: change `border-radius` on `.card` from `20px` to `4px` to s
 Backgrounds, borders, and shadows in CSS map one-to-one with Figma's Fill, Stroke, and Effects panels. If you can set it in Figma's design panel, there is a CSS property for it.
 </Tip>
 
+## Common mistakes designers run into
+
+- Forgetting that a border adds to an element's width unless `box-sizing: border-box` is used
+- Using an image as the background instead of a CSS gradient, adding unnecessary file weight
+- border-radius values that don't match between Figma and code
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a nice border," but developers have to work out whether the border counts toward the width (box-sizing) before the layout lines up to the pixel.
+
+> 💡 Real-world example
+>
+> Many product sites use a CSS gradient instead of an exported image for background fills — it keeps the page lightweight and scales losslessly at any size, something a raster image can't do without extra file weight.
+
 export const quizCssBgBorders = [
   {
     q: 'Which CSS property creates rounded corners?',

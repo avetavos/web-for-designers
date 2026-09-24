@@ -77,6 +77,21 @@ That's not a simplification. Open the source code of almost any production websi
 
 The three tools you combined here — `querySelector`, `addEventListener`, `classList.toggle` — are the foundation of frontend interactivity. Everything else is built on top of them.
 
+## Common mistakes designers run into
+
+- Designing an animation too complex to actually implement in the time available
+- Forgetting to design the disabled/loading state of a button while it's waiting for an action to finish
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "click, and a modal pops up nicely," but developers have to handle state before, during, and after the action (loading spinner, error handling, success feedback) — not just one animation.
+
+> 💡 Real-world example
+>
+> A submit button that turns into a spinner and then a checkmark gives the user confidence the action actually succeeded, without ever reloading the page.
+
 export const quizInteractions = [
   {
     q: "In the menu toggle pattern, which technique shows or hides the menu?",

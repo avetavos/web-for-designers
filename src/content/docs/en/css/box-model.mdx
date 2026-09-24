@@ -160,6 +160,22 @@ Try editing the CSS: increase `padding` on `.box`, change `border` width, or adj
 Always add `box-sizing: border-box` to every project's global styles. It makes sizing elements predictable and matches the default behavior in most design tools — including Figma. Without it, adding padding to a sized element will break your layout in ways that are hard to debug.
 </Tip>
 
+## Common mistakes designers run into
+
+- Telling a developer "it's 300px wide" without specifying whether that includes padding/border
+- Forgetting that two vertical margins can collapse into one
+- Not accounting for box-sizing when measuring sizes in Figma
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "one rectangle," but developers see four stacked layers (content, padding, border, margin) that all have to add up to the final size shown in Figma.
+
+> 💡 Real-world example
+>
+> Figma's Dev Mode inspect panel shows padding and spacing values that map directly onto the CSS box model, so a developer can read them straight into code. ([Figma: Guide to Dev Mode](https://help.figma.com/hc/en-us/articles/15023124644247-Guide-to-Dev-Mode))
+
 export const quizCssBoxModel = [
   {
     q: 'Which layer of the box model is OUTSIDE the border?',

@@ -75,6 +75,21 @@ Look at how clearly each region maps to a named element. Try changing `<section>
 When you are designing a page in Figma, you already divide it into named regions: header, hero, feature section, testimonials, footer. When you hand that design off to a developer — or write the HTML yourself — the goal is to translate those regions directly into semantic elements. No generic `<div>` soup. Named, purposeful containers that match what each region actually *is*.
 </Tip>
 
+## Common mistakes designers run into
+
+- Using `<div>` everywhere instead of `<header>`/`<nav>`/`<main>`/`<footer>`
+- Setting heading levels (h1-h6) by "the font size I want" instead of the content's real hierarchy
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a top, a middle, and a bottom," but developers see that semantic tags let screen readers and search engines understand the page's structure without reading any CSS at all.
+
+> 💡 Real-world example
+>
+> A browser's reader mode (like Safari Reader or Firefox Reader View) relies on landmarks like `<main>` and `<article>` to work out which part of a page is the actual content worth extracting.
+
 export const quizSemantic = [
   {
     q: 'Which element should wrap the primary, unique content of a page?',

@@ -115,6 +115,21 @@ body { font-family: system-ui, sans-serif; padding: var(--space-6); background: 
 Hardcoded values like `#7C3AED` scattered across your CSS are design debt. Every time the brand color changes, you will miss one. Tokens are not overhead — they are how you maintain a design system in code without breaking things.
 </Tip>
 
+## Common mistakes designers run into
+
+- Hardcoding color/spacing separately in each component instead of referencing a shared token
+- Changing the brand color in Figma without realizing developers have to update it in several places in the code if there's no token for it
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "a color variable in Figma," but developers see a single CSS variable/design token used across the whole system — change it in one place, and everything referencing it updates.
+
+> 💡 Real-world example
+>
+> The W3C Design Tokens Community Group format is an attempt to give tools like Figma and code the same underlying token file, so a color or spacing value has exactly one source of truth instead of two that can drift apart.
+
 export const quizDesignTokens = [
   {
     q: 'Where do you typically define CSS custom properties (tokens)?',

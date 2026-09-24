@@ -82,6 +82,21 @@ Variable and function names in JavaScript use **camelCase**: start lowercase, ca
 | `function` | Bundles instructions under a name | Component with an interaction |
 | Calling `fn()` | Runs the function's instructions | Triggering a component action |
 
+## Common mistakes designers run into
+
+- Thinking JavaScript is "dangerous" or too complex to understand, when the basic concepts are similar to a Figma variable or component property
+- Overlooking that a good variable name helps a developer understand design intent more easily
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "you click the button and something happens," but developers see a variable that stores a value (like a Figma variable) and a function — a reusable block of instructions that can be called from more than one place (like a component you can use in many places).
+
+> 💡 Real-world example
+>
+> Figma Variables — used to define colors or spacing that switch between modes like light/dark — work on the same idea as a variable in JavaScript: one value, used in many places, changed in one spot to affect everything. ([Figma: Guide to variables](https://help.figma.com/hc/en-us/articles/15343816063383-Guide-to-variables-in-Figma))
+
 export const quizVariablesFunctions = [
   {
     q: 'What is a variable?',

@@ -52,6 +52,22 @@ Try adding an `<h4>` below the `<h3>`. Then try wrapping a word in `<strong>` or
 Search engines and screen readers treat `<h1>` as the title of the entire page. Use it exactly once — for the main heading. Then use `<h2>` for top-level sections, `<h3>` for sub-sections, and so on in order. Skipping levels (going from `<h1>` to `<h3>`) is like skipping a level in your Figma component hierarchy — technically it works, but it breaks the structure people (and tools) depend on.
 </Tip>
 
+## Common mistakes designers run into
+
+- Skipping a heading level (h1 straight to h3) just to get a smaller size
+- Having more than one `<h1>` on the same page
+- Using bold text instead of a real heading
+
+## The developer's perspective
+
+### 👨‍💻 What developers actually see
+
+Designers see "font size" only, but developers see that heading levels form the page's outline — the same thing a screen reader uses to navigate, like a table of contents.
+
+> 💡 Real-world example
+>
+> A tool can auto-generate a table of contents directly from a page's heading hierarchy — but only if the levels are correct and never skipped.
+
 export const quizText = [
   {
     q: 'Which heading element signals the most important title on the page?',
